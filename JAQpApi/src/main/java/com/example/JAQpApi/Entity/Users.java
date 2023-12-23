@@ -17,7 +17,7 @@ public class Users
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -39,7 +39,7 @@ public class Users
     private String lastName;
 
     @Column
-    private LocalDate burthDate;
+    private OffsetDateTime burthDate;
 
 //    @OneToMany(mappedBy = "owner")
 //    private Set<Quez> ownerQuezes;
