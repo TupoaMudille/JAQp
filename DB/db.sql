@@ -91,13 +91,11 @@ ALTER TABLE public.question ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 CREATE TABLE public.quez (
-      "id" integer NOT NULL,
-  "name" text NOT NULL,
-  "owner_id" integer NOT NULL,
-  "tag" text,
-  "created_at" timestamp NOT NULL,
-  "description" text,
-  "image" text
+    id integer NOT NULL,
+    name text NOT NULL,
+    owner_id integer NOT NULL,
+    tag text,
+    created_at timestamp without time zone NOT NULL
 );
 
 
