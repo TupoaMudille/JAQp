@@ -6,6 +6,7 @@
     font-size: large;
     color: #FFF;
     border: none;
+    width: 100%;
 }
 
 .button:hover {
@@ -83,3 +84,13 @@
       font-size: medium;
       color: #000;
     }
+
+    .error_text {
+      color: #ff0000;
+      margin-top: 0;
+      font-family: Futura PT;
+      font-style: normal;
+      font-weight: 450;
+      line-height: normal;
+    }
+
