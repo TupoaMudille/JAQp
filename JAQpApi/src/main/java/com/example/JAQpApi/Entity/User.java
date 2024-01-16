@@ -2,15 +2,14 @@ package com.example.JAQpApi.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class Users
+public class User
 {
     @Id
     @Column(nullable = false, updatable = false)
@@ -20,8 +19,8 @@ public class Users
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
-    private Integer role;
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
 
     @Column(nullable = false)
     private OffsetDateTime createdAt;
@@ -39,7 +38,10 @@ public class Users
     private String lastName;
 
     @Column
-    private OffsetDateTime burthDate;
+    private OffsetDateTime birthDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
 //    @OneToMany(mappedBy = "owner")
 //    private Set<Quez> ownerQuezes;

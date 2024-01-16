@@ -1,5 +1,6 @@
 package com.example.JAQpApi.Controller;
-import com.example.JAQpApi.Entity.Users;
+import com.example.JAQpApi.Entity.Role;
+import com.example.JAQpApi.Entity.User;
 import com.example.JAQpApi.Repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class UserController
     {
         try
         {
-            Users user = new Users();
-            user.setRole(0);
+            User user = new User();
+            user.setRole(Role.USER);
             user.setPassword(password);
             user.setUsername(username);
             user.setCreatedAt(OffsetDateTime.now());
@@ -42,7 +43,7 @@ public class UserController
     {
         try
         {
-            Users user = usersRepo.findByUsername(username);
+            User user = usersRepo.findByUsername(username);
             if (user == null)
             {
                 return ResponseEntity.badRequest().body("UserNotFound");
@@ -69,7 +70,7 @@ public class UserController
             {
                 throw new Exception();
             }
-            Optional<Users> user = usersRepo.findById(id);
+            Optional<User> user = usersRepo.findById(id);
             if (user.isEmpty())
             {
                 throw new Exception();
@@ -93,7 +94,7 @@ public class UserController
             {
                 throw new Exception();
             }
-            Optional<Users> user = usersRepo.findById(id);
+            Optional<User> user = usersRepo.findById(id);
             if (user.isEmpty())
             {
                 throw new Exception();
@@ -118,7 +119,7 @@ public class UserController
             {
                 throw new Exception();
             }
-            Optional<Users> user = usersRepo.findById(id);
+            Optional<User> user = usersRepo.findById(id);
             if (user.isEmpty())
             {
                 throw new Exception();
@@ -142,12 +143,12 @@ public class UserController
             {
                 throw new Exception();
             }
-            Optional<Users> user = usersRepo.findById(id);
+            Optional<User> user = usersRepo.findById(id);
             if (user.isEmpty())
             {
                 throw new Exception();
             }
-            user.get().setBurthDate(birth_date);
+            user.get().setBirthDate(birth_date);
             usersRepo.save(user.get());
             return ResponseEntity.ok().body("OK");
         }
@@ -162,7 +163,7 @@ public class UserController
     {
         try
         {
-            Optional<Users> user = usersRepo.findById(id);
+            Optional<User> user = usersRepo.findById(id);
             if (user.isEmpty())
             {
                 throw new Exception();

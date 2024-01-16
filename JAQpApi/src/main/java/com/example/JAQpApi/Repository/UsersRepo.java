@@ -1,9 +1,9 @@
 package com.example.JAQpApi.Repository;
 
-import com.example.JAQpApi.Entity.Users;
+import com.example.JAQpApi.Entity.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UsersRepo extends CrudRepository<Users, Integer>
+public interface UsersRepo extends CrudRepository<User, Integer>
 {
-    Users findByUsername(String username);
+    User findByUsername(String username);
 }

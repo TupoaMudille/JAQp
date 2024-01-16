@@ -6,7 +6,9 @@
     font-size: large;
     color: #FFF;
     border: none;
+
     width: 100%;
+
 }
 
 .button:hover {
@@ -83,6 +85,7 @@
       font-weight: bold;
       font-size: medium;
       color: #000;
+
     }
 
     .error_text {
@@ -93,4 +96,5 @@
       font-weight: 450;
       line-height: normal;
     }
+
 

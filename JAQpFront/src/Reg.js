@@ -24,6 +24,7 @@ function Reg() {
     return (
         <div className="elongated_app" style={{ backgroundImage: 'url(img/background.svg)' }}>
             <form onSubmit={handleSubmit(onSubmit)} className='empty_box' >
+
                 <div className='elongated_box'>
                     <p className='h1'>Регистрация</p>
                 </div>
@@ -43,10 +44,12 @@ function Reg() {
                         })} />
                     </div>
                     <div className='error_text'>{errors.email && errors.email.message}</div>
+
                 </div>
                 <div className='elongated_box'>
                     <div>
                         <p className='bold_text' style={{ float: 'left' }}>2.Пароль</p>
+
 
                     </div>
                     <div className='evenly_distributed_field'>
@@ -82,6 +85,7 @@ function Reg() {
                 </div>
                 <button className='button' type="submit">Зарегистрироваться</button>
             </form>
+
         </div>
     );
 }
