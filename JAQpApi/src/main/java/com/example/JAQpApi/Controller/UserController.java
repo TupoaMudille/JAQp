@@ -30,7 +30,7 @@ public class UserController
             user.setUsername(username);
             user.setCreatedAt(OffsetDateTime.now());
             usersRepo.save(user);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").build();
         }
         catch (Exception e)
         {
