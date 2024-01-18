@@ -1,83 +1,42 @@
 package com.example.JAQpApi.Controller;
-import com.example.JAQpApi.Entity.Role;
-import com.example.JAQpApi.Entity.User;
-import com.example.JAQpApi.Repository.UsersRepo;
+
+import com.example.JAQpApi.DTO.UserGeneralResponse;
+import com.example.JAQpApi.Exeptions.UserAccessDeniedExeption;
+import com.example.JAQpApi.Exeptions.UserNotFoundExeption;
+import com.example.JAQpApi.Repository.UserRepo;
+import com.example.JAQpApi.Service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
 
 @RestController
-@RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController
 {
     @Autowired
-    private UsersRepo usersRepo;
-    private Map<String, Integer> tokenMap = new HashMap<>();
+    private UserRepo usersRepo;
 
-    @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestParam String password, @RequestParam String username)
-    {
-        try
-        {
-            User user = new User();
-            user.setRole(Role.USER);
-            user.setPassword(password);
-            user.setUsername(username);
-            user.setCreatedAt(OffsetDateTime.now());
-            usersRepo.save(user);
-            return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").build();
-        }
-        catch (Exception e)
-        {
-            return ResponseEntity.badRequest().body("Error" + e.getMessage());
-        }
-    }
-
-    @GetMapping("/login")
-    public ResponseEntity loginUser(@RequestParam String password, @RequestParam String username)
-    {
-        try
-        {
-            User user = usersRepo.findByUsername(username);
-            if (user == null)
-            {
-                return ResponseEntity.badRequest().body("UserNotFound");
-            }
-            if (!user.getPassword().equals(password)) {
-                return ResponseEntity.badRequest().body("WrongPassword");
-            }
-            String token = generateString(new Random(), "QWERTYUIOPASDFGHJKLZXCVBNM1234567890", 20);
-            tokenMap.put(token, user.getId());
-            return ResponseEntity.ok().body("{\n" + "  token: "+ token +",\n  id: "+ user.getId() + "\n}");
-        }
-        catch (Exception e)
-        {
-            return ResponseEntity.badRequest().body("Error");
-        }
-    }
+    private final UserService userService;
 
     @PostMapping("/{id}/setting/first_name")
-    public ResponseEntity setFirstName(@PathVariable Integer id, @RequestParam String token, @RequestParam String first_name)
+    public ResponseEntity setFirstName(@PathVariable Integer id, @RequestHeader String Authorization, @RequestParam String first_name)
     {
         try
         {
-            if (tokenMap.get(token) != id)
-            {
-                throw new Exception();
-            }
-            Optional<User> user = usersRepo.findById(id);
-            if (user.isEmpty())
-            {
-                throw new Exception();
-            }
-            user.get().setFirstName(first_name);
-            usersRepo.save(user.get());
+            userService.SetFirstName(id, Authorization, first_name);
             return ResponseEntity.ok().body("OK");
+        }
+        catch (UserNotFoundExeption e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch (UserAccessDeniedExeption e)
+        {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         catch (Exception e)
         {
@@ -86,22 +45,20 @@ public class UserController
     }
 
     @PostMapping("/{id}/setting/second_name")
-    public ResponseEntity setSecondName(@PathVariable Integer id, @RequestParam String token, @RequestParam String second_name)
+    public ResponseEntity setSecondName(@PathVariable Integer id, @RequestHeader String Authorization, @RequestParam String second_name)
     {
         try
         {
-            if (tokenMap.get(token) != id)
-            {
-                throw new Exception();
-            }
-            Optional<User> user = usersRepo.findById(id);
-            if (user.isEmpty())
-            {
-                throw new Exception();
-            }
-            user.get().setSecondName(second_name);
-            usersRepo.save(user.get());
+            userService.SetFirstName(id, Authorization, second_name);
             return ResponseEntity.ok().body("OK");
+        }
+        catch (UserNotFoundExeption e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch (UserAccessDeniedExeption e)
+        {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         catch (Exception e)
         {
@@ -111,22 +68,20 @@ public class UserController
 
 
     @PostMapping("/{id}/setting/last_name")
-    public ResponseEntity setLastName(@PathVariable Integer id, @RequestParam String token, @RequestParam String last_name)
+    public ResponseEntity setLastName(@PathVariable Integer id, @RequestHeader String Authorization, @RequestParam String last_name)
     {
         try
         {
-            if (tokenMap.get(token) != id)
-            {
-                throw new Exception();
-            }
-            Optional<User> user = usersRepo.findById(id);
-            if (user.isEmpty())
-            {
-                throw new Exception();
-            }
-            user.get().setLastName(last_name);
-            usersRepo.save(user.get());
+            userService.SetFirstName(id, Authorization, last_name);
             return ResponseEntity.ok().body("OK");
+        }
+        catch (UserNotFoundExeption e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch (UserAccessDeniedExeption e)
+        {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         catch (Exception e)
         {
@@ -135,22 +90,20 @@ public class UserController
     }
 
     @PostMapping("/{id}/setting/birth_date")
-    public ResponseEntity setBirthDate(@PathVariable Integer id, @RequestParam String token, @RequestParam OffsetDateTime birth_date)
+    public ResponseEntity setBirthDate(@PathVariable Integer id, @RequestHeader String Authorization, @RequestParam OffsetDateTime birth_date)
     {
         try
         {
-            if (tokenMap.get(token) != id)
-            {
-                throw new Exception();
-            }
-            Optional<User> user = usersRepo.findById(id);
-            if (user.isEmpty())
-            {
-                throw new Exception();
-            }
-            user.get().setBirthDate(birth_date);
-            usersRepo.save(user.get());
+            userService.SetBirthDate(id, Authorization, birth_date);
             return ResponseEntity.ok().body("OK");
+        }
+        catch (UserNotFoundExeption e)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch (UserAccessDeniedExeption e)
+        {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
         catch (Exception e)
         {
@@ -163,27 +116,16 @@ public class UserController
     {
         try
         {
-            Optional<User> user = usersRepo.findById(id);
-            if (user.isEmpty())
-            {
-                throw new Exception();
-            }
-            user.get().setPassword("");
+            UserGeneralResponse user = userService.GetUserGeneralInfo(id);
             return ResponseEntity.ok().body(user);
+        }
+        catch (UserNotFoundExeption e)
+        {
+            return ResponseEntity.notFound().build();
         }
         catch (Exception e)
         {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-    private String generateString(Random rng, String characters, int length)
-    {
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++)
-        {
-            text[i] = characters.charAt(rng.nextInt(characters.length()));
-        }
-        return new String(text);
     }
 }
