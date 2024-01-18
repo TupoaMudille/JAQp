@@ -1,5 +1,6 @@
-package com.example.JAQpApi.Entity;
+package com.example.JAQpApi.Entity.Token;
 
+import com.example.JAQpApi.Entity.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
