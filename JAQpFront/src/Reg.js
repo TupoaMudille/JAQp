@@ -1,16 +1,12 @@
 import './style/Reg.css';
 import './style/Default.css';
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import RegisterUser from './http/userApi';
-import Alert from '@mui/material/Alert';
 
-export const types = {
-    INFO: 'info',
-    SUCCESS: 'success',
-    ERROR: 'error'
-  }
+
 
 function Reg() {
     const { handleSubmit, register, getValues, formState: { errors } } = useForm();
@@ -22,15 +18,18 @@ function Reg() {
     const gotoLoginPage = () => navigate("/");
 
     return (
-        <div className="elongated_app" style={{ backgroundImage: 'url(img/background.svg)' }}>
+        <div className="App"  style={{ backgroundImage: 'url(img/background.svg)' }}>
+           
+        <div className="elongated_app" >
             <form onSubmit={handleSubmit(onSubmit)} className='empty_box' >
+
 
                 <div className='elongated_box'>
                     <p className='h1'>Регистрация</p>
                 </div>
                 <div className='elongated_box'>
                     <div>
-                        <p className='bold_text' style={{ float: 'left' }}>1.Почта</p>
+                        <p className='bold_text' style={{ float: 'left' }}>1.Логин</p>
 
                     </div>
                     <div className='evenly_distributed_field'>
@@ -86,7 +85,7 @@ function Reg() {
                 <button className='button' type="submit">Зарегистрироваться</button>
             </form>
 
-        </div>
+        </div></div>
     );
 }
 

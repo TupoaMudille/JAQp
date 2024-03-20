@@ -5,8 +5,9 @@
   height: 100%;
   left: 0;
   top: 0;
-  z-index: 10;
+  z-index: -10;
   display: flex;
+  background-size: cover;
 }
 
 .center_primary_button {
@@ -34,7 +35,7 @@
   display: flexbox;
   margin: auto;
   background: #FFF;
-  padding-left: 14px;
-  padding-right: 14px;
+  
+  padding: 14px;
 }
 

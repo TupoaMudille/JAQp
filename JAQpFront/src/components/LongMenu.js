@@ -1,9 +1,10 @@
-import '../style/Default.css';
-import '../style/Menu.css';
-
-function Menu() {
+import { useNavigate } from "react-router-dom";
+import '../css/longmenu.css';
+function LongMenu() {
+    const navigate = useNavigate();
+    const gotoUserSettingsPage = () => navigate("/userSettingsId=?");
     return (
-        <div className="App">
+        
             <div className="header_container">
                 <div className="block">
                     <div className="evenly_distributed_block">
@@ -25,15 +26,15 @@ function Menu() {
                         <img className='button_icon' src='img/whatsapp.svg'></img>
                         <img className='button_icon' src='img/vk.svg'></img>
                     </div>
-                    <div className="user_block">
+                    <div className="user_block" onClick={gotoUserSettingsPage}>
                         <img src='img/User_Empty_icon.svg' className='icon'></img>
                         <p className='simple_text'>UserName</p>
                     </div>
                     <img className='button_icon_small' src='img/Menu.svg'></img>
                 </div>
             </div>
-        </div>
+      
     );
 }
 
-export default Menu;
+export default LongMenu;
