@@ -5,6 +5,7 @@ import LoginUser from "../http/userApi";
 import LongMenu from "../components/LongMenu";
 
 import "../css/auth.css";
+import "../css/font.css";
 
 function Auth() {
   const navigate = useNavigate();
@@ -30,15 +31,15 @@ function Auth() {
   const gotoRegPage = () => navigate("/registration");
   const gotoMainPage = () => navigate("/main");
   return (
-    <div className="window" style={{ backgroundImage: "url(img/background.svg)" }}>
+    <div
+      className="window"
+      style={{ backgroundImage: "url(img/background.svg)" }}
+    >
       <div>
         <LongMenu />
       </div>
-      <div style={{background:"none", height:"30px"}}></div>
-      <div
-        className="workspace" 
-        
-      >
+      <div style={{ background: "none", height: "30px" }}></div>
+      <div className="workspace">
         <div className="whitecard">
           <div>
             <p className="h1">JAQp</p>

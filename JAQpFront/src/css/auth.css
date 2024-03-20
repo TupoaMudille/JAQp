@@ -95,6 +95,7 @@
   font-size: large;
   color: #fff;
   border: none;
+  height: 48px;
 }
 
 .button:hover {
@@ -112,12 +113,16 @@
   font-size: medium;
   color: #000;
   margin-right: 14px;
+  height: 48px;
+  display: flex;
+  padding-top: 24px;
 }
 
 .textbutton:hover {
   color: #5d5d5d;
   text-decoration: underline;
 }
+
 
 /*---mobile content----*/
 @media (max-width: 450px) {
@@ -131,5 +136,11 @@
 
   .passwordinput {
     width: 100%;
+  }
+
+  .icon{
+    height: 30px;
+    justify-content: center;
+    padding-top: 9px;
   }
 }
