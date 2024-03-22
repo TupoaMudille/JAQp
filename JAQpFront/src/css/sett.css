@@ -1,0 +1,185 @@
+.customDateInput {
+  background: #d9d9d9;
+  padding-left: 14px;
+  border: none;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25) inset;
+  width: 386px;
+  font-family: Futura PT;
+  font-weight: bold;
+  font-size: medium;
+  color: rgb(69, 69, 69);
+  display: grid;
+  position: relative;
+  height: 48px;
+}
+.window {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background-size: cover;
+}
+
+.workspace {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  overflow-y: scroll;
+  flex-direction: column;
+  justify-content: safe center;
+  align-items: safe center;
+}
+
+.whitecardwithspace {
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background: #fff;
+  padding: 14px;
+  margin-top: 14px;
+}
+
+.button {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  border-radius: 4px;
+  background: #0c4f82;
+  padding: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  width: 100%;
+}
+
+.button:hover {
+  background: rgb(255, 255, 255);
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
+}
+
+.evenly_distributed_field {
+  display: flex;
+  justify-content: space-around;
+  margin: 14px;
+  height: 48px;
+  width: 400px;
+  box-sizing: border-box;
+}
+
+.custominput {
+  background: #d9d9d9;
+  padding-left: 14px;
+  border: none;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25) inset;
+  width: 100%;
+  font-family: Futura PT;
+  font-weight: bold;
+  font-size: medium;
+  color: rgb(69, 69, 69);
+  display: grid;
+  position: relative;
+}
+
+.buttongit {
+  border-radius: 4px;
+  margin-right: 14px;
+  background: #0d0d0d;
+  padding: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  width: 100%;
+  height: 48px;
+}
+
+.buttongit:hover {
+  background: rgb(255, 255, 255);
+  color: #0d0d0d;
+  box-shadow: inset 0 0 0 3px #2d2d2d;
+}
+
+.buttontg {
+  border-radius: 4px;
+  margin-right: 14px;
+  background: #4dabf9;
+  padding: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  width: 100%;
+  height: 48px;
+}
+
+.buttontg:hover {
+  background: rgb(255, 255, 255);
+  color: #4dabf9;
+  box-shadow: inset 0 0 0 3px #86c6fb;
+}
+
+.buttonvk {
+  height: 48px;
+  border-radius: 4px;
+  background: #0c4f82;
+  padding: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  width: 100%;
+}
+
+.buttonvk:hover {
+  background: rgb(255, 255, 255);
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
+}
+
+.buttondel {
+  height: 48px;
+  border-radius: 4px;
+  background: red;
+  padding: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  width: 100%;
+}
+
+.buttondel:hover {
+  background: rgb(255, 255, 255);
+  color: red;
+  box-shadow: inset 0 0 0 3px red;
+}
+
+.react-datepicker__close-icon::before,
+.react-datepicker__close-icon::after {
+  background-color: #d9d9d9;
+  color: rgb(69, 69, 69);
+  font-size: 24px;
+}
+/*---mobile content----*/
+@media (max-width: 450px) {
+  .evenly_distributed_field {
+    max-width: 250px;
+  }
+
+  .customDateInput {
+    width: 236px;
+  }
+
+  .icon {
+    height: 30px;
+    justify-content: center;
+    padding-top: 9px;
+  }
+}
