@@ -1,12 +1,13 @@
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import LongMenu from "../components/LongMenu";
+import BurgerMenu from "../components/BurgerMenu";
+import Media from "react-media";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "../css/sett.css";
 import "../css/font.css";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 function UserSettings() {
   const [startDate, setStartDate] = useState(new Date());
@@ -17,13 +18,16 @@ function UserSettings() {
     formState: { errors },
   } = useForm();
   const onSubmit = (values) => {};
+
   return (
     <div
       className="window"
       style={{ backgroundImage: "url(img/background.svg)" }}
     >
       <div>
-        <LongMenu />
+        <Media query="(max-width: 979px)">
+          {(matches) => (matches ? <BurgerMenu /> : <LongMenu />)}
+        </Media>
       </div>
       <div style={{ background: "none", height: "30px" }}></div>
       <div className="workspace">
@@ -101,12 +105,13 @@ function UserSettings() {
               <button className="buttonvk">VK</button>
             </div>
           </div>
-          <div className="whitecardwithspace" style={{ marginTop: "36px", marginBottom:"14px" }}>
+          <div
+            className="whitecardwithspace"
+            style={{ marginTop: "36px", marginBottom: "14px" }}
+          >
             <p className="h2">Удалить аккаунт</p>
             <div className="evenly_distributed_field">
-            <button className="buttondel">
-              Удалить
-            </button>
+              <button className="buttondel">Удалить</button>
             </div>
           </div>
         </div>

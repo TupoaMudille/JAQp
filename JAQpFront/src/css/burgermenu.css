@@ -1,0 +1,85 @@
+.menucontainer {
+  background: #0c4f82;
+  display: flex;
+  width: 100%;
+  top: 0;
+  overflow-x: safe hidden;
+  flex-direction: column;
+}
+
+.bblock {
+  text-align: center;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-around;
+  height: 56px;
+}
+
+.bitemblock {
+  text-align: center;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-around;
+  height: 56px;
+  background: #0c4f82;
+  width: 100%;
+  border: 1px solid #004b85;
+}
+
+.bitemblock:hover {
+  background: #22759e;
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
+}
+
+.button_icon_small:hover {
+  box-shadow: 0 0 2px -4px rgba(31, 73, 125, 0.8),
+    0 0 8px -4px rgba(31, 73, 125, 0.8);
+}
+
+.bevenly_distributed_block {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  white-space: nowrap;
+  height: 100%;
+  padding-left: 4%;
+  padding-right: 4%;
+  width: 100%;
+}
+
+.blogo_name {
+  color: #000;
+  margin: auto;
+  font-family: Futura PT;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  padding: 4px;
+  line-height: normal;
+}
+
+.bsimple_text {
+  color: white;
+  margin: auto;
+  font-family: Futura PT;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+}
+
+.belement_block {
+  display: flex;
+  justify-items: center;
+}
+
+.bbutton_icon_small {
+  height: 30px;
+  margin: auto;
+  padding: 14px;
+}

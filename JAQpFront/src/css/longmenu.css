@@ -80,7 +80,7 @@
   
     .user_block {
       display: flex;
-      padding-right: 14px;
+      padding-right: px;
     }
   
     .user_block:hover {

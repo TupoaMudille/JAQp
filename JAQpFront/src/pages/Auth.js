@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import LoginUser from "../http/userApi";
 
 import LongMenu from "../components/LongMenu";
+import BurgerMenu from "../components/BurgerMenu";
+import Media from "react-media";
 
 import "../css/auth.css";
 import "../css/font.css";
@@ -36,7 +38,9 @@ function Auth() {
       style={{ backgroundImage: "url(img/background.svg)" }}
     >
       <div>
-        <LongMenu />
+        <Media query="(max-width: 979px)">
+          {(matches) => (matches ? <BurgerMenu /> : <LongMenu />)}
+        </Media>
       </div>
       <div style={{ background: "none", height: "30px" }}></div>
       <div className="workspace">
