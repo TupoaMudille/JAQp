@@ -36,7 +36,7 @@
   box-shadow: inset 0 0 0 3px #3a7999;
 }
 
-.button_icon_small:hover {
+.bbutton_icon_small:hover {
   box-shadow: 0 0 2px -4px rgba(31, 73, 125, 0.8),
     0 0 8px -4px rgba(31, 73, 125, 0.8);
 }
