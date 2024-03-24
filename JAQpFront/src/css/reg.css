@@ -71,6 +71,13 @@
   position: relative;
 }
 
+.icon{
+  height: 30px;
+  justify-content: center;
+  padding-top: 9px;
+  padding-right: 9px;
+}
+
 /*---mobile content----*/
 @media (max-width: 450px) {
     .inputicon {
@@ -83,11 +90,5 @@
   
     .passwordinput {
       width: 100%;
-    }
-  
-    .icon{
-      height: 30px;
-      justify-content: center;
-      padding-top: 9px;
     }
   }
