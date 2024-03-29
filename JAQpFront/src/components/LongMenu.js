@@ -3,6 +3,7 @@ import "../css/longmenu.css";
 function LongMenu() {
   const navigate = useNavigate();
   const gotoUserSettingsPage = () => navigate("/settingsId=?");
+  const gotoConstructorPage = () => navigate("/constructor");
   return (
     <div className="header_container">
       <div className="block">
@@ -18,7 +19,7 @@ function LongMenu() {
           <p className="text">Тесты</p>
           <p className="text">Лучшее</p>
           <img className="button_icon" src="img/Search.svg"></img>
-          <div className="user_block">
+          <div className="user_block" onClick={gotoConstructorPage}>
             <img src="img/konstructor.svg" className="icon"></img>
             <p className="simple_text">Конструктор</p>
           </div>

@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import RegisterUser from "../http/userApi";
 
-import LongMenu from "../components/LongMenu";
-import BurgerMenu from "../components/BurgerMenu";
-import Media from "react-media";
+import Menu from "../components/Menu";
 
 import "../css/reg.css";
 import "../css/font.css";
@@ -33,11 +31,8 @@ function Reg() {
       style={{ backgroundImage: "url(img/background.svg)" }}
     >
       <div>
-        <Media query="(max-width: 979px)">
-          {(matches) => (matches ? <BurgerMenu /> : <LongMenu />)}
-        </Media>
+        <Menu />
       </div>
-      <div style={{ background: "none", height: "30px" }}></div>
       <div className="workspace">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="whitecardwithspace">

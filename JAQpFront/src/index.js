@@ -6,6 +6,7 @@ import Auth from './pages/Auth';
 import Reg from './pages/Reg';
 import Main from './Main';
 import Settings from './pages/Settings';
+import Constructor from './pages/Constructor';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,6 +17,7 @@ root.render(
     <Route exact path='/' element={<Auth />}/>
     <Route exact path='/registration' element={<Reg />}/>
     <Route exact path='/main' element={<Main />}/>
+    <Route exact path='/constructor' element={<Constructor />}/>
     <Route exact path='/settingsId=?' element={<Settings />}/>
   </Routes>
     
