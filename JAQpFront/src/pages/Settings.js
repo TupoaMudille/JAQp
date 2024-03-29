@@ -1,16 +1,18 @@
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import ru from 'date-fns/locale/ru';
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
-import LongMenu from "../components/LongMenu";
-import BurgerMenu from "../components/BurgerMenu";
-import Media from "react-media";
+import Menu from "../components/Menu";
 
 import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "../css/sett.css";
 import "../css/font.css";
 
 function UserSettings() {
   const [startDate, setStartDate] = useState(new Date());
+  registerLocale('ru', ru);
+  setDefaultLocale('ru');
   const {
     handleSubmit,
     register,
@@ -25,11 +27,8 @@ function UserSettings() {
       style={{ backgroundImage: "url(img/background.svg)" }}
     >
       <div>
-        <Media query="(max-width: 979px)">
-          {(matches) => (matches ? <BurgerMenu /> : <LongMenu />)}
-        </Media>
+        <Menu />
       </div>
-      <div style={{ background: "none", height: "30px" }}></div>
       <div className="workspace">
         <div>
           <div className="whitecardwithspace" style={{ marginBottom: "36px" }}>
@@ -66,7 +65,7 @@ function UserSettings() {
                 </p>
               </div>
               <div className="evenly_distributed_field">
-                <input className="custominput" />
+                <input className="custominput" isClearable />
               </div>
             </div>
             <div className="whitecardwithspace">
@@ -80,8 +79,7 @@ function UserSettings() {
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                   className="customDateInput"
-                  dateFormat="dd/MM/yyyy"
-                  isClearable
+                  dateFormat="dd.MM.yyyy"
                   locale="ru"
                   shouldCloseOnSelect
                   showYearDropdown

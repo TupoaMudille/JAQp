@@ -1,0 +1,99 @@
+.window {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background-size: cover;
+}
+
+.kworkspace {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow-y: scroll;
+  background: white;
+}
+
+.toolsmenu {
+  align-items: safe center;
+  height: 68px;
+  background: #0c4f82;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  align-self: flex-start;
+  text-align: center;
+}
+
+.menubutton {
+  background: #0c4f82;
+  padding: 21px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  height: 100%;
+  border: 1px solid #3a7999;
+  white-space: nowrap;
+  min-width: 148px;
+}
+
+.menubutton:hover {
+  background: rgb(255, 255, 255);
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
+}
+
+.logo_block {
+  display: flex;
+  padding-right: 8px;
+  margin-right: 68px;
+}
+
+.const_text {
+  color: #000;
+  margin: auto;
+  font-family: Futura PT;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+}
+
+.nav {
+  flex: 0 0 371px;
+  height: 100%;
+  background: #0c4f82;
+  padding-left: 14px;
+  padding-right: 14px;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  float: left;
+}
+
+.quizwind {
+  display: flex;
+  height: 100%;
+
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+.quizspace {
+  
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
