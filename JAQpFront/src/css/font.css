@@ -27,6 +27,15 @@
   color: #000;
 }
 
+.light_bold_text {
+  border: none;
+  background: none;
+  font-family: Futura PT;
+  font-weight: bold;
+  font-size: medium;
+  color: #ffffff;
+}
+
 .error_text {
   color: #ff0000;
   margin-top: 0;
@@ -36,3 +45,5 @@
   line-height: normal;
   float: left;
 }
+
+

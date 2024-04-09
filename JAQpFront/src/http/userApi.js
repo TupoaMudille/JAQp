@@ -1,21 +1,47 @@
 import { apiHost } from "./apiIndex";
-const userBase = "users/"
+const userBase = "/api/auth/"
 export const LoginUser = async (_username, _password) =>
 {
-    try{
-    const {data} = await apiHost.get(userBase+"login?password="+_password+"&username="+_username);
-    return data;
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+    "username": _username,
+    "password": _password
+    });
+
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+
+    var res = await fetch("http://localhost:8080/api/auth/authenticate", requestOptions)
+
+    if (res.status != 200) {
+        res = null
+        return res
     }
-    catch(e)
-    {
-        console.log(e);
-    }
+    res = await res.json()
+    return res;
 }
+
+
 export const RegisterUser = async (_username, _password) =>
 {
     let result = true;
-    await apiHost.post(userBase+"register?password="+_password+"&username="+_username).catch(function(error) {console.log(error); result = false});
-    return result;
+    var data = {username: _username, password: _password}
+    result = await apiHost.post(userBase+"register", data);
+    if (result.status == 200)
+    {
+        return true
+    }
+    else
+    {
+        return false
+    }
+    
 }
 
-export default RegisterUser;
+

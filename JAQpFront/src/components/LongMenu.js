@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { isNull } from "joi-browser";
+
 import "../css/longmenu.css";
 function LongMenu() {
   const navigate = useNavigate();
   const gotoUserSettingsPage = () => navigate("/settingsId=?");
   const gotoConstructorPage = () => navigate("/constructor");
+  const gotoLoginPage = () => navigate("/");
+
   return (
     <div className="header_container">
       <div className="block">
@@ -19,7 +23,12 @@ function LongMenu() {
           <p className="text">Тесты</p>
           <p className="text">Лучшее</p>
           <img className="button_icon" src="img/Search.svg"></img>
-          <div className="user_block" onClick={gotoConstructorPage}>
+          <div
+            className="user_block"
+            onClick={
+              localStorage.token == isNull ? gotoLoginPage : gotoConstructorPage
+            }
+          >
             <img src="img/konstructor.svg" className="icon"></img>
             <p className="simple_text">Конструктор</p>
           </div>
@@ -28,7 +37,12 @@ function LongMenu() {
           <img className="button_icon" src="img/Telegram.svg"></img>
           <img className="button_icon" src="img/vk.svg"></img>
         </div>
-        <div className="user_block" onClick={gotoUserSettingsPage}>
+        <div
+          className="user_block"
+          onClick={
+            localStorage.token == isNull ? gotoLoginPage : gotoUserSettingsPage
+          }
+        >
           <img src="img/User_Empty_icon.svg" className="icon"></img>
           <p className="simple_text">UserName</p>
         </div>

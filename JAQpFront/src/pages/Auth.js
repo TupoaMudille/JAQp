@@ -1,11 +1,20 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import LoginUser from "../http/userApi";
+import { LoginUser } from "../http/userApi";
+import axios from "axios";
+import { isNull } from "joi-browser";
 
 import Menu from "../components/Menu";
 
 import "../css/auth.css";
 import "../css/font.css";
+
+
+export const setAuthToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else delete axios.defaults.headers.common["Authorization"];
+};
 
 function Auth() {
   const navigate = useNavigate();
@@ -23,9 +32,14 @@ function Auth() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ login, password });
-    LoginUser(login, password);
-    gotoMainPage();
+    LoginUser(login, password).then((result) => {
+      if (result != isNull) {
+        localStorage.setItem("token", result.jwtToken);
+        localStorage.setItem("idUser", result.id);
+        setAuthToken(result.jwtToken);
+        gotoMainPage();
+      } else alert("Что-то пошло не так. Попробуйте позднее");
+    });
   };
 
   const gotoRegPage = () => navigate("/registration");

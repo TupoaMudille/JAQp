@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { isNull } from "joi-browser";
 import React, { useState } from "react";
 import "../css/burgermenu.css";
 function BurgerMenu() {
   const navigate = useNavigate();
   const gotoUserSettingsPage = () => navigate("/settingsId=?");
+  const gotoLoginPage = () => navigate("/");
 
   const [show, setShow] = useState(false);
   const showMenu = () => {
@@ -27,28 +29,37 @@ function BurgerMenu() {
           )}
         </div>
       </div>
-      {show ? (<div>
-        <div className="bitemblock">
-          <div className="belement_block">
-            <p className="bsimple_text">Случайный тест</p>
+      {show ? (
+        <div>
+          <div className="bitemblock">
+            <div className="belement_block">
+              <p className="bsimple_text">Случайный тест</p>
+            </div>
+          </div>
+          <div className="bitemblock">
+            <div className="belement_block">
+              <p className="bsimple_text">Тесты</p>
+            </div>
+          </div>
+          <div className="bitemblock">
+            <div className="belement_block">
+              <p className="bsimple_text">Лучшее</p>
+            </div>
+          </div>
+          <div
+            className="bitemblock"
+            onClick={
+              localStorage.token == isNull
+                ? gotoLoginPage
+                : gotoUserSettingsPage
+            }
+          >
+            <div className="belement_block">
+              <p className="bsimple_text">Профиль</p>
+            </div>
           </div>
         </div>
-        <div className="bitemblock">
-          <div className="belement_block">
-            <p className="bsimple_text">Тесты</p>
-          </div>
-        </div>
-        <div className="bitemblock">
-          <div className="belement_block">
-            <p className="bsimple_text">Лучшее</p>
-          </div>
-        </div>
-        <div className="bitemblock">
-          <div className="belement_block">
-            <p className="bsimple_text">Профиль</p>
-          </div>
-        </div>
-      </div>):null}
+      ) : null}
     </div>
   );
 }

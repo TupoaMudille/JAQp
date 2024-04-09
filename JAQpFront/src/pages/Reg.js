@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import RegisterUser from "../http/userApi";
+import {RegisterUser} from "../http/userApi";
 
 import Menu from "../components/Menu";
 

@@ -1,5 +1,5 @@
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
-import ru from 'date-fns/locale/ru';
+import ru from "date-fns/locale/ru";
 import { useForm } from "react-hook-form";
 import React, { useState } from "react";
 import Menu from "../components/Menu";
@@ -11,8 +11,8 @@ import "../css/font.css";
 
 function UserSettings() {
   const [startDate, setStartDate] = useState(new Date());
-  registerLocale('ru', ru);
-  setDefaultLocale('ru');
+  registerLocale("ru", ru);
+  setDefaultLocale("ru");
   const {
     handleSubmit,
     register,
@@ -65,7 +65,7 @@ function UserSettings() {
                 </p>
               </div>
               <div className="evenly_distributed_field">
-                <input className="custominput" isClearable />
+                <input className="custominput" />
               </div>
             </div>
             <div className="whitecardwithspace">
