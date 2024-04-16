@@ -1,7 +1,7 @@
 .file-btn {
   font-family: Futura PT;
   width: 250px;
-  height: 150px;
+  height: 270px;
   font-size: 13px;
   font-weight: 500;
   display: flex;
@@ -50,19 +50,19 @@
 }
 
 .selected-file button {
-  width: 40px;
-  height: 40px;
+  font-family: Futura PT;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0c4f82;
+  color: #000000;
   background-color: transparent;
   border: none;
-  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .selected-file button:hover {
-  color: #fff;
-  background-color: #0c4f82;
+  color: #DE360C;
+  background-color: #FFBDAD;
 }

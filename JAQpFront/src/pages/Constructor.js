@@ -2,16 +2,14 @@ import React, { useEffect, useState } from "react";
 import Media from "react-media";
 import Menu from "../components/Menu";
 import ListNav from "../components/ListNav";
-import AddQuestion from "../components/AddQuestion";
-import FileInput from "../components/FileInput";
 import CatError from "../components/Constructor";
-import ToolsMenu from "../components/ToolsMenu";
-import StateBar from "../components/StateBar";
+import Tabs from "../components/Tabs";
 
 import "../css/font.css";
 import "../css/constructor.css";
 
 function Constructor() {
+  //from server
   const testitems = [
     {
       id: 0,
@@ -33,152 +31,24 @@ function Constructor() {
       id: 4,
       name: "Subrahmanyan Chandrasekhar",
     },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
   ];
 
-  const quizitems = [
-    {
-      id: 0,
-      name: "Creola Katherine Johnson",
-    },
-    {
-      id: 1,
-      name: "Mario José Molina-Pasquel Henríquez",
-    },
-    {
-      id: 2,
-      name: "Mohammad Abdus Salam",
-    },
-    {
-      id: 3,
-      name: "Percy Lavon Julian",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "Subrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
-    {
-      id: 4,
-      name: "aSubrahmanyan Chandrasekhar",
-    },
+  //from server
+  const items = [
+    { title: "London", content: "London is the capital city of England." },
+    { title: "Paris", content: "Paris is the capital of France." },
+    { title: "Tokyo", content: "Tokyo is the capital of Japan." },
   ];
 
   const [nav, setNav] = useState(false);
-  const [state, setState] = useState(false);
-  const [image, setImage] = useState();
-
-  const changeState = () => {
-    setState(!state);
-  };
-
+  const [arrtest, setArrTest] = useState(testitems)
   const showNav = () => {
     setNav(!nav);
   };
 
-  const callback = (image) => {
-
-    setImage(image);
+  const handleDeleteItem = (id) => {
+    const newArrTest = arrtest.filter((item) => item.id !== id);
+    setArrTest(newArrTest);
   };
 
   return (
@@ -189,7 +59,7 @@ function Constructor() {
       <div>
         <Menu />
       </div>
-      <div className="kworkspace">
+      <div className="constructor_workspace">
         <Media query="(max-width: 979px)">
           {(matches) =>
             matches ? (
@@ -203,73 +73,28 @@ function Constructor() {
                       style={{ width: "400px" }}
                       onClick={showNav}
                     >
-                      Панель навигации
+                      Мои тесты
                     </button>
                   </div>
                   <div className="logo_block">
-                    <img src="img/konstructortoolsmenu.svg" className="icon"></img>
+                    <img
+                      src="img/konstructortoolsmenu.svg"
+                      className="icon"
+                    ></img>
                     <p className="const_text">Конструктор</p>
                   </div>
                   <button className="menubutton">Новый тест</button>
-                  <button className="menubutton" onClick={changeState}>
-                    {!state ? "Опубликовать" : "Скрыть"}
-                  </button>
                   <button className="menubutton">Готово</button>
                 </div>
                 <div className="space">
                   {nav ? (
                     <div className="nav">
-                      <ListNav arrtest={testitems} />
+                      <ListNav arrtest={arrtest} onDeleteItem={handleDeleteItem} />
                     </div>
                   ) : null}
                   <div className="quizspace">
-                    <div
-                      className="statebar"
-                      style={{ backgroundImage: `url(${image})`}}
-                    >
-                      <div className="stateblock">
-                        <div className="statestring">
-                          <div className="light_bold_text">Название:</div>
-                          <input className="custominputstate"></input>
-                        </div>
-                        <div className="statestring">
-                          <div className="light_bold_text">Тема:</div>
-                          <input className="custominputstate"></input>
-                        </div>
-                        <div className="statestring">
-                          <div className="light_bold_text">Описание:</div>
-                          <textarea
-                            className="custominputstate"
-                            style={{ height: "68px" }}
-                          ></textarea>
-                        </div>
-                      </div>
-                      <div className="stateblock">
-                        <div className="statestring" style={{width:"fit-content"}}>
-                          <FileInput callback={callback} />
-                        </div>
-                      </div>
-                      <div className="stateblock" style={{ width: "20%" }}>
-                        <div className="statestring">
-                          <div className="light_bold_text">
-                            Количество вопросов:
-                          </div>
-                          <div className="light_bold_text">
-                            {quizitems.length}
-                          </div>
-                        </div>
-                        <div className="statestring">
-                          <div className="light_bold_text">Статус:</div>
-                          <div className="light_bold_text">
-                            {state ? "Опубликован" : "Скрыт"}
-                          </div>
-                        </div>
-                        <div className="buttondelstate">Удалить тест</div>
-                      </div>
-                    </div>
-
-                    <div className="quiz">
-                      <AddQuestion arrquiz={quizitems} />
+                    <div>
+                      <Tabs items={items} />
                     </div>
                   </div>
                 </div>

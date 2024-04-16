@@ -9,14 +9,14 @@
   background-size: cover;
 }
 
-.kworkspace {
+.constructor_workspace {
   text-align: center;
   width: 100%;
   height: 100%;
   display: block;
   overflow-y: scroll;
   overflow-x: hidden;
-  background: white;
+  background: none;
 }
 
 .toolsmenu {
@@ -40,15 +40,13 @@
   color: #fff;
   border: none;
   height: 100%;
-  border: 1px solid #3a7999;
   white-space: nowrap;
   min-width: 148px;
 }
 
 .menubutton:hover {
-  background: rgb(255, 255, 255);
-  color: #3a7999;
-  box-shadow: inset 0 0 0 3px #3a7999;
+  color: #0099CC;
+	background: #F2F2F2;
 }
 
 .logo_block {
@@ -70,7 +68,6 @@
 .nav {
   flex: 0 1 371px;
   background: #0c4f82;
-  padding-left: 14px;
   padding-right: 14px;
   font-family: Futura PT;
   font-size: large;
@@ -78,6 +75,7 @@
   border: none;
   white-space: nowrap;
   top: 0;
+  left: 0;
   min-width: 371px;
   float: left;
   flex-direction: column;
@@ -86,10 +84,14 @@
   min-height: calc(100vh - 154px);
 }
 
+.nav ul{
+  margin: 0;
+  padding: 0;
+}
+
 .space {
   display: flex;
   height: 100%;
-
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -99,17 +101,9 @@
 .quizspace {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  max-height: calc(100vh - 154px);
+  min-height: calc(100vh - 154px);
 }
-
-.statebar {
-  display: flex;
-  text-align: center;
-  background: #f1f1f1;
-  justify-content: space-around;
-  background-size: cover;
-}
-
 
 .buttondelstate {
   border-radius: 4px;
@@ -124,26 +118,6 @@
   background: rgb(255, 255, 255);
   color: red;
   box-shadow: inset 0 0 0 3px red;
-}
-
-.stateblock {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  padding: 14px;
-  justify-content: space-between;
-  float: left;
-  width: 50%;
-}
-
-.statestring {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: 14px;
-  white-space: nowrap;
-  background: rgba(0, 0, 0, 0.5);
 }
 
 .custominputstate {
@@ -173,6 +147,4 @@
   float: left;
   flex-direction: column;
   overflow-y: scroll;
-  max-height: calc(100vh - 418px);
-  min-height: calc(100vh - 418px);
 }

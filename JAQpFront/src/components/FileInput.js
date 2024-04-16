@@ -6,15 +6,29 @@ const FileInput = ({ callback }) => {
   const handleCallback = () => callback(image);
   const [selectedFile, setSelectedFile] = useState(null);
   const [image, setImage] = useState(null);
+  const [showImage, setShowImage] = useState(false);
   useEffect(() => {
     handleCallback();
   }, [image]);
 
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
-        if(event.target.files[0].size>25000000) {alert("Файл слишком большой");return}
-      setImage(URL.createObjectURL(event.target.files[0]));
-      setSelectedFile(event.target.files[0]);
+      const file = event.target.files[0];
+      const allowedTypes = ["image/png", "image/jpeg", "image/gif"];
+
+      if (!allowedTypes.includes(file.type)) {
+        alert("Разрешены только файлы PNG, JPEG и GIF");
+        return;
+      }
+
+      if (file.size > 25000000) {
+        alert("Файл слишком большой");
+        return;
+      }
+
+      setImage(URL.createObjectURL(file));
+      setSelectedFile(file);
+      setShowImage(!showImage);
     }
   };
 
@@ -25,6 +39,7 @@ const FileInput = ({ callback }) => {
   const removeFile = () => {
     setImage(null);
     setSelectedFile(null);
+    setShowImage(!showImage);
   };
 
   return (
@@ -33,17 +48,31 @@ const FileInput = ({ callback }) => {
         type="file"
         ref={inputRef}
         onChange={handleOnChange}
-        accept=".jpg, .gif"
+        accept=".jpg, .gif, .png"
         style={{ display: "none" }}
       />
-      <button className="file-btn" onClick={onChooseFile}>
-        <span class="material-symbols-rounded">Загрузить изображение</span>JPG или GIF (MAX. 25Мб)
+      <button
+        className="file-btn"
+        style={{ backgroundImage: `url(${image})` }}
+        onClick={onChooseFile}
+      >
+        {!showImage ? (
+          <div>
+            <span
+              className="material-symbols-rounded"
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+            >
+              Загрузить изображение
+            </span>
+            JPG, PNG или GIF (MAX. 25Мб)
+          </div>
+        ) : null}
       </button>
       {selectedFile && (
         <div className="selected-file">
           <p>{selectedFile.name}</p>
           <button onClick={removeFile}>
-            <span class="material-symbols-rounded">х</span>
+            <span className="material-symbols-rounded">х</span>
           </button>
         </div>
       )}

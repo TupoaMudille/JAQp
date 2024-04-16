@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "assert": "^2.1.0",
     "axios": "^1.6.2",
+    "chroma-js": "^2.4.2",
     "cors": "^2.8.5",
     "history": "^5.3.0",
     "joi": "^17.11.0",
@@ -23,6 +24,7 @@
     "react-media": "^1.10.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
+    "react-select": "^5.8.0",
     "react-token-auth": "^2.3.8",
     "web-vitals": "^2.1.4"
   },
