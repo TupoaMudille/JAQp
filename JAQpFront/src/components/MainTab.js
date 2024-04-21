@@ -4,31 +4,41 @@ import FileInput from "../components/FileInput";
 import Select from "react-select";
 import "../css/maintab.css";
 
-function MainTab({ countQuestions }) {
-  //from server
-  const quizData = {
-    title: `Некоторое название`,
-    description: `Некоторое описание`,
-    tags: ["tag2", "tag1"],
-    state: true,
-  };
-
+function MainTab({ countQuestions, quizData, options }) {
   const [state, setState] = useState(quizData.state);
   const [title, setTitle] = useState(quizData.title);
   const [description, setDescription] = useState(quizData.description);
   const [image, setImage] = useState(quizData.image);
 
-  //from server
-  const options = [
-    { value: "tag1", label: "Тег 1" },
-    { value: "tag2", label: "Тег 2" },
-    { value: "tag3", label: "Тег 3" },
-  ];
-
   const selectedTagsFromOptions = quizData.tags.map((tag) => {
     const option = options.find((option) => option.value === tag);
     return option ? option : { value: tag, label: tag };
   });
+
+  const customStyles = {
+    dropdownIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+    option: (base, { isDisabled }) => ({
+      ...base,
+      cursor: isDisabled ? "not-allowed" : "pointer",
+    }),
+
+    clearIndicator: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+
+    multiValueRemove: (base) => ({
+      ...base,
+      cursor: "pointer",
+    }),
+  };
+
+  const filterOption = (option, inputValue) => {
+    return option.label.toLowerCase().startsWith(inputValue.toLowerCase());
+  };
 
   const [selectedTags, setSelectedTags] = useState(selectedTagsFromOptions);
 
@@ -45,11 +55,11 @@ function MainTab({ countQuestions }) {
   };
 
   const handleTitleChange = (e) => {
-    setTitle(title);
+    setTitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
-    setDescription(description);
+    setDescription(e.target.value);
   };
 
   const callback = (image) => {
@@ -103,7 +113,10 @@ function MainTab({ countQuestions }) {
                 />
               </div>
               <div>
-                <p className="bold_text" style={{ float: "left", paddingLeft:"14px" }}>
+                <p
+                  className="bold_text"
+                  style={{ float: "left", paddingLeft: "14px" }}
+                >
                   Теги
                 </p>
               </div>
@@ -116,6 +129,7 @@ function MainTab({ countQuestions }) {
                   value={selectedTags}
                   placeholder="Пусто"
                   onChange={handleTagChange}
+                  filterOption={filterOption}
                   theme={(theme) => ({
                     ...theme,
                     borderRadius: 0,
@@ -124,7 +138,7 @@ function MainTab({ countQuestions }) {
                       primary: "black",
                     },
                   })}
-                  isSearchable
+                  styles={customStyles}
                   noOptionsMessage={() => "Пусто"}
                 />
               </div>
@@ -159,12 +173,6 @@ function MainTab({ countQuestions }) {
                   </button>
                 </div>
               </div>
-              <button
-                className="buttondelstate"
-                style={{ width: "100px", marginLeft: "45%" }}
-              >
-                Удалить тест
-              </button>
             </div>
           </div>
 

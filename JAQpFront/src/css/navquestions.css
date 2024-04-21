@@ -1,0 +1,75 @@
+.navquestions {
+  background: #1e659b;
+  font-family: Futura PT;
+  font-size: large;
+  color: #fff;
+  border: none;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  padding-left: 48px;
+}
+
+.prev-btn,
+.next-btn, .add-btn {
+  margin-right: 10px;
+  margin-left: 10px;
+  background: #063F6A;
+  color: #ffffff;
+  border: 0px outset #3d77a3;
+  cursor: pointer;
+}
+.prev-btn:hover,
+.next-btn:hover, .add-btn:hover {
+    background: #3d77a3;
+}
+
+.add-btn{
+    
+    height: 28px;
+    white-space: nowrap;
+}
+
+.tabs-container {
+  position: relative;
+}
+
+.prev-btn {
+  position: absolute;
+  left: 0;
+}
+
+.next-btn {
+  position: absolute;
+  right: 0;
+}
+
+.tab {
+  padding: 0;
+  border: 1px outset #3d77a3;
+  position: relative;
+}
+
+.tab:hover {
+  background: #3d77a3;
+}
+
+.tablinks.active, .close-btn.active {
+    color: #3D77A3;
+  background: #063F6A;
+}
+
+.close-btn:hover {
+    color: #DE360C;
+    background-color: #FFBDAD;
+}
+
+
+.tab button {
+  background-color: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-family: Futura PT;
+}

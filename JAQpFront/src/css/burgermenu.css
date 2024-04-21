@@ -27,13 +27,13 @@
   height: 56px;
   background: #0c4f82;
   width: 100%;
-  border: 1px solid #004b85;
+  border: 1px outset #3D77A3;
+  cursor: pointer;
 }
 
 .bitemblock:hover {
-  background: #22759e;
+  background: #1E659B;
   color: #3a7999;
-  box-shadow: inset 0 0 0 3px #3a7999;
 }
 
 .bbutton_icon_small:hover {
@@ -82,4 +82,5 @@
   height: 30px;
   margin: auto;
   padding: 14px;
+  cursor: pointer;
 }

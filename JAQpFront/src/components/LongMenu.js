@@ -19,11 +19,24 @@ function LongMenu() {
           <p className="logo_text">Just Another Quiez platform</p>
         </div>
         <div className="evenly_distributed_block">
-          <img className="button_icon" src="img/Dice.svg"></img>
-          <p className="text">Тесты</p>
-          <p className="text">Лучшее</p>
-          <img className="button_icon" src="img/Search.svg"></img>
+          <img
+            className="button_icon"
+            src="img/Dice.svg"
+            style={{ cursor: "pointer" }}
+          ></img>
+          <p className="text" style={{ cursor: "pointer" }}>
+            Тесты
+          </p>
+          <p className="text" style={{ cursor: "pointer" }}>
+            Лучшее
+          </p>
+          <img
+            className="button_icon"
+            src="img/Search.svg"
+            style={{ cursor: "pointer" }}
+          ></img>
           <div
+            style={{ cursor: "pointer" }}
             className="user_block"
             onClick={
               localStorage.token == isNull ? gotoLoginPage : gotoConstructorPage
@@ -34,10 +47,19 @@ function LongMenu() {
           </div>
         </div>
         <div className="evenly_distributed_block">
-          <img className="button_icon" src="img/Telegram.svg"></img>
-          <img className="button_icon" src="img/vk.svg"></img>
+          <img
+            className="button_icon"
+            src="img/Telegram.svg"
+            style={{ cursor: "pointer" }}
+          ></img>
+          <img
+            className="button_icon"
+            src="img/vk.svg"
+            style={{ cursor: "pointer" }}
+          ></img>
         </div>
         <div
+          style={{ cursor: "pointer" }}
           className="user_block"
           onClick={
             localStorage.token == isNull ? gotoLoginPage : gotoUserSettingsPage

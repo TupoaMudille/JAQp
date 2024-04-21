@@ -1,7 +1,7 @@
 .file-btn {
   font-family: Futura PT;
   width: 250px;
-  height: 270px;
+  height: 280px;
   font-size: 13px;
   font-weight: 500;
   display: flex;
@@ -44,7 +44,8 @@
 }
 
 .selected-file p {
-  font-size: 13px;
+  text-align: center;
+  font-size: 14px;
   font-weight: 500;
   margin-left: 15px;
 }

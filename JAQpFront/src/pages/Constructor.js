@@ -4,13 +4,14 @@ import Menu from "../components/Menu";
 import ListNav from "../components/ListNav";
 import CatError from "../components/Constructor";
 import Tabs from "../components/Tabs";
+import MainTab from "../components/MainTab";
 
 import "../css/font.css";
 import "../css/constructor.css";
 
 function Constructor() {
   //from server
-  const testitems = [
+  const quizList = [
     {
       id: 0,
       name: "Creola Katherine Johnson",
@@ -34,16 +35,70 @@ function Constructor() {
   ];
 
   //from server
-  const items = [
-    { title: "London", content: "London is the capital city of England." },
-    { title: "Paris", content: "Paris is the capital of France." },
-    { title: "Tokyo", content: "Tokyo is the capital of Japan." },
+  const questionList = [
+    {
+      id:"1",
+      title: "London",
+      description: "London is the capital city of England.",
+      image: null,
+    },
+    {
+      id:"2",
+      title: "Paris",
+      description: "Paris is the capital of France.",
+      image: null,
+    },
+    {
+      id:"3",
+      title: "Tokyo",
+      description: "Tokyo is the capital of Japan.",
+      image: null,
+    },
   ];
 
-  const [nav, setNav] = useState(false);
-  const [arrtest, setArrTest] = useState(testitems)
-  const showNav = () => {
-    setNav(!nav);
+  //from server
+  const options = [
+    { value: "tag1", label: "Тег 1" },
+    { value: "tag2", label: "Тег 2" },
+    { value: "tag3", label: "Тег 3" },
+  ];
+
+  //from server
+  const quizData = {
+    title: `Некоторое название`,
+    description: `Некоторое описание`,
+    tags: ["tag2", "tag1"],
+    state: true,
+  };
+
+  const [tabs, setTabs] = useState(false);
+  const [mainTab, setMainTab] = useState(false);
+  const [arrtest, setArrTest] = useState(quizList);
+  const showTabs = (e) => {
+    if (!tabs) {
+      setMainTab(false);
+      setTabs(!tabs);
+      const buttons = document.querySelectorAll([".navbutton",".menubutton"]);
+
+      buttons.forEach((button) => {
+        button.classList.remove("selected");
+      });
+      e.currentTarget.classList.add("selected");
+    }
+  };
+
+  const showMainTab = (e) => {
+    if (!mainTab) {
+      setTabs(false);
+      setMainTab(!mainTab);
+      const buttons = document.querySelectorAll([".navbutton",".menubutton"]);
+
+      buttons.forEach((button) => {
+        button.classList.remove("selected");
+      });
+
+      e.currentTarget.classList.add("selected");
+    }
   };
 
   const handleDeleteItem = (id) => {
@@ -67,35 +122,78 @@ function Constructor() {
             ) : (
               <div>
                 <div className="toolsmenu">
-                  <div>
-                    <button
-                      className="menubutton"
-                      style={{ width: "400px" }}
-                      onClick={showNav}
-                    >
-                      Мои тесты
-                    </button>
-                  </div>
                   <div className="logo_block">
                     <img
                       src="img/konstructortoolsmenu.svg"
-                      className="icon"
+                      
+                      style={{ width: "36px", justifyContent:"center", alignItems:"center", marginLeft:"auto", marginRight:"auto" }}
                     ></img>
-                    <p className="const_text">Конструктор</p>
                   </div>
-                  <button className="menubutton">Новый тест</button>
-                  <button className="menubutton">Готово</button>
+                  <div>
+                    <button className="menubutton">Мои тесты</button>
+                  </div>
                 </div>
                 <div className="space">
-                  {nav ? (
+                  {/* {nav ? (
                     <div className="nav">
-                      <ListNav arrtest={arrtest} onDeleteItem={handleDeleteItem} />
+                      <ListNav
+                        arrtest={arrtest}
+                        onDeleteItem={handleDeleteItem}
+                      />
                     </div>
-                  ) : null}
+                  ) : null} */}
+                  <div className="nav">
+                    <div className="navbutton" onClick={showMainTab}>
+                      <img
+                        src="img/konstructortoolsmenu.svg"
+                        className="icon"
+                      ></img>
+                      <p>О квизе</p>
+                    </div>
+                    <div className="navbutton" onClick={showTabs}>
+                      <img
+                        src="img/konstructortoolsmenu.svg"
+                        className="icon"
+                      ></img>
+                      <p>Вопросы</p>
+                    </div>
+                    <div className="navbutton">
+                      <img
+                        src="img/konstructortoolsmenu.svg"
+                        className="icon"
+                      ></img>
+                      <p>Аналитика</p>
+                    </div>
+                    <div className="navbutton">
+                      <img
+                        src="img/konstructortoolsmenu.svg"
+                        className="icon"
+                      ></img>
+                      <p>Интеграция</p>
+                    </div>
+                    <button
+                      className="buttondelstate"
+                      style={{ width: "100px" }}
+                    >
+                      Удалить тест
+                    </button>
+                  </div>
                   <div className="quizspace">
                     <div>
-                      <Tabs items={items} />
+                      {tabs ? (
+                        <Tabs
+                          questionList={questionList}
+                          quizTitle={quizData.title}
+                        />
+                      ) : null}
                     </div>
+                    {mainTab ? (
+                      <MainTab
+                        quizData={quizData}
+                        options={options}
+                        countQuestions={questionList.length}
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>

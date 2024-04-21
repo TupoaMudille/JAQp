@@ -9,6 +9,7 @@ import Main from "./Main";
 import Settings from "./pages/Settings";
 import Constructor from "./pages/Constructor";
 import reportWebVitals from "./reportWebVitals";
+import './fonts/FuturaPT-Medium.ttf';
 export const history = createBrowserHistory();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

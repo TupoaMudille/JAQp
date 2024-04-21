@@ -53,7 +53,7 @@ const FileInput = ({ callback }) => {
       />
       <button
         className="file-btn"
-        style={{ backgroundImage: `url(${image})` }}
+        style={{ backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundOrigin:"revert" }}
         onClick={onChooseFile}
       >
         {!showImage ? (

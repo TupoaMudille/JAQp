@@ -77,6 +77,7 @@
   margin-left: auto;
   margin-right: auto;
   padding-right: 9px;
+  cursor: pointer;
 }
 
 .evenly_distributed_field {
@@ -118,6 +119,7 @@
   height: 48px;
   display: flex;
   padding-top: 24px;
+  cursor: pointer;
 }
 
 .textbutton:hover {
