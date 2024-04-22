@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TabContent from "../components/TabContent";
 
 import "../css/navquestions.css";
 
-function Tabs({ questionList, quizTitle }) {
+function Tabs({ questionList}) {
   const [active, setActive] = React.useState(null);
   const [tabs, setTabs] = React.useState(
     questionList.map((question, index) => ({
@@ -11,6 +11,7 @@ function Tabs({ questionList, quizTitle }) {
       label: `Вопрос ${index + 1}`,
     }))
   );
+
   const [visibleTabs, setVisibleTabs] = React.useState([]);
   const [startIndex, setStartIndex] = React.useState(0);
   const navWidth = document.querySelector("body").clientWidth - 130;
@@ -24,7 +25,7 @@ function Tabs({ questionList, quizTitle }) {
     setVisibleTabs(tabs.slice(startIndex, startIndex + maxVisibleTabs));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     calculateVisibleTabs();
     window.addEventListener("resize", calculateVisibleTabs);
     return () => window.removeEventListener("resize", calculateVisibleTabs);
@@ -40,6 +41,7 @@ function Tabs({ questionList, quizTitle }) {
       label: `Вопрос ${tabs.length + 1}`,
       title: `Вопрос ${tabs.length + 1}`,
       description: `Содержимое вопроса`,
+      initialAnswers: [],
     };
     const newTabs = [...tabs, newItem].map((tab, index) => ({
       ...tab,
@@ -107,7 +109,9 @@ function Tabs({ questionList, quizTitle }) {
           </div>
         ))}
 
-        <button onClick={addTab} className="add-btn">+ Добавить вопрос</button>
+        <button onClick={addTab} className="add-btn">
+          + Добавить вопрос
+        </button>
         {startIndex + maxVisibleTabs < tabs.length && (
           <button onClick={handleNext} className="next-btn">
             {">"}
@@ -115,7 +119,9 @@ function Tabs({ questionList, quizTitle }) {
         )}
       </div>
       {active !== null && active !== -1 && (
-        <TabContent {...tabs[active - 1]} />
+        <TabContent
+          {...tabs[active - 1]}
+        />
       )}
     </div>
   );

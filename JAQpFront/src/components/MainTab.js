@@ -18,22 +18,22 @@ function MainTab({ countQuestions, quizData, options }) {
   const customStyles = {
     dropdownIndicator: (base) => ({
       ...base,
-      cursor: "pointer",
+      cursor: "pointer"
     }),
     option: (base, { isDisabled }) => ({
       ...base,
-      cursor: isDisabled ? "not-allowed" : "pointer",
+      cursor: isDisabled ? "not-allowed" : "pointer"
     }),
 
     clearIndicator: (base) => ({
       ...base,
-      cursor: "pointer",
+      cursor: "pointer"
     }),
-
+    
     multiValueRemove: (base) => ({
       ...base,
-      cursor: "pointer",
-    }),
+      cursor: "pointer"
+    })
   };
 
   const filterOption = (option, inputValue) => {

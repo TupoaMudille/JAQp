@@ -25,7 +25,7 @@
 }
 
 .add-btn{
-    
+    font-family: Futura PT;
     height: 28px;
     white-space: nowrap;
 }
@@ -48,6 +48,7 @@
   padding: 0;
   border: 1px outset #3d77a3;
   position: relative;
+  white-space: nowrap;
 }
 
 .tab:hover {
