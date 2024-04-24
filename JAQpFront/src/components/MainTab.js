@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import FileInput from "../components/FileInput";
+import FileInput from "./FileInput";
 import Select from "react-select";
 import "../css/maintab.css";
+import trashIcon from "../icons/trashCan.svg";
 
 function MainTab({ countQuestions, quizData, options }) {
   const [state, setState] = useState(quizData.state);
@@ -18,22 +19,22 @@ function MainTab({ countQuestions, quizData, options }) {
   const customStyles = {
     dropdownIndicator: (base) => ({
       ...base,
-      cursor: "pointer"
+      cursor: "pointer",
     }),
     option: (base, { isDisabled }) => ({
       ...base,
-      cursor: isDisabled ? "not-allowed" : "pointer"
+      cursor: isDisabled ? "not-allowed" : "pointer",
     }),
 
     clearIndicator: (base) => ({
       ...base,
-      cursor: "pointer"
+      cursor: "pointer",
     }),
-    
+
     multiValueRemove: (base) => ({
       ...base,
-      cursor: "pointer"
-    })
+      cursor: "pointer",
+    }),
   };
 
   const filterOption = (option, inputValue) => {
@@ -74,10 +75,32 @@ function MainTab({ countQuestions, quizData, options }) {
     <div className="main_tab_statebar">
       <div>
         <div
-          className="main_tab_whitecardwithspace"
-          style={{ marginBottom: "36px" }}
+          style={{
+            marginBottom: "36px",
+            background: "white",
+            padding: "14px",
+            marginTop: "14px",
+            display: "grid",
+            gridTemplateColumns:
+              "2fr 1fr"
+              
+          }}
         >
-          <p className="h2">О квизе</p>
+          <p className="h2" style={{float:"right"}}>О квизе</p>
+          <button
+            type="button"
+            className="main_buttondelstate"
+            style={{ marginLeft: "60%" }}
+          >
+            <svg
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              style={{ width: "24px", height: "24px" }}
+              className="trashIcon"
+            >
+              <use xlinkHref={trashIcon + "#trashCan"} />
+            </svg>
+            Удалить квиз
+          </button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="main_tab_whitecardwithspace">

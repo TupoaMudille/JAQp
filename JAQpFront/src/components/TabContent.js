@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import FileInput from "./FileInput";
+import "../css/tabcontent.css";
+import trashIcon from "../icons/trashCan.svg";
 
-function TabContent({ initialAnswers, title, description }) {
+function TabContent({ initialAnswers, label, description, image }) {
   const [answers, setAnswers] = useState(initialAnswers);
-  const [inittitle, setTitle] = useState(title);
+  const [inittitle, setTitle] = useState(label);
   const [initdescription, setDescription] = useState(description);
+  const [initimage, setImage] = useState(image);
 
-  // Обновление состояния answers при изменении initialAnswers
   useEffect(() => {
     setAnswers(initialAnswers);
     setDescription(description);
-    setTitle(title);
-    // image
-  }, [initialAnswers, description,title]);
+    setTitle(label);
+    setImage(image);
+  }, [initialAnswers, description, label, image]);
+
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (values) => {};
+
+  const callback = (initimage) => {
+    setImage(initimage);
+  };
 
   const handleImageChange = (event, answerId) => {
     const updatedAnswers = answers.map((answer) =>
@@ -38,12 +54,8 @@ function TabContent({ initialAnswers, title, description }) {
     setAnswers(updatedAnswers);
   };
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  };
-
   const handleDescriptionQChange = (event) => {
-    setDescription(event.target.value)
+    setDescription(event.target.value);
   };
 
   const handleDeleteAnswer = (answerId) => {
@@ -53,53 +65,117 @@ function TabContent({ initialAnswers, title, description }) {
 
   const handleAddAnswer = () => {
     const newAnswer = {
-      id: Date.now(), // Генерируем уникальный идентификатор для нового ответа
-      title: "",
-      image: "",
+      id: Date.now(),
+      label: "",
+      image: null,
       description: "",
       isCorr: false,
     };
-    setAnswers((answers.length === 0 || !answers )? [newAnswer] : [...answers, newAnswer]);
+    setAnswers(
+      answers.length === 0 || !answers ? [newAnswer] : [...answers, newAnswer]
+    );
   };
 
   return (
-    <div>
-      <div style={{ overflow: "scroll" }}>
-        <input type="text" value={inittitle} onChange={handleTitleChange} />
-        <textarea
-          value={initdescription}
-          onChange={handleDescriptionQChange}
-        />
-      </div>
-      <button onClick={handleAddAnswer}>Добавить ответ</button>
-      {answers &&
-        answers.map((answer) => (
-          <div key={answer.id}>
-            <h4>{answer.title}</h4>
-            <input
-              type="file"
-              value={answer.image}
-              onChange={(e) => handleImageChange(e, answer.id)}
-              placeholder="Image URL"
-            />
-            <textarea
-              value={answer.description}
-              onChange={(e) => handleDescriptionChange(e, answer.id)}
-              placeholder="Description"
-            />
-            <label>
-              <input
-                type="checkbox"
-                checked={answer.isCorr}
-                onChange={(e) => handleCheckboxChange(e, answer.id)}
-              />
-              Correct answer
-            </label>
-            <button onClick={() => handleDeleteAnswer(answer.id)}>
-              Удалить
+    <div className="content_tab_statebar">
+      <div>
+        <div
+          style={{
+            marginBottom: "36px",
+            background: "white",
+            padding: "14px",
+            marginTop: "14px",
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr",
+          }}
+        >
+          <p className="h2" style={{ float: "right" }}>
+            {inittitle}
+          </p>
+          <button
+            type="button"
+            className="main_buttondelstate"
+            style={{ marginLeft: "60%" }}
+          >
+            <svg
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              style={{ width: "24px", height: "24px" }}
+              className="trashIcon"
+            >
+              <use xlinkHref={trashIcon + "#trashCan"} />
+            </svg>
+            Удалить вопрос
+          </button>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="content_tab_whitecardwithspace">
+            <div style={{ display: "flex", paddingTop: "14px" }}>
+              <div style={{ display: "flex", paddingLeft: "14px" }}>
+                <FileInput callback={callback} />
+              </div>
+              <div>
+                <div>
+                  <p
+                    className="bold_text"
+                    style={{ float: "left", paddingLeft: "14px" }}
+                  >
+                    Содержимое вопроса
+                  </p>
+                </div>
+                <div className="content_tab_evenly_distributed_field">
+                  <textarea
+                    className="content_tab_custominput"
+                    value={initdescription}
+                    onChange={handleDescriptionQChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleAddAnswer}
+              type="button"
+              className="content_tab_button_add"
+            >
+              <span className="plus">+</span>
+              Добавить ответ
             </button>
+            <div className="content_answer_block">
+              {answers &&
+                answers.map((answer) => (
+                  <div key={answer.id}>
+                    <input
+                      type="file"
+                      value={answer.image}
+                      onChange={(e) => handleImageChange(e, answer.id)}
+                    />
+                    <div>
+                      <textarea
+                        value={answer.description}
+                        onChange={(e) => handleDescriptionChange(e, answer.id)}
+                        placeholder="Description"
+                      />
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={answer.isCorr}
+                          onChange={(e) => handleCheckboxChange(e, answer.id)}
+                        />
+                        Correct answer
+                      </label>
+                      <button onClick={() => handleDeleteAnswer(answer.id)}>
+                        Удалить
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
-        ))}
+
+          <button className="content_tab_button" type="submit">
+            Сохранить
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

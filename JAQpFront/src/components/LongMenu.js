@@ -16,7 +16,7 @@ function LongMenu() {
         </div>
         <div className="evenly_distributed_block">
           <p className="logo_name">JAQp</p>
-          <p className="logo_text">Just Another Quiez platform</p>
+          <p className="logo_text">Just Another Quiz platform</p>
         </div>
         <div className="evenly_distributed_block">
           <img

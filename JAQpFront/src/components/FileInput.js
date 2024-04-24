@@ -28,7 +28,7 @@ const FileInput = ({ callback }) => {
 
       setImage(URL.createObjectURL(file));
       setSelectedFile(file);
-      setShowImage(!showImage);
+      setShowImage(true);
     }
   };
 
@@ -39,7 +39,7 @@ const FileInput = ({ callback }) => {
   const removeFile = () => {
     setImage(null);
     setSelectedFile(null);
-    setShowImage(!showImage);
+    setShowImage(false);
   };
 
   return (
@@ -53,7 +53,12 @@ const FileInput = ({ callback }) => {
       />
       <button
         className="file-btn"
-        style={{ backgroundImage: `url(${image})`, backgroundSize: "cover", backgroundOrigin:"revert" }}
+        type="button"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: "cover",
+          backgroundOrigin: "revert",
+        }}
         onClick={onChooseFile}
       >
         {!showImage ? (

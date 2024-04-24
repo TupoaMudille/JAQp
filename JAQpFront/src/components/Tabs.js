@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import TabContent from "../components/TabContent";
+import TabContent from "./TabContent";
 
 import "../css/navquestions.css";
 
-function Tabs({ questionList}) {
-  const [active, setActive] = React.useState(null);
+function Tabs({ questionList }) {
+  const [active, setActive] = React.useState(1);
   const [tabs, setTabs] = React.useState(
     questionList.map((question, index) => ({
       ...question,
@@ -39,7 +39,6 @@ function Tabs({ questionList}) {
   const addTab = () => {
     const newItem = {
       label: `Вопрос ${tabs.length + 1}`,
-      title: `Вопрос ${tabs.length + 1}`,
       description: `Содержимое вопроса`,
       initialAnswers: [],
     };
@@ -118,11 +117,7 @@ function Tabs({ questionList}) {
           </button>
         )}
       </div>
-      {active !== null && active !== -1 && (
-        <TabContent
-          {...tabs[active - 1]}
-        />
-      )}
+      {active !== null && active !== -1 && <TabContent {...tabs[active - 1]} />}
     </div>
   );
 }

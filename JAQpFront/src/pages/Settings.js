@@ -9,6 +9,8 @@ import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "../css/sett.css";
 import "../css/font.css";
 
+import trashIcon from "../icons/trashCan.svg";
+
 function UserSettings() {
   const [startDate, setStartDate] = useState(new Date());
   registerLocale("ru", ru);
@@ -109,7 +111,16 @@ function UserSettings() {
           >
             <p className="h2">Удалить аккаунт</p>
             <div className="evenly_distributed_field">
-              <button className="buttondel">Удалить</button>
+              <button className="buttondel">
+                <svg
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  style={{ width: "24px", height: "24px" }}
+                  className="trashIcon"
+                >
+                  <use xlinkHref={trashIcon + "#trashCan"} />
+                </svg>
+                Удалить
+              </button>
             </div>
           </div>
         </div>

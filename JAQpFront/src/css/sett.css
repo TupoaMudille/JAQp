@@ -158,12 +158,24 @@
   border: none;
   width: 100%;
   cursor: pointer;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .buttondel:hover {
   background: rgb(255, 255, 255);
   color: red;
   box-shadow: inset 0 0 0 3px red;
+}
+
+.buttondel:hover .trashIcon {
+  fill: red;
+}
+
+.trashIcon {
+  fill: white;
 }
 
 .react-datepicker {
