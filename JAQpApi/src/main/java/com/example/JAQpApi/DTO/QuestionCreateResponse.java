@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class AuthenticationResponse
+public class QuestionCreateResponse
 {
     private Integer id;
-    private String jwtToken;
-    private String username;
+    private String content;
+    private String imageName;
 }

@@ -22,4 +22,10 @@ public class ImageMetadata
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne(mappedBy = "thumnail", optional = true)
+    private Quiz quiz;
+
+    @OneToOne(mappedBy = "image", optional = true)
+    private Question question;
 }

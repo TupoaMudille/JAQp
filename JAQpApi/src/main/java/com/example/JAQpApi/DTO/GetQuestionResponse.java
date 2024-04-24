@@ -3,15 +3,16 @@ package com.example.JAQpApi.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponse
+public class GetQuestionResponse
 {
     private Integer id;
-    private String jwtToken;
-    private String username;
+    private String description;
+    private String image;
+    private List<Integer> answers;
 }
