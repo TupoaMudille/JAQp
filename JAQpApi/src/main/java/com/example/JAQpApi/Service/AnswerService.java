@@ -1,11 +1,12 @@
 package com.example.JAQpApi.Service;
 
 import com.example.JAQpApi.DTO.AnswerCreateRequest;
+
 import com.example.JAQpApi.DTO.ChangeAnswerRequest;
 import com.example.JAQpApi.DTO.GetAnswerResponse;
-import com.example.JAQpApi.Entity.Answer;
-import com.example.JAQpApi.Entity.ImageMetadata;
-import com.example.JAQpApi.Entity.Question;
+import com.example.JAQpApi.Entity.Quiz.Answer;
+import com.example.JAQpApi.Entity.Quiz.ImageMetadata;
+import com.example.JAQpApi.Entity.Quiz.Question;
 import com.example.JAQpApi.Exceptions.AccessDeniedException;
 import com.example.JAQpApi.Exceptions.ImageException;
 import com.example.JAQpApi.Exceptions.NotFoundException;
@@ -48,7 +49,7 @@ public class AnswerService
     public void DeleteAnswer(String _token, Integer _id) throws NotFoundException, AccessDeniedException, ImageException
     {
         Answer answer = answerRepo.findById(_id).orElseThrow(() -> new NotFoundException("Answer", "id", _id.toString()));
-        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getQuestion_Id()).orElseThrow(() -> new NotFoundException(("")));
+        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getId()).orElseThrow(() -> new NotFoundException(("")));
         ImageMetadata image = answer.getImage();
         answerRepo.delete(answer);
         imageService.DeleteImage(image, _token);
@@ -63,7 +64,7 @@ public class AnswerService
     public GetAnswerResponse ChangeAnswer(String _token, Integer _id, AnswerCreateRequest _request) throws AccessDeniedException, NotFoundException, ImageException
     {
         Answer answer = answerRepo.findById(_id).orElseThrow(() -> new NotFoundException("Answer", "id", _id.toString()));
-        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getQuestion_Id()).orElseThrow(() -> new NotFoundException(("")));
+        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getId()).orElseThrow(() -> new NotFoundException(("")));
         ImageMetadata imageMetadata = answer.getImage();
         answer.setImage(null);
         answer.set_right(_request.getIs_right());
@@ -78,7 +79,7 @@ public class AnswerService
     public GetAnswerResponse ChangeAnswer(String _token, Integer _id, ChangeAnswerRequest _request) throws AccessDeniedException, NotFoundException
     {
         Answer answer = answerRepo.findById(_id).orElseThrow(() -> new NotFoundException("Answer", "id", _id.toString()));
-        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getQuestion_Id()).orElseThrow(() -> new NotFoundException(("")));
+        Question question = questionService.ValidateAccessAndGetQuestion(_token, answer.getQuestion().getId()).orElseThrow(() -> new NotFoundException(("")));
         answer.set_right(_request.getIs_right());
         answer.setDescription(_request.getContent());
         answerRepo.save(answer);

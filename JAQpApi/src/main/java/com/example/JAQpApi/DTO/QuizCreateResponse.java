@@ -7,15 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class QuestionCreateResponse
+public class QuizCreateResponse
 {
     @Schema( example = "123")
-    private Integer id;
-    @Schema ( example = "what is love")
-    private String content;
-    @Schema( example = "img3228")
+    private Integer quizId;
+    @Schema( example = "quiz about smth")
+    private String description;
+    @Schema ( example = "image_3228.png")
     private String imageName;
+    @Schema( example = "my quiz 123")
+    private String name;
 }

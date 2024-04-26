@@ -1,6 +1,5 @@
 package com.example.JAQpApi.DTO;
 
-import com.example.JAQpApi.Entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.JAQpApi.Entity.Quiz.Question;
+
 
 @Data
 @Builder
@@ -22,7 +24,7 @@ public class QuestionsOfQuizResponse
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < _list.size(); i++)
         {
-            list.add(_list.get(i).getQuestion_Id());
+            list.add(_list.get(i).getId());
         }
         return new QuestionsOfQuizResponse(list);
     }

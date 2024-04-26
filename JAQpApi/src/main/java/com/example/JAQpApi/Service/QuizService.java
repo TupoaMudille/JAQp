@@ -1,9 +1,9 @@
 package com.example.JAQpApi.Service;
 
 import com.example.JAQpApi.DTO.*;
-import com.example.JAQpApi.Entity.ImageMetadata;
-import com.example.JAQpApi.Entity.Question;
-import com.example.JAQpApi.Entity.Quiz;
+import com.example.JAQpApi.Entity.Quiz.ImageMetadata;
+import com.example.JAQpApi.Entity.Quiz.Question;
+import com.example.JAQpApi.Entity.Quiz.Quiz;
 import com.example.JAQpApi.Entity.User.User;
 import com.example.JAQpApi.Exceptions.AccessDeniedException;
 import com.example.JAQpApi.Exceptions.ImageException;
@@ -29,9 +29,9 @@ public class QuizService
     private QuizResponse QuizResponseFactory(Quiz _quiz)
     {
         return QuizResponse.builder()
-                .id(_quiz.getQuiz_id())
+                .id(_quiz.getId())
                 .description(_quiz.getDescription())
-                .image_name((_quiz.getThumnail() != null) ? _quiz.getThumnail().getName() : null)
+                .image_name((_quiz.getThumbnail() != null) ? _quiz.getThumbnail().getName() : null)
                 .name(_quiz.getName())
                 .build();
     }
@@ -58,15 +58,15 @@ public class QuizService
     public QuizResponse CreateQuiz(String _token, QuizCreateRequest _request) throws NotFoundException, ImageException
     {
         ImageMetadata thumnail = null;
-        if (_request.getThumnail() != null)
+        if (_request.getThumbnail() != null)
         {
-            thumnail = imageMetadataRepo.findById(imageService.UploadFile(_request.getThumnail(), _token)).orElseThrow(() -> new ImageException("Unknown image error"));
+            thumnail = imageMetadataRepo.findById(imageService.UploadFile(_request.getThumbnail(), _token)).orElseThrow(() -> new ImageException("Unknown image error"));
         }
         User owner = authService.GetUserByToken(_token);
         Quiz quiz = Quiz.builder()
                 .description(_request.getDescription())
                 .name(_request.getName())
-                .thumnail(thumnail)
+                .thumbnail(thumnail)
                 .owner(owner)
                 .build();
         quiz = quizRepo.save(quiz);
@@ -80,7 +80,7 @@ public class QuizService
         for (Quiz quiz : quizRepo.findAllByOwner(owner))
         {
             list.add(QuizData.builder()
-                    .id(quiz.getQuiz_id())
+                    .id(quiz.getId())
                     .name(quiz.getName())
                     .build());
         }
@@ -103,10 +103,10 @@ public class QuizService
     {
         Quiz quiz = ValidateAccessAndGetQuiz(_token, _id).orElseThrow(() -> new NotFoundException("Quiz", "id", _id.toString()));
         List<Question> questions = quiz.getQuestions();
-        ImageMetadata imageMetadata = quiz.getThumnail();
+        ImageMetadata imageMetadata = quiz.getThumbnail();
         for (Question question : questions)
         {
-            questionService.DeleteQuestion(_token, question.getQuestion_Id());
+            questionService.DeleteQuestion(_token, question.getId());
         }
         quizRepo.delete(quiz);
         imageService.DeleteImage(imageMetadata, _token);
@@ -123,11 +123,11 @@ public class QuizService
     public QuizResponse ChangeQuiz(String _token, QuizCreateRequest _request, Integer _id) throws AccessDeniedException, NotFoundException, ImageException
     {
         Quiz quiz = ChangeQuiz(_token, _id, _request.getName(), _request.getDescription());
-        ImageMetadata imageMetadata = quiz.getThumnail();
-        quiz.setThumnail(null);
+        ImageMetadata imageMetadata = quiz.getThumbnail();
+        quiz.setThumbnail(null);
         quizRepo.save(quiz);
-        imageMetadata = imageService.ChangeImage(imageMetadata, _token, _request.getThumnail());
-        quiz.setThumnail(imageMetadata);
+        imageMetadata = imageService.ChangeImage(imageMetadata, _token, _request.getThumbnail());
+        quiz.setThumbnail(imageMetadata);
         quizRepo.save(quiz);
         return QuizResponseFactory(quiz);
     }

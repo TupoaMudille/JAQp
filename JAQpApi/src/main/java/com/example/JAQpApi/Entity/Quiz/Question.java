@@ -1,18 +1,26 @@
-package com.example.JAQpApi.Entity;
+package com.example.JAQpApi.Entity.Quiz;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.checkerframework.common.aliasing.qual.Unique;
 
+import java.util.List;
+
 @Entity
-@Table(name = "answer")
+@Table(name = "question")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Answer
+public class Question
 {
+    @Id
+    @Unique
+    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     @Column
     private String description;
 
@@ -20,17 +28,9 @@ public class Answer
     @JoinColumn(name = "imageMetadata_name")
     private ImageMetadata image;
 
-    @Id
-    @Unique
-    @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @ManyToOne
-    private Question question;
+    private Quiz quiz;
 
-    @Column
-    private boolean is_right;
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answerList;
 }
-
-
