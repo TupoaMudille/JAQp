@@ -1,10 +1,11 @@
 
-import Menu from "./components/Menu";
+
 
 function Main() {
   return (
     <div className="App" style={{ backgroundImage: 'url(img/background.svg)' }}>
-      <div><Menu /></div>
+      {console.log(localStorage.getItem("token"))}
+      <div>text</div>
     </div>
   );
 }
