@@ -183,15 +183,15 @@ function UserSettings() {
                       showMonthDropdown
                       maxDate={new Date()}
                       fixedHeight
+                      showIcon
                     ></DatePicker>
                   </label>
                 </div>
               </div>
+              <button className="settings_button" style={{marginTop:"48px", marginLeft:"14px", marginRight:"14px"}} type="submit">
+                Сохранить
+              </button>
             </div>
-
-            <button className="settings_button" type="submit">
-              Сохранить
-            </button>
           </form>
           <div
             className="settings_whitecard_with_space"

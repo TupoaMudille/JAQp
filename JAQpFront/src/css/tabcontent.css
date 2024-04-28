@@ -9,9 +9,10 @@
   font-family: Futura PT;
   font-size: large;
   flex-direction: column;
-  width: 1024px;
+  width: max-content;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 68px;
 }
 
 .content_tab_whitecardwithspace {
