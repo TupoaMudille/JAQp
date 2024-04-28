@@ -25,7 +25,6 @@ function MainTab({ countQuestions, quizData, options }) {
       ...base,
       cursor: isDisabled ? "not-allowed" : "pointer",
     }),
-
     clearIndicator: (base) => ({
       ...base,
       cursor: "pointer",
@@ -81,12 +80,12 @@ function MainTab({ countQuestions, quizData, options }) {
             padding: "14px",
             marginTop: "14px",
             display: "grid",
-            gridTemplateColumns:
-              "2fr 1fr"
-              
+            gridTemplateColumns: "2fr 1fr",
           }}
         >
-          <p className="h2" style={{float:"right"}}>О квизе</p>
+          <p className="h2" style={{ float: "right" }}>
+            О квизе
+          </p>
           <button
             type="button"
             className="main_buttondelstate"
@@ -143,16 +142,18 @@ function MainTab({ countQuestions, quizData, options }) {
                   Теги
                 </p>
               </div>
-              <div className="main_tab_evenly_distributed_field">
+              <div className="main_tab_evenly_distributed_field ">
                 <Select
                   className="main_tab_custominput_select"
                   isMulti
+                  
                   closeMenuOnSelect={false}
                   options={options}
                   value={selectedTags}
                   placeholder="Пусто"
                   onChange={handleTagChange}
                   filterOption={filterOption}
+                  maxMenuHeight={186}
                   theme={(theme) => ({
                     ...theme,
                     borderRadius: 0,

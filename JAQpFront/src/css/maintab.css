@@ -6,10 +6,10 @@
   color: #000000;
   border: none;
   white-space: nowrap;
-  font-family: Futura PT;
   font-size: large;
   flex-direction: column;
-  width: 1024px;
+  width: 100%;
+  justify-self: center;
   margin-left: auto;
   margin-right: auto;
 }
@@ -93,6 +93,26 @@
   color: rgb(69, 69, 69);
   display: grid;
   position: relative;
+}
+
+.sectionTest {
+  .Select-control {
+    height: 30px;
+  }
+   .Select-placeholder {
+    line-height: 20px;
+  }
+  .Select-value {
+    line-height: 26px !important;
+  }
+
+  .Select-value-label {
+    line-height: 26px;
+  }
+
+   .Select-input {
+    height: 26px;
+  }
 }
 
 .main_tab_evenly_distributed_field textarea {

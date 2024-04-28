@@ -34,7 +34,11 @@ export const LoginUser = async (_user, _pass) => {
     username: _user,
     password: _pass,
   };
-  return await apiHost.post(userBase + "authenticate", raw);
+  try {
+    return await apiHost.post(userBase + "authenticate", raw);
+  } catch (error) {
+    return null;
+  }
 };
 
 export const RegisterUser = async (_username, _password) => {

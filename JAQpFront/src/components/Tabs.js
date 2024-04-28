@@ -14,13 +14,13 @@ function Tabs({ questionList }) {
 
   const [visibleTabs, setVisibleTabs] = React.useState([]);
   const [startIndex, setStartIndex] = React.useState(0);
-  const navWidth = document.querySelector("body").clientWidth - 130;
-  const tabWidth = 120;
+  const navWidth = document.querySelector("body").clientWidth-300;
+  const tabWidth = 130;
   const maxVisibleTabs = Math.floor(navWidth / tabWidth);
 
   const calculateVisibleTabs = () => {
-    const navWidth = document.querySelector(".navquestions").clientWidth;
-    const tabWidth = 120;
+    const navWidth = document.querySelector(".card.tabs").clientWidth-300;
+    const tabWidth = 130;
     const maxVisibleTabs = Math.floor(navWidth / tabWidth);
     setVisibleTabs(tabs.slice(startIndex, startIndex + maxVisibleTabs));
   };
@@ -80,7 +80,65 @@ function Tabs({ questionList }) {
 
   return (
     <div className="tabs-container">
-      <div className="navquestions">
+      <div class="container" style={{ border: "none", width: "100%" }}>
+        <div class="card tabs">
+          {startIndex > 0 && (
+            <>
+              <input type="radio" class="tab tab-selector" />
+              <label
+                class="tab tab-primary"
+                onClick={handlePrev}
+                style={{ background: "#063f6a" }}
+              >
+                {"<"}
+              </label>
+            </>
+          )}
+          {visibleTabs.map((tab, i) => (
+            <button key={startIndex + i}>
+              <input
+                type="radio"
+                class="tab tab-selector"
+                
+              />
+              <label
+                class="tab tab-primary"
+                className={`tablinks ${
+                  startIndex + i + 1 === active ? "active" : ""
+                }`}
+                onClick={openTab}
+                data-index={startIndex + i}
+                key={`label`+startIndex + i}
+              >
+                {tab.label}
+              </label>
+            </button>
+          ))}
+          <>
+            <input type="radio" class="tab tab-selector" />
+            <label
+              class="tab tab-primary"
+              onClick={addTab}
+              style={{ background: "#063f6a" }}
+            >
+              + Добавить вопрос
+            </label>
+          </>
+          {startIndex + maxVisibleTabs < tabs.length && (
+            <>
+              <input type="radio" class="tab tab-selector" />
+              <label
+                class="tab tab-primary"
+                onClick={handleNext}
+                style={{ background: "#063f6a" }}
+              >
+                {">"}
+              </label>
+            </>
+          )}
+        </div>
+      </div>
+      {/* {<div className="navquestions">
         {startIndex > 0 && (
           <button onClick={handlePrev} className="prev-btn">
             {"<"}
@@ -97,14 +155,14 @@ function Tabs({ questionList }) {
             >
               {tab.label}
             </button>
-            <button
+            {<button
               onClick={() => deleteTab(startIndex + i)}
               className={`close-btn ${
                 startIndex + i + 1 === active ? "active" : ""
               }`}
             >
               x
-            </button>
+            </button> }
           </div>
         ))}
 
@@ -116,8 +174,10 @@ function Tabs({ questionList }) {
             {">"}
           </button>
         )}
-      </div>
-      {active !== null && active !== -1 && <QuestionContent {...tabs[active - 1]} />}
+      </div>} */}
+      {active !== null && active !== -1 && (
+        <QuestionContent {...tabs[active - 1]} />
+      )}
     </div>
   );
 }

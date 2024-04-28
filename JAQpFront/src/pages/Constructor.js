@@ -73,16 +73,41 @@ function Constructor() {
 
   //from server
   const options = [
-    { value: "tag1", label: "Тег 1" },
-    { value: "tag2", label: "Тег 2" },
-    { value: "tag3", label: "Тег 3" },
+    { value: "medicine", label: "Медицина" },
+    { value: "music", label: "Музыка" },
+    { value: "history", label: "История" },
+    { value: "science", label: "Наука" },
+    { value: "psychology", label: "Психология" },
+    { value: "travel", label: "Путешествия" },
+    { value: "art", label: "Искусство" },
+    { value: "technology", label: "Технологии" },
+    { value: "education", label: "Образование" },
+    { value: "literature", label: "Литература" },
+    { value: "sports", label: "Спорт" },
+    { value: "cinema", label: "Кино" },
+    { value: "food", label: "Еда" },
+    { value: "languages", label: "Языки" },
+    { value: "animals", label: "Животные" },
+    { value: "politics", label: "Политика" },
+    { value: "religion", label: "Религия" },
+    { value: "games", label: "Игры" },
+    { value: "fashion", label: "Мода" },
+    { value: "architecture", label: "Архитектура" },
+    { value: "gardening", label: "Садоводство" },
+    { value: "business", label: "Бизнес" },
+    { value: "cars", label: "Автомобили" },
+    { value: "writing", label: "Писательство" },
+    { value: "creativity", label: "Творчество" },
+    { value: "dance", label: "Танцы" },
+    { value: "photography", label: "Фотография" },
+    { value: "environment", label: "Окружающая среда" },
   ];
 
   //from server
   const quizData = {
     title: `Некоторое название`,
     description: `Некоторое описание`,
-    tags: ["tag2", "tag1"],
+    tags: ["music", "dance"],
     state: true,
     image: null,
   };
@@ -107,7 +132,7 @@ function Constructor() {
 
   const [tabs, setTabs] = useState(false);
   const [mainTab, setMainTab] = useState(false);
-  const [quizTab, setQuizTab] = useState(false);
+  const [quizTab, setQuizTab] = useState(true);
   const [initialAnswers, setQuestionList] = useState(questionList);
 
   /* visual */
@@ -170,7 +195,7 @@ function Constructor() {
       </div>
       <div className="constructor_workspace">
         <div>
-          <div className="toolsmenu">
+          {/* <div className="toolsmenu">
             <div className="logo_block">
               <img
                 alt=""
@@ -192,9 +217,9 @@ function Constructor() {
                 Мои квизы
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="space">
-            <div className="nav">
+            {/* <div className="nav">
               <div
                 className={`navbutton ${mainTab ? "selected" : ""}`}
                 onClick={showMainTab}
@@ -241,8 +266,97 @@ function Constructor() {
                 </svg>
                 <p>Интеграция</p>
               </div>
-            </div>
-            <div className="quizspace">
+            </div> */}
+            <nav id="navbar">
+              <ul class="navbar-items flexbox-col">
+                <li class="navbar-logo flexbox-left">
+                  <a class="navbar-item-inner flexbox">
+                    <img
+                      alt=""
+                      src="img/konstructortoolsmenu.svg"
+                      style={{
+                        width: "48px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                      }}
+                    ></img>
+                  </a>
+                </li>
+                <li
+                  class="navbar-item flexbox-left"
+                  className={`navbutton ${mainTab ? "selected" : ""}`}
+                  onClick={showMainTab}
+                >
+                  <a class="navbar-item-inner flexbox-left">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                      <svg
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        style={{ width: "36px", height: "36px" }}
+                        className="constructorIcon"
+                      >
+                        <use xlinkHref={infoIcon + "#infoIcon"} />
+                      </svg>
+                    </div>
+                    <span class="link-text">О квизе</span>
+                  </a>
+                </li>
+                <li
+                  class="navbar-item flexbox-left"
+                  className={`navbutton ${tabs ? "selected" : ""}`}
+                  onClick={showTabs}
+                >
+                  <a class="navbar-item-inner flexbox-left">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                      <svg
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        style={{ width: "28px", height: "28px" }}
+                        className="constructorIcon"
+                      >
+                        <use xlinkHref={questionsIcon + "#questionsIcon"} />
+                      </svg>
+                    </div>
+                    <span class="link-text">Вопросы</span>
+                  </a>
+                </li>
+                <li
+                  class="navbar-item flexbox-left"
+                  className={`navbutton ${mainTab ? "selected" : ""}`}
+                >
+                  <a class="navbar-item-inner flexbox-left">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                      <svg
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        style={{ width: "36px", height: "36px" }}
+                        className="constructorIcon"
+                      >
+                        <use xlinkHref={analiticsIcon + "#analiticsIcon"} />
+                      </svg>
+                    </div>
+                    <span class="link-text">Аналитика</span>
+                  </a>
+                </li>
+                <li
+                  class="navbar-item flexbox-left"
+                  className={`navbutton ${mainTab ? "selected" : ""}`}
+                >
+                  <a class="navbar-item-inner flexbox-left">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                      <svg
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        style={{ width: "36px", height: "36px" }}
+                        className="constructorIcon"
+                      >
+                        <use xlinkHref={integrationIcon + "#integrationIcon"} />
+                      </svg>
+                    </div>
+                    <span class="link-text">Интеграция</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <div class="flexbox-col">
               {quizTab ? (
                 <QuizTab arrtest={prefQuizList} onSelectId={handleSelectId} />
               ) : null}

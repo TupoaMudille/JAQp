@@ -48,8 +48,8 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
   };
 
   const listItems = arrtest.map((testname) => (
-    <div onClick={() => handleSelectId(testname.id)}>
-      <div key={testname.id} className="card">
+    <div key={testname.id} onClick={() => handleSelectId(testname.id)}>
+      <div className="card">
         <img
           src={testname.img ? testname.img : emptyImage}
           alt=""
@@ -65,31 +65,18 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
 
   return (
     <div className="quiz_space">
-      {listItems.length !== 0 ? (
-        <>
-          <div className="card" style={{ width: "300px" }}>
-            <img src={emptyImage} alt="" className="card__img" />
-            <span className="card__footer">
-              <span>Создай квиз</span>
-              <span>За 2 минуты!</span>
-            </span>
-          </div>
-          <>{listItems}</>
-        </>
-      ) : (
-        <p
-          style={{
-            justifyContent: "center",
-            alignSelf: "center",
-            marginTop: "calc(50vh - 154px)",
-            fontSize: "30px",
-            color: "#849db1",
-          }}
-        >
-          Пусто
-        </p>
-      )}
-      {showModal && (
+      <>
+        <div className="card">
+          <img src={emptyImage} alt="" className="card__img" />
+          <span className="card__footer">
+            <span>Создай квиз</span>
+            <span>За 2 минуты!</span>
+          </span>
+        </div>
+        <>{listItems}</>
+      </>
+
+      {/* {showModal && (
         <div className="modal-background">
           <div className="confirmation-modal">
             <p>Вы уверены, что хотите удалить этот элемент?</p>
@@ -97,7 +84,7 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
             <button onClick={handleCancelDelete}>Отмена</button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

@@ -55,7 +55,7 @@
   font-size: large;
   color: #fff;
   border: none;
-  width: 100%;
+
   cursor: pointer;
 }
 
@@ -199,6 +199,17 @@
   justify-items: stretch;
 }
 
+.react-datepicker__calendar-icon {
+  margin-left: 67%;
+  fill: var(--omrs-color-ink-medium-contrast);
+  margin-top: 16px;
+}
+
+.react-datepicker-wrapper>.react-datepicker__input-container.react-datepicker__view-calendar-icon:last-child:focus-within > svg{
+  fill: var(--omrs-color-interaction);
+  
+}
+
 .react-datepicker__current-month,
 .react-datepicker__day-name,
 .react-datepicker__month-read-view,
@@ -242,7 +253,6 @@ div.container {
   --omrs-color-ink-high-contrast: #121212;
   --omrs-color-bg-high-contrast: #ffffff;
 }
-/** END: Non Openmrs CSS **/
 div.omrs-input-group {
   margin-bottom: 1.5rem;
   position: relative;
@@ -271,7 +281,7 @@ div.omrs-input-group {
   input {
   border: none;
   border-bottom: 0.125rem solid var(--omrs-color-ink-medium-contrast);
-  width: 283px;
+  width: 270px;
   height: 32px;
   padding-left: 14px;
   font-size: 1.0625rem;
