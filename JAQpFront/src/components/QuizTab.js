@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import "../css/font.css";
 import "../css/quiztab.css";
 
-const emptyImage =
-  "https://images.unsplash.com/photo-1526297003708-f5a1c2c9c6e7?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjI0OTY1ODM&ixlib=rb-1.2.1&q=80";
+import emptyQuizIcon from "../icons/emptyQuiz.svg";
+import newQuizIcon from "../icons/newQuiz.svg";
 
 function QuizTab({ arrtest, onSelectId, onAddTest }) {
   /* setterts */
@@ -22,6 +22,8 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
     setSelectId(id);
     onSelectId(id);
   };
+
+  const addQuiz = () => {};
   // const handleConfirmDelete = () => {
   //   onDeleteItem(deleteItemId);
   //   setDeleteItemId(null);
@@ -44,48 +46,53 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
   };
 
   const handleAddTest = () => {
-    onAddTest(); // Call the function to add a new test
+    onAddTest();
   };
 
   const listItems = arrtest.map((testname) => (
-    <div key={testname.id} onClick={() => handleSelectId(testname.id)}>
-      <div className="card">
-        <img
-          src={testname.img ? testname.img : emptyImage}
-          alt=""
-          className="card__img"
-        />
-        <span className="card__footer">
-          <span>{testname.name}</span>
-          <span>За 2 минуты!</span>
-        </span>
-      </div>
+    <div className="card">
+      <img src={emptyQuizIcon} alt="" className="card__img" />
+      <span className="card__footer">
+        <div className="h2">{testname.name}</div>
+        <p class="information">{testname.description}</p>
+        <div class="control">
+          <button class="btn">
+            <span class="buy" onClick={() => handleSelectId(testname.id)}>
+              Редактировать
+            </span>
+          </button>
+        </div>
+      </span>
     </div>
   ));
 
   return (
     <div className="quiz_space">
-      <>
-        <div className="card">
-          <img src={emptyImage} alt="" className="card__img" />
-          <span className="card__footer">
-            <span>Создай квиз</span>
-            <span>За 2 минуты!</span>
-          </span>
-        </div>
-        <>{listItems}</>
-      </>
-
-      {/* {showModal && (
-        <div className="modal-background">
-          <div className="confirmation-modal">
-            <p>Вы уверены, что хотите удалить этот элемент?</p>
-            <button>Да</button>
-            <button onClick={handleCancelDelete}>Отмена</button>
+      <div
+        className="card"
+        style={{ boxShadow: "inset 0 0 0 3px #3a7999" }}
+      >
+        <img src={newQuizIcon} alt="" className="card__img" />
+        <span className="card__footer">
+          <div className="h2" style={{ marginTop:"14px", color: "#031757" }}>
+            Новый квиз
           </div>
-        </div>
-      )} */}
+          <p class="information" data-limit="100">
+            Хотите проверить свои знания или поделиться интересными вопросами?
+            Создайте свой собственный квиз!
+          </p>
+          <div class="control">
+            <button class="btn">
+              <span class="buy" onClick={() => addQuiz()}>
+                Создать
+              </span>
+            </button>
+          </div>
+        </span>
+      </div>
+      {listItems}
     </div>
+    
   );
 }
 

@@ -188,7 +188,7 @@ function Constructor() {
   return (
     <div
       className="window"
-      style={{ backgroundImage: "url(img/background.svg)" }}
+      style={{ background:"#EDEDED"}}
     >
       <div>
         <Menu />
@@ -269,7 +269,8 @@ function Constructor() {
             </div> */}
             <nav id="navbar">
               <ul class="navbar-items flexbox-col">
-                <li class="navbar-logo flexbox-left">
+                <li class="navbar-logo flexbox-left" className={`navbutton ${quizTab ? "selected" : ""}`}
+                  onClick={showQuizTab}>
                   <a class="navbar-item-inner flexbox">
                     <img
                       alt=""
@@ -282,6 +283,7 @@ function Constructor() {
                         marginRight: "auto",
                       }}
                     ></img>
+                    <span class="link-text">Мои квизы</span>
                   </a>
                 </li>
                 <li

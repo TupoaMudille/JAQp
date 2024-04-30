@@ -93,7 +93,7 @@
 
 .auth_button {
   border-radius: 4px;
-  background: #0c4f82;
+  background: rgb(12, 79, 130);
   padding: 14px;
   font-family: Futura PT;
   font-size: large;
@@ -106,7 +106,7 @@
 
 .auth_button:hover {
   background: rgb(255, 255, 255);
-  color: #3a7999;
+  color: rgb(58, 121, 153);
   box-shadow: inset 0 0 0 3px #3a7999;
   
 }
