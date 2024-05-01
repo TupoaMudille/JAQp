@@ -53,13 +53,12 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
     <div className="card">
       <img src={emptyQuizIcon} alt="" className="card__img" />
       <span className="card__footer">
-        <div className="h2">{testname.name}</div>
+      <div class="background"></div>
+        <div className="quizname">{testname.name}</div>
         <p class="information">{testname.description}</p>
         <div class="control">
-          <button class="btn">
-            <span class="buy" onClick={() => handleSelectId(testname.id)}>
-              Редактировать
-            </span>
+          <button class="btn" onClick={() => handleSelectId(testname.id)}>
+            Редактировать
           </button>
         </div>
       </span>
@@ -68,13 +67,11 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
 
   return (
     <div className="quiz_space">
-      <div
-        className="card"
-        style={{ boxShadow: "inset 0 0 0 3px #3a7999" }}
-      >
+      <div className="card" style={{ boxShadow: "inset 0 0 0 3px #3a7999" }}>
         <img src={newQuizIcon} alt="" className="card__img" />
         <span className="card__footer">
-          <div className="h2" style={{ marginTop:"14px", color: "#031757" }}>
+        <div class="background"></div>
+          <div class="quizname" style={{ color: "#031757" }}>
             Новый квиз
           </div>
           <p class="information" data-limit="100">
@@ -82,17 +79,14 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
             Создайте свой собственный квиз!
           </p>
           <div class="control">
-            <button class="btn">
-              <span class="buy" onClick={() => addQuiz()}>
-                Создать
-              </span>
+            <button class="btn" onClick={() => addQuiz()}>
+              Создать
             </button>
           </div>
         </span>
       </div>
       {listItems}
     </div>
-    
   );
 }
 

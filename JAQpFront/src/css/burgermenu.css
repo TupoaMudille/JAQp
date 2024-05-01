@@ -84,7 +84,7 @@
   right: -15px;
   width: 100%;
   border-top: #00000036 inset 1px;
-  background: #ffffff;
+  background: hsl(256, 12%, 12%);
   transform-origin: 0 0;
   transform: skew(-14deg);
   transition: all 0.275s 0.1s;
@@ -123,12 +123,13 @@
   transform: translateY(0);
   padding-right: 14px;
   width: 100vh;
+  color: white;
   transform-origin: 0 0;
   transform: skew(-14deg) translateX(-2%);
   background: linear-gradient(
     to right,
-    hsl(0, 0%, 100%),
-    hsl(0, 0%, 100%),
+    hsl(257, 11%, 16%),
+    hsl(257, 11%, 16%),
     hsla(0, 0%, 8%, 0.123)
   );
 }
