@@ -1,7 +1,7 @@
 .quiz_space {
   margin-left: -15%;
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(500px, 2fr));
+  grid-template-columns: repeat(auto-fill,minmax(550px, 2fr));
 }
 
 .btn {
@@ -17,6 +17,8 @@
   color: #fff;
   border: none;
   width: 128px;
+
+  
 }
 
 .control img{
@@ -33,9 +35,9 @@
 }
 .information{
   margin-left: 8px;
-  margin-right: 8px;
+  margin-right: 64px;
   padding-left: 8PX;
-  padding-right: 8PX;
+  padding-right: 24PX;
   font-weight: 500;
   color: #031757;
   position: relative;
@@ -45,6 +47,21 @@
   text-indent: 20px; /* устанавливаем отступ для красной строки */
   text-align: left;
   overflow: hidden; /* скрываем текст, выходящий за пределы блока */
+ 
+}
+
+.quizname{
+  margin-left: 8px;
+  margin-right: 24px;
+  padding-left: 8PX;
+  padding-right: 8PX;
+  font-weight: 500;
+  color: #031757;
+  position: relative;
+  font-weight: 700;
+  text-align: left;
+  overflow: hidden; /* скрываем текст, выходящий за пределы блока */
+ 
 }
 
 .card {
@@ -60,6 +77,17 @@
   
 }
 
+.card__footer > .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: hsl(0 0% 100% / 0.5);
+  backdrop-filter: blur(var(--blur));
+  transform: rotate(14deg); /* Поворот наискосок */
+}
+
 .card__img {
   width: 100%;
   height: 100%;
@@ -72,8 +100,8 @@
 .card__footer {
   position: absolute;
   top: 0;
-  right: 0;
-  width: 50%;
+  left: 50%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   background: hsl(0 0% 100% / 0.5);
@@ -81,6 +109,7 @@
   height: 100%;
   align-content: center;
   justify-content: space-around;
+  
   
 }
 

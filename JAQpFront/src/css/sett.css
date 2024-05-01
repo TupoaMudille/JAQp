@@ -264,7 +264,7 @@ div.omrs-input-group {
 
 /* Input*/
 
-.omrs-input-filled > input {
+.omrs-input-filled > input, .omrs-input-filled > textarea {
   border: none;
   border-bottom: 0.125rem solid var(--omrs-color-ink-medium-contrast);
   width: 100%;
@@ -273,6 +273,18 @@ div.omrs-input-group {
   padding-left: 0.875rem;
   padding-top: 16px;
   padding-bottom: -4px;
+  font-family: Futura PT;
+}
+
+.omrs-input-filled > textarea {
+  width: 386px;
+  max-width: 386px;
+  min-width: 386px;
+  max-height: 128px;
+  min-height: 24px;
+  
+  display: grid;
+  position: relative;
 }
 
 .omrs-input-filled
@@ -291,6 +303,7 @@ div.omrs-input-group {
 }
 
 .omrs-input-filled > input:focus,
+.omrs-input-filled > textarea:focus,
 .omrs-input-filled
   > .react-datepicker-wrapper
   .react-datepicker__input-container
@@ -317,7 +330,7 @@ div.omrs-input-group {
   fill: var(--omrs-color-ink-medium-contrast);
 }
 
-.omrs-input-filled > input:hover,
+.omrs-input-filled > input:hover, .omrs-input-filled > textarea:hover,
 .omrs-input-filled
   > .react-datepicker-wrapper
   .react-datepicker__input-container
@@ -327,6 +340,8 @@ div.omrs-input-group {
 
 .omrs-input-filled > input:focus + .omrs-input-label,
 .omrs-input-filled > input:valid + .omrs-input-label,
+.omrs-input-filled > textarea:focus + .omrs-input-label,
+.omrs-input-filled > textarea:valid + .omrs-input-label,
 .omrs-input-filled
   > .react-datepicker-wrapper
   .react-datepicker__input-container
@@ -344,6 +359,7 @@ div.omrs-input-group {
 }
 
 .omrs-input-filled:not(.omrs-input-danger) > input:focus + .omrs-input-label,
+.omrs-input-filled:not(.omrs-input-danger) > textarea:focus + .omrs-input-label,
 .omrs-input-filled:not(.omrs-input-danger)
   > .omrs-input-label
   ~ .react-datepicker-wrapper
@@ -353,6 +369,7 @@ div.omrs-input-group {
 }
 
 .omrs-input-filled:not(.omrs-input-danger) > input:focus,
+.omrs-input-filled:not(.omrs-input-danger) >textarea:focus,
 .omrs-input-filled:not(.omrs-input-danger)
   > .react-datepicker-wrapper
   .react-datepicker__input-container
@@ -361,6 +378,7 @@ div.omrs-input-group {
 }
 
 .omrs-input-filled:not(.omrs-input-danger) > input:focus ~ svg,
+.omrs-input-filled:not(.omrs-input-danger) > textarea:focus ~ svg,
 .omrs-input-filled:not(.omrs-input-danger)
   + svg
   ~ .react-datepicker-wrapper
@@ -369,6 +387,7 @@ div.omrs-input-group {
   fill: var(--omrs-color-ink-high-contrast);
 }
 .omrs-input-filled > input,
+.omrs-input-filled > textarea,
 .omrs-input-filled
   > .react-datepicker-wrapper
   .react-datepicker__input-container

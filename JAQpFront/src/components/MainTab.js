@@ -72,139 +72,133 @@ function MainTab({ countQuestions, quizData, options }) {
 
   return (
     <div className="main_tab_statebar">
-      <div>
-        <div
-          style={{
-            marginBottom: "36px",
-            background: "white",
-            padding: "14px",
-            marginTop: "14px",
-            display: "grid",
-            gridTemplateColumns: "2fr 1fr",
-          }}
+      <div
+        style={{
+          marginBottom: "36px",
+          background: "white",
+          padding: "14px",
+          marginTop: "14px",
+          display: "grid",
+          gridTemplateColumns: "2fr 1fr",
+        }}
+      >
+        <p className="h2" style={{ float: "right" }}>
+          О квизе
+        </p>
+        <button
+          type="button"
+          className="main_buttondelstate"
+          style={{ marginLeft: "60%" }}
         >
-          <p className="h2" style={{ float: "right" }}>
-            О квизе
-          </p>
-          <button
-            type="button"
-            className="main_buttondelstate"
-            style={{ marginLeft: "60%" }}
+          <svg
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            style={{ width: "24px", height: "24px" }}
+            className="trashIcon"
           >
-            <svg
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              style={{ width: "24px", height: "24px" }}
-              className="trashIcon"
-            >
-              <use xlinkHref={trashIcon + "#trashCan"} />
-            </svg>
-            Удалить квиз
-          </button>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="main_tab_whitecardwithspace">
-            <div>
-              <div>
-                <p
-                  className="bold_text"
-                  style={{ float: "left", paddingLeft: "14px" }}
-                >
-                  Название
-                </p>
-              </div>
-              <div className="main_tab_evenly_distributed_field">
-                <input
-                  className="main_tab_custominput"
-                  value={title}
-                  onChange={handleTitleChange}
-                />
-              </div>
-              <div>
-                <p
-                  className="bold_text"
-                  style={{ float: "left", paddingLeft: "14px" }}
-                >
-                  Описание
-                </p>
-              </div>
-              <div className="main_tab_evenly_distributed_field">
-                <textarea
-                  className="main_tab_custominput"
-                  value={description}
-                  onChange={handleDescriptionChange}
-                />
-              </div>
-              <div>
-                <p
-                  className="bold_text"
-                  style={{ float: "left", paddingLeft: "14px" }}
-                >
-                  Теги
-                </p>
-              </div>
-              <div className="main_tab_evenly_distributed_field ">
-                <Select
-                  className="main_tab_custominput_select"
-                  isMulti
+            <use xlinkHref={trashIcon + "#trashCan"} />
+          </svg>
+          Удалить квиз
+        </button>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="main_tab_whitecardwithspace">
+          <div>
+            <div className="settings_evenly_distributed_field">
+              <div class="omrs-input-group">
+                <label class="omrs-input-filled">
+                  <input
+                    required
+                    defaultValue={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <span class="omrs-input-label">Название</span>
                   
-                  closeMenuOnSelect={false}
-                  options={options}
-                  value={selectedTags}
-                  placeholder="Пусто"
-                  onChange={handleTagChange}
-                  filterOption={filterOption}
-                  maxMenuHeight={186}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      primary: "black",
-                    },
-                  })}
-                  styles={customStyles}
-                  noOptionsMessage={() => "Пусто"}
-                />
+                </label>
               </div>
             </div>
-            <div style={{ display: "flex", paddingTop: "14px" }}>
-              <FileInput callback={callback} />
+
+            <div className="main_tab_evenly_distributed_field" style={{marginTop:"44px"}}>
+              <div class="omrs-input-group">
+                <label class="omrs-input-filled">
+                  <textarea
+                    required
+                    defaultValue={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <span class="omrs-input-label">Описание</span>
+                  
+                </label>
+              </div>
             </div>
-            <div className="main_tab_column_distributed_field">
-              <div style={{ float: "right" }}>
-                <div className="main_tab_flex_width_distributed_field">
-                  <div className="bold_text">Количество вопросов: </div>
-                  <div className="bold_text">{countQuestions}</div>
-                </div>
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginTop: "68px",
-                    }}
-                  >
-                    <div className="bold_text">Статус: </div>
-                    <div className="bold_text">
-                      {state ? "Опубликован" : "Скрыт"}
-                    </div>
+            <div>
+              <p
+                className="bold_text"
+                style={{ float: "left", paddingLeft: "14px" }}
+              >
+                Теги
+              </p>
+            </div>
+            <div className="main_tab_evenly_distributed_field ">
+              <Select
+                className="main_tab_custominput_select"
+                isMulti
+                closeMenuOnSelect={false}
+                options={options}
+                value={selectedTags}
+                placeholder="Пусто"
+                onChange={handleTagChange}
+                filterOption={filterOption}
+                maxMenuHeight={186}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    primary: "black",
+                  },
+                })}
+                styles={customStyles}
+                noOptionsMessage={() => "Пусто"}
+              />
+            </div>
+          </div>
+          <div style={{ display: "flex", paddingTop: "14px" }}>
+            <FileInput callback={callback} />
+          </div>
+          <div
+            className="main_tab_column_distributed_field"
+            style={{ width: "192px" }}
+          >
+            <div style={{ float: "right" }}>
+              <div className="main_tab_flex_width_distributed_field">
+                <div className="bold_text">Вопросов: </div>
+                <div className="bold_text">{countQuestions}</div>
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "68px",
+                  }}
+                >
+                  <div className="bold_text">Статус: </div>
+                  <div className="bold_text">
+                    {state ? "Опубликован" : "Скрыт"}
                   </div>
-                  <button
-                    className="main_tab_button"
-                    onClick={handleStateChange}
-                  >
-                    {state ? "Скрыть" : "Опубликовать"}
-                  </button>
                 </div>
+                <button className="main_tab_button" onClick={handleStateChange}>
+                  {state ? "Скрыть" : "Опубликовать"}
+                </button>
               </div>
             </div>
           </div>
+        </div>
 
-          <button className="main_tab_button" type="submit">
-            Сохранить
-          </button>
-        </form>
-      </div>
+        <button className="main_tab_button" type="submit">
+          Сохранить
+        </button>
+      </form>
     </div>
   );
 }
