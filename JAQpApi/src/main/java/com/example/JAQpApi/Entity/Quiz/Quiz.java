@@ -1,6 +1,7 @@
 package com.example.JAQpApi.Entity.Quiz;
 
 import com.example.JAQpApi.Entity.User.User;
+import com.example.JAQpApi.Entity.UserResult;
 import jakarta.persistence.*;
 import lombok.*;
 import org.checkerframework.common.aliasing.qual.Unique;
@@ -22,6 +23,9 @@ public class Quiz
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false)
+    private Boolean isPublic;
+
     @Column(nullable = true)
     private String name;
 
@@ -36,6 +40,12 @@ public class Quiz
     @JoinColumn(name = "imageMetadata_name", nullable = true)
     private ImageMetadata thumbnail;
 
-    @OneToMany
+    @OneToMany(mappedBy = "quiz")
     private List<Question> questions;
+
+    @OneToMany
+    private List<Tag> tags;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
+    private List<UserResult> userResults;
 }
