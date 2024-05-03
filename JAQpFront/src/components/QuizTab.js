@@ -4,7 +4,6 @@ import "../css/font.css";
 import "../css/quiztab.css";
 
 import emptyQuizIcon from "../icons/emptyQuiz.svg";
-import newQuizIcon from "../icons/newQuiz.svg";
 
 function QuizTab({ arrtest, onSelectId, onAddTest }) {
   /* setterts */
@@ -53,7 +52,7 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
     <div className="card">
       <img src={emptyQuizIcon} alt="" className="card__img" />
       <span className="card__footer">
-      <div class="background"></div>
+        <div class="background"></div>
         <div className="quizname">{testname.name}</div>
         <p class="information">{testname.description}</p>
         <div class="control">
@@ -66,21 +65,15 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
   ));
 
   return (
+    // {89272744019 филатов дмитирий георгиевич наркушка}
     <div className="quiz_space">
-      <div className="card" style={{ boxShadow: "inset 0 0 0 3px #3a7999" }}>
-        <img src={newQuizIcon} alt="" className="card__img" />
-        <span className="card__footer">
-        <div class="background"></div>
-          <div class="quizname" style={{ color: "#031757" }}>
-            Новый квиз
-          </div>
-          <p class="information" data-limit="100">
-            Хотите проверить свои знания или поделиться интересными вопросами?
-            Создайте свой собственный квиз!
-          </p>
-          <div class="control">
-            <button class="btn" onClick={() => addQuiz()}>
-              Создать
+      <div className="card" style={{ background:"#E3E7F2" }}>
+        <span  alt="" className="card__img" style={{objectFit:"contain", padding:"14px", width:"90%", height:"90%"}}/>
+        <span className="card__footer" style={{background:"none", backdropFilter:"none"}}>
+          
+          <div class="control" style={{marginLeft:"-100%", alignItems:"center"}}>
+            <button class="addButton"onClick={() => addQuiz()}>
+              + Новый квиз
             </button>
           </div>
         </span>

@@ -100,7 +100,7 @@ function MainTab({ countQuestions, quizData, options }) {
           Удалить квиз
         </button>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="main_tab_whitecardwithspace">
           <div>
             <div className="settings_evenly_distributed_field">
@@ -112,12 +112,14 @@ function MainTab({ countQuestions, quizData, options }) {
                     onChange={(e) => setTitle(e.target.value)}
                   />
                   <span class="omrs-input-label">Название</span>
-                  
                 </label>
               </div>
             </div>
 
-            <div className="main_tab_evenly_distributed_field" style={{marginTop:"44px"}}>
+            <div
+              className="main_tab_evenly_distributed_field"
+              style={{ marginTop: "44px" }}
+            >
               <div class="omrs-input-group">
                 <label class="omrs-input-filled">
                   <textarea
@@ -125,8 +127,7 @@ function MainTab({ countQuestions, quizData, options }) {
                     defaultValue={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                  <span class="omrs-input-label">Описание</span>
-                  
+                  <span class="omrs-input-label" style={{paddingRight:" calc(80% - 4px)"}}>Описание</span>
                 </label>
               </div>
             </div>
@@ -162,7 +163,7 @@ function MainTab({ countQuestions, quizData, options }) {
               />
             </div>
           </div>
-          <div style={{ display: "flex", paddingTop: "14px" }}>
+          <div style={{ paddingTop: "14px", height:"100%"}}>
             <FileInput callback={callback} />
           </div>
           <div
@@ -187,7 +188,11 @@ function MainTab({ countQuestions, quizData, options }) {
                     {state ? "Опубликован" : "Скрыт"}
                   </div>
                 </div>
-                <button className="main_tab_button" onClick={handleStateChange}>
+                <button
+                  className="main_tab_button"
+                  onClick={handleStateChange}
+                  type="button"
+                >
                   {state ? "Скрыть" : "Опубликовать"}
                 </button>
               </div>
