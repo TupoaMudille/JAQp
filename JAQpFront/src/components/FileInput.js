@@ -43,7 +43,7 @@ const FileInput = ({ callback }) => {
   };
 
   return (
-    <div>
+    <div style={{height:"80%"}}>
       <input
         type="file"
         ref={inputRef}

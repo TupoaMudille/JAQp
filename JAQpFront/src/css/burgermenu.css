@@ -9,7 +9,7 @@
   overflow: visible;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.336);
  
-  z-index: 100;
+  z-index: 800;
 }
 
 .burger_menu_items {

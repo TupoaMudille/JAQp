@@ -1,27 +1,18 @@
 .main_tab_statebar {
-  padding-left: 14px;
-  padding-right: 14px;
-  font-family: Futura PT;
-  font-size: large;
-  color: #000000;
-  border: none;
-  white-space: nowrap;
-  font-size: large;
-  flex-direction: column;
-  width: 1024px;
-  margin-left: -5%;
-  margin-right: auto;
+  margin-left: -15%;
+  display: grid;
+  padding-right: 28px;
+  grid-template-columns: repeat(auto-fill,minmax(1024px, 1fr));
 }
 
 .main_tab_whitecardwithspace {
   vertical-align: middle;
-  display: flex;
-  flex-direction: row;
-  margin: auto;
-  background: #fff;
+  display:grid;
+  gap: 30px;
+  grid-template-columns: [start] 1fr [image] 2fr [end] auto;
   padding: 14px;
-  margin-top: 14px;
-  justify-content: space-around;
+  background: #fff;
+  height: 100%;
 }
 
 .main_tab_button {
