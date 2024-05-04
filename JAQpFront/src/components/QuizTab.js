@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import { CreateNewQuiz } from "../http/quizApi";
+import { GetQuizById } from "../http/quizApi";
+import { address } from "../http/apiIndex";
+
 import "../css/font.css";
 import "../css/quiztab.css";
 
@@ -19,10 +23,14 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
 
   const handleSelectId = (id) => {
     setSelectId(id);
-    onSelectId(id);
+    GetQuizById(id).then((res) => {
+      onSelectId(res.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching quiz data:", error);
+    });
   };
 
-  const addQuiz = () => {};
   // const handleConfirmDelete = () => {
   //   onDeleteItem(deleteItemId);
   //   setDeleteItemId(null);
@@ -45,12 +53,18 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
   };
 
   const handleAddTest = () => {
-    onAddTest();
+    CreateNewQuiz(localStorage.getItem("token"))
+      .then((res) => {
+        onAddTest(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
   };
 
-  const listItems = arrtest.map((testname) => (
-    <div className="card">
-      <img src={emptyQuizIcon} alt="" className="card__img" />
+  const listItems = arrtest.map((testname,index) => (
+    <div className="card" key={index}>
+      <img src={testname.image == null ? emptyQuizIcon:address+testname.image} alt="" className="card__img" />
       <span className="card__footer">
         <div class="background"></div>
         <div className="quizname">{testname.name}</div>
@@ -65,14 +79,27 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
   ));
 
   return (
-    // {89272744019 филатов дмитирий георгиевич наркушка}
     <div className="quiz_space">
-      <div className="card" style={{ background:"#E3E7F2" }}>
-        <span  alt="" className="card__img" style={{objectFit:"contain", padding:"14px", width:"90%", height:"90%"}}/>
-        <span className="card__footer" style={{background:"none", backdropFilter:"none"}}>
-          
-          <div class="control" style={{marginLeft:"-100%", alignItems:"center"}}>
-            <button class="addButton"onClick={() => addQuiz()}>
+      <div className="card" style={{ background: "#E3E7F2" }}>
+        <span
+          alt=""
+          className="card__img"
+          style={{
+            objectFit: "contain",
+            padding: "14px",
+            width: "90%",
+            height: "90%",
+          }}
+        />
+        <span
+          className="card__footer"
+          style={{ background: "none", backdropFilter: "none" }}
+        >
+          <div
+            class="control"
+            style={{ marginLeft: "-100%", alignItems: "center" }}
+          >
+            <button class="addButton" onClick={handleAddTest}>
               + Новый квиз
             </button>
           </div>

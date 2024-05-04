@@ -1,20 +1,39 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+
+import { EditQuizWOImage } from "../http/quizApi";
+import { EditQuiz } from "../http/quizApi";
+import { ToggleVisabylity } from "../http/quizApi";
+import { address } from "../http/apiIndex";
+
 import FileInput from "./FileInput";
 import Select from "react-select";
 import "../css/maintab.css";
 import trashIcon from "../icons/trashCan.svg";
 
-function MainTab({ countQuestions, quizData, options }) {
-  const [state, setState] = useState(quizData.state);
-  const [title, setTitle] = useState(quizData.title);
+function MainTab({
+  countQuestions,
+  quizData,
+  options,
+  onChangeTest,
+  onChangeStatus,
+  onDeleteQuiz,
+}) {
+  const [state, setState] = useState(quizData.isPublic);
+  const [idQuiz, setIdQuiz] = useState(quizData.id);
+  const [title, setTitle] = useState(quizData.name);
   const [description, setDescription] = useState(quizData.description);
-  const [image, setImage] = useState(quizData.image);
+  const [image, setImage] = useState(quizData.image_name);
+  const [file, setFile] = useState();
 
-  const selectedTagsFromOptions = quizData.tags.map((tag) => {
-    const option = options.find((option) => option.value === tag);
-    return option ? option : { value: tag, label: tag };
-  });
+  const [isChangedImage, setIsChangedImage] = useState(false);
+
+  const selectedTagsFromOptions = quizData.tags
+    ? quizData.tags.map((tag) => {
+        const option = options.find((option) => option.value === tag);
+        return option ? option : { value: tag, label: tag };
+      })
+    : null;
 
   const customStyles = {
     dropdownIndicator: (base) => ({
@@ -42,28 +61,63 @@ function MainTab({ countQuestions, quizData, options }) {
 
   const [selectedTags, setSelectedTags] = useState(selectedTagsFromOptions);
 
-  const {
-    handleSubmit,
-    register,
-    getValues,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (values) => {};
-
-  const handleStateChange = (e) => {
-    setState(!state);
+  const { handleSubmit } = useForm();
+  const onSubmit = () => {
+    const tags = selectedTags
+      ? `${selectedTags.map((item) => item.value).join(", ")}`
+      : "";
+    const sanitizedDescription = description ?? "";
+    const sanitizedTitle = title ?? "";
+    !isChangedImage
+      ? EditQuizWOImage(
+          localStorage.getItem("token"),
+          idQuiz,
+          tags,
+          sanitizedDescription,
+          sanitizedTitle
+        )
+          .then((res) => {
+            onChangeTest(res.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching quiz data:", error);
+          })
+      : EditQuiz(
+          localStorage.getItem("token"),
+          idQuiz,
+          tags,
+          sanitizedDescription,
+          sanitizedTitle,
+          file,
+          file.name
+        )
+          .then((res) => {
+            onChangeTest(res.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching quiz data:", error);
+          });
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+  const handleStateChange = () => {
+    ToggleVisabylity(localStorage.getItem("token"), idQuiz)
+      .then((res) => {
+        onChangeStatus(res.data);
+        setState(res.data.isPublic);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
   };
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const callback = (image) => {
+  const callback = (image, file, fileVariant) => {
     setImage(image);
+    setFile(file);
+    setIsChangedImage(fileVariant);
+  };
+
+  const handleDelete = () => {
+    onDeleteQuiz(idQuiz);
   };
 
   const handleTagChange = (selectedOptions) => {
@@ -86,6 +140,7 @@ function MainTab({ countQuestions, quizData, options }) {
           О квизе
         </p>
         <button
+          onClick={handleDelete}
           type="button"
           className="main_buttondelstate"
           style={{ marginLeft: "60%" }}
@@ -127,7 +182,7 @@ function MainTab({ countQuestions, quizData, options }) {
                     defaultValue={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                  <span class="omrs-input-label" style={{paddingRight:" calc(80% - 4px)"}}>Описание</span>
+                  <span class="omrs-input-label">Описание</span>
                 </label>
               </div>
             </div>
@@ -163,8 +218,8 @@ function MainTab({ countQuestions, quizData, options }) {
               />
             </div>
           </div>
-          <div style={{ paddingTop: "14px", height:"100%"}}>
-            <FileInput callback={callback} />
+          <div style={{ paddingTop: "14px", height: "100%" }}>
+            <FileInput callback={callback} imageUrl={`${address}${image}`} />
           </div>
           <div
             className="main_tab_column_distributed_field"

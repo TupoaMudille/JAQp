@@ -105,6 +105,82 @@
     display: none;
   }
 }
+@media (max-width: 769px) {
+  .icon,
+  .button_icon {
+    height: 30px;
+    margin: auto;
+    padding: 14px;
+  }
+
+  .logo_name {
+    color: #000;
+    margin: auto;
+    font-family: Futura PT;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    padding: 4px;
+    line-height: normal;
+  }
+
+  .logo_text {
+    color: #000;
+    margin: auto;
+    padding: auto;
+    padding-left: 4px;
+    font-family: Futura PT;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+  }
+
+  .text {
+    color: #000;
+    margin: auto;
+    padding: 19px;
+    font-family: Futura PT;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+  }
+
+  .text:hover {
+    box-shadow: 0 0 2px -4px rgba(31, 73, 125, 0.8),
+      0 0 8px -4px rgba(31, 73, 125, 0.8);
+  }
+
+  .button_icon:hover {
+    box-shadow: 0 0 2px -4px rgba(31, 73, 125, 0.8),
+      0 0 8px -4px rgba(31, 73, 125, 0.8);
+  }
+
+  .user_block {
+    display: flex;
+    padding-right: 8px;
+  }
+
+  .user_block:hover {
+    box-shadow: 0 0 2px -4px rgba(31, 73, 125, 0.8),
+      0 0 8px -4px rgba(31, 73, 125, 0.8);
+  }
+
+  .simple_text {
+    color: #000;
+    margin: auto;
+    font-family: Futura PT;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+  }
+
+  .button_icon_small {
+    display: none;
+  }
+}
 
 @media (max-width: 1200px) {
   .logo_text {

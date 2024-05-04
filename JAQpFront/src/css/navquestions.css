@@ -1,3 +1,10 @@
+.tabs-container{
+  margin-left: -15%;
+  display: grid;
+  padding-right: 28px;
+  grid-template-columns: repeat(auto-fill,minmax(1024px, 1fr));
+}
+
 .navquestions {
   background: #1e659b;
   font-family: Futura PT;
@@ -85,6 +92,7 @@
 .tabs {
   text-align: left;
   position: relative;
+  height: 43px;
 }
 .tabs button{
   border: none;
@@ -169,7 +177,7 @@
   position: fixed;
   border: none;
   left: 50px;
-  top:30px;
+  top:32px;
   width: calc(100%);
   min-width: calc(100%);
   max-width: calc(100% );
@@ -179,7 +187,7 @@
   background: #16181a;
   border-top: 1px solid #3b3d3f;
   background: hsl(232deg 18% 8%);
-  height: fit-content;
+  height: 43px;
 }
 
 .content p {

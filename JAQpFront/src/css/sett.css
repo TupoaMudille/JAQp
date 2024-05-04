@@ -352,7 +352,7 @@ div.omrs-input-group {
   .react-datepicker__input-container
   input:focus
   + .omrs-input-label {
-  top: 0;
+  top: -18px;
   font-size: 0.9375rem;
   margin-bottom: 32px;
   font-weight: bold;
@@ -360,7 +360,7 @@ div.omrs-input-group {
 
 .omrs-input-filled > textarea:focus + .omrs-input-label,
 .omrs-input-filled > textarea:valid + .omrs-input-label{
-  background: white;
+ 
 }
 
 .omrs-input-filled:not(.omrs-input-danger) > input:focus + .omrs-input-label,
@@ -371,14 +371,13 @@ div.omrs-input-group {
   .react-datepicker__input-container
   input:focus {
   color: var(--omrs-color-interaction);
-  background: #D4D4D4;
+
 
 }
 
 
 .omrs-input-filled:not(.omrs-input-danger) > textarea:hover + .omrs-input-label{
- background: #D4D4D4;
- padding-right: 24px;
+ 
 
 }
 

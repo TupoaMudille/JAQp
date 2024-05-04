@@ -1,15 +1,24 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/fileinput.css";
+import { isNull } from "joi-browser";
 
-const FileInput = ({ callback }) => {
+const FileInput = ({ callback, imageUrl }) => {
   const inputRef = useRef();
-  const handleCallback = () => callback(image);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [image, setImage] = useState(null);
+  const handleCallback = () => callback(image, selectedFile, fileVariant);
+  const [image, setImage] = useState(imageUrl);
+  const [selectedFile, setSelectedFile] = useState(
+    image
+      ? image.split("/").pop() === "null"
+        ? null
+        : image.split("/").pop()
+      : null
+  );
+
   const [showImage, setShowImage] = useState(false);
+  const [fileVariant, setFileVariant] = useState(false);
   useEffect(() => {
     handleCallback();
-  }, [image]);
+  }, [image, selectedFile, fileVariant]);
 
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -25,7 +34,7 @@ const FileInput = ({ callback }) => {
         alert("Файл слишком большой");
         return;
       }
-
+      setFileVariant(true);
       setImage(URL.createObjectURL(file));
       setSelectedFile(file);
       setShowImage(true);
@@ -43,7 +52,7 @@ const FileInput = ({ callback }) => {
   };
 
   return (
-    <div style={{height:"80%"}}>
+    <div style={{ height: "80%" }}>
       <input
         type="file"
         ref={inputRef}
@@ -55,7 +64,7 @@ const FileInput = ({ callback }) => {
         className="file-btn"
         type="button"
         style={{
-          backgroundImage: `url(${image})`,
+          backgroundImage: selectedFile != null ? `url(${image})` : selectedFile,
           backgroundSize: "cover",
           backgroundOrigin: "revert",
         }}
@@ -75,7 +84,7 @@ const FileInput = ({ callback }) => {
       </button>
       {selectedFile && (
         <div className="selected-file">
-          <p>{selectedFile.name}</p>
+          <p>{selectedFile.name || selectedFile}</p>
           <button onClick={removeFile}>
             <span className="material-symbols-rounded">х</span>
           </button>

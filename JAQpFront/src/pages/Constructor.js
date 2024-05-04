@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { GetOwnedByMe } from "../http/quizApi";
+import { DeleteQuiz } from "../http/quizApi";
+import { GetQuestions } from "../http/quizApi";
+import { GetAllTags } from "../http/tagApi";
 
 import Menu from "../components/Menu";
 import Tabs from "../components/Tabs";
@@ -16,104 +19,14 @@ import "../css/font.css";
 import "../css/constructor.css";
 
 function Constructor() {
-  //from server
-  const questionList = [
-    {
-      id: "1",
-      title: "London",
-      description: "London is the capital city of England.",
-      image: null,
-      initialAnswers: [
-        {
-          id: "1",
-          title: "djghjc 1",
-          description: "aaaaa",
-          image: null,
-          isCorr: true,
-        },
-        {
-          id: "2",
-          title: "djghjc 2",
-          description: "aaaaa",
-          image: null,
-          isCorr: false,
-        },
-      ],
-    },
-    {
-      id: "2",
-      title: "Paris",
-      description: "Paris is the capital of France.",
-      image: null,
-      initialAnswers: [
-        {
-          id: "3",
-          title: "ффффффф",
-          description: "aafffaaa",
-          image: null,
-          isCorr: true,
-        },
-        {
-          id: "4",
-          title: "ффффффф",
-          description: "aaaaa",
-          image: null,
-          isCorr: false,
-        },
-      ],
-    },
-    {
-      id: "3",
-      title: "Tokyo",
-      description: "Tokyo is the capital of Japan.",
-      image: null,
-      initialAnswers: [],
-    },
-  ];
 
-  //from server
-  const options = [
-    { value: "medicine", label: "Медицина" },
-    { value: "music", label: "Музыка" },
-    { value: "history", label: "История" },
-    { value: "science", label: "Наука" },
-    { value: "psychology", label: "Психология" },
-    { value: "travel", label: "Путешествия" },
-    { value: "art", label: "Искусство" },
-    { value: "technology", label: "Технологии" },
-    { value: "education", label: "Образование" },
-    { value: "literature", label: "Литература" },
-    { value: "sports", label: "Спорт" },
-    { value: "cinema", label: "Кино" },
-    { value: "food", label: "Еда" },
-    { value: "languages", label: "Языки" },
-    { value: "animals", label: "Животные" },
-    { value: "politics", label: "Политика" },
-    { value: "religion", label: "Религия" },
-    { value: "games", label: "Игры" },
-    { value: "fashion", label: "Мода" },
-    { value: "architecture", label: "Архитектура" },
-    { value: "gardening", label: "Садоводство" },
-    { value: "business", label: "Бизнес" },
-    { value: "cars", label: "Автомобили" },
-    { value: "writing", label: "Писательство" },
-    { value: "creativity", label: "Творчество" },
-    { value: "dance", label: "Танцы" },
-    { value: "photography", label: "Фотография" },
-    { value: "environment", label: "Окружающая среда" },
-  ];
-
-  //from server
-  const quizData = {
-    title: `Некоторое название`,
-    description: `Некоторое описание`,
-    tags: ["music", "dance"],
-    state: true,
-    image: null,
-  };
 
   /* setterts */
   const [prefQuizList, setprefQuizList] = useState([]);
+  const [prefoptions, setPrefOptions] = useState([]);
+  const [prefoquestions, setPrefQuestions] = useState([]);
+
+  const [idQuiz, setIdQuiz] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -129,35 +42,120 @@ function Constructor() {
       console.log("Token does not exist. Redirecting to login page...");
     }
   }, []);
+  useEffect(() => {
+    GetAllTags()
+      .then((res) => {
+        setPrefOptions(res.data.tagList);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (true) {
+      GetQuestions(idQuiz)
+        .then((res) => {
+          setQuestionList(res.data.questions);
+        })
+        .catch((error) => {
+          console.error("Error fetching quiz data:", error);
+        });
+    }
+  }, [idQuiz]);
 
   const [tabs, setTabs] = useState(false);
   const [mainTab, setMainTab] = useState(false);
   const [quizTab, setQuizTab] = useState(true);
-  const [initialAnswers, setQuestionList] = useState(questionList);
+  const [initialAnswers, setQuestionList] = useState(prefoquestions);
+  const [quizData, setQuizData] = useState();
+
+  const handleAddTest = (newQuiz) => {
+    GetOwnedByMe(localStorage.getItem("token"))
+      .then((res) => {
+        setprefQuizList(res.data.quizDataList);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
+    setMainTab(true);
+    setQuizTab(false);
+    setTabs(false);
+    setQuizData(newQuiz);
+    setIdQuiz(newQuiz.id);
+  };
+
+  const handleChangeTest = (newQuiz) => {
+    GetOwnedByMe(localStorage.getItem("token"))
+      .then((res) => {
+        setprefQuizList(res.data.quizDataList);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
+  };
+
+  const handleChangeStatus = (updatedStatusQuiz) => {
+    setQuizData(updatedStatusQuiz);
+  };
+
+  const handleDeleteQuiz = (idQuiz) => {
+    DeleteQuiz(localStorage.getItem("token"), idQuiz)
+      .then((res) => {
+        if (res.status == 200) {
+          GetOwnedByMe(localStorage.getItem("token"))
+            .then((res) => {
+              setprefQuizList(res.data.quizDataList);
+            })
+            .catch((error) => {
+              console.error("Error fetching quiz data:", error);
+            });
+          setIdQuiz(null);
+          setQuizData(null);
+          setprefQuizList([]);
+          setMainTab(false);
+          setQuizTab(true);
+          setTabs(false);
+        } else console.log(res);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
+  };
 
   /* visual */
   const showTabs = (e) => {
-    if (!tabs) {
-      setMainTab(false);
-      setQuizTab(false);
-      setTabs(!tabs);
-      const buttons = document.querySelectorAll([".navbutton", ".menubutton"]);
-      buttons.forEach((button) => {
-        button.classList.remove("selected");
-      });
+    if (quizData != null) {
+      if (!tabs) {
+        setMainTab(false);
+        setQuizTab(false);
+        setTabs(!tabs);
+        const buttons = document.querySelectorAll([
+          ".navbutton",
+          ".menubutton",
+        ]);
+        buttons.forEach((button) => {
+          button.classList.remove("selected");
+        });
+      }
     }
   };
 
   const showMainTab = (e) => {
-    if (!mainTab) {
-      setTabs(false);
-      setQuizTab(false);
-      setMainTab(!mainTab);
-      const buttons = document.querySelectorAll([".navbutton", ".menubutton"]);
+    if (quizData != null) {
+      if (!mainTab) {
+        setTabs(false);
+        setQuizTab(false);
+        setMainTab(!mainTab);
+        const buttons = document.querySelectorAll([
+          ".navbutton",
+          ".menubutton",
+        ]);
 
-      buttons.forEach((button) => {
-        button.classList.remove("selected");
-      });
+        buttons.forEach((button) => {
+          button.classList.remove("selected");
+        });
+      }
     }
   };
 
@@ -175,102 +173,31 @@ function Constructor() {
   };
 
   /* form */
-  const handleSelectId = (id) => {
-    console.log(id);
-    if (id) {
-      /* здесь загрузить нужные данные для открытия вкладок */
+  const handleSelectId = (openedQuiz) => {
+    if (openedQuiz) {
       setMainTab(true);
       setQuizTab(false);
       setTabs(false);
+      setQuizData(openedQuiz);
+      setIdQuiz(openedQuiz.id);
     }
   };
 
   return (
-    <div
-      className="window"
-      style={{ background:"#EDEDED"}}
-    >
+    <div className="window" style={{ background: "#EDEDED" }}>
       <div>
         <Menu />
       </div>
       <div className="constructor_workspace">
         <div>
-          {/* <div className="toolsmenu">
-            <div className="logo_block">
-              <img
-                alt=""
-                src="img/konstructortoolsmenu.svg"
-                style={{
-                  width: "48px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              ></img>
-            </div>
-            <div>
-              <button
-                className={`menubutton ${quizTab ? "selected" : ""}`}
-                onClick={showQuizTab}
-              >
-                Мои квизы
-              </button>
-            </div>
-          </div> */}
           <div className="space">
-            {/* <div className="nav">
-              <div
-                className={`navbutton ${mainTab ? "selected" : ""}`}
-                onClick={showMainTab}
-              >
-                <svg
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  style={{ width: "36px", height: "36px" }}
-                  className="constructorIcon"
-                >
-                  <use xlinkHref={infoIcon + "#infoIcon"} />
-                </svg>
-                <p>О квизе</p>
-              </div>
-              <div
-                className={`navbutton ${tabs ? "selected" : ""}`}
-                onClick={showTabs}
-              >
-                <svg
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  style={{ width: "36px", height: "36px" }}
-                  className="constructorIcon"
-                >
-                  <use xlinkHref={questionsIcon + "#questionsIcon"} />
-                </svg>
-                <p>Вопросы</p>
-              </div>
-              <div className="navbutton">
-                <svg
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  style={{ width: "36px", height: "36px" }}
-                  className="constructorIcon"
-                >
-                  <use xlinkHref={analiticsIcon + "#analiticsIcon"} />
-                </svg>
-                <p>Аналитика</p>
-              </div>
-              <div className="navbutton">
-                <svg
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  style={{ width: "36px", height: "36px" }}
-                  className="constructorIcon"
-                >
-                  <use xlinkHref={integrationIcon + "#integrationIcon"} />
-                </svg>
-                <p>Интеграция</p>
-              </div>
-            </div> */}
             <nav id="navbar">
               <ul class="navbar-items flexbox-col">
-                <li class="navbar-logo flexbox-left" className={`navbutton ${quizTab ? "selected" : ""}`}
-                  onClick={showQuizTab}>
+                <li
+                  class="navbar-logo flexbox-left"
+                  className={`navbutton ${quizTab ? "selected" : ""}`}
+                  onClick={showQuizTab}
+                >
                   <a class="navbar-item-inner flexbox">
                     <img
                       alt=""
@@ -360,20 +287,27 @@ function Constructor() {
             </nav>
             <div class="flexbox-col">
               {quizTab ? (
-                <QuizTab arrtest={prefQuizList} onSelectId={handleSelectId} />
+                <QuizTab
+                  arrtest={prefQuizList}
+                  onSelectId={handleSelectId}
+                  onAddTest={handleAddTest}
+                />
               ) : null}
               {tabs ? (
                 <Tabs
                   quizTitle={quizData.title}
                   questionList={initialAnswers}
+                  quizId={idQuiz}
                 />
               ) : null}
-
               {mainTab ? (
                 <MainTab
                   quizData={quizData}
-                  options={options}
-                  countQuestions={questionList.length}
+                  options={prefoptions}
+                  onChangeTest={handleChangeTest}
+                  countQuestions={quizData.questions ? quizData.length : 0}
+                  onChangeStatus={handleChangeStatus}
+                  onDeleteQuiz={handleDeleteQuiz}
                 />
               ) : null}
             </div>
