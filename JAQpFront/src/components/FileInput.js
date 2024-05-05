@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/fileinput.css";
-import { isNull } from "joi-browser";
+import { address } from "../http/apiIndex";
 
 const FileInput = ({ callback, imageUrl }) => {
   const inputRef = useRef();
   const handleCallback = () => callback(image, selectedFile, fileVariant);
-  const [image, setImage] = useState(imageUrl);
+  const [image, setImage] = useState(`${address}${imageUrl}`);
   const [selectedFile, setSelectedFile] = useState(
     image
       ? image.split("/").pop() === "null"
@@ -18,7 +18,11 @@ const FileInput = ({ callback, imageUrl }) => {
   const [fileVariant, setFileVariant] = useState(false);
   useEffect(() => {
     handleCallback();
+
   }, [image, selectedFile, fileVariant]);
+
+
+  
 
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -48,6 +52,7 @@ const FileInput = ({ callback, imageUrl }) => {
   const removeFile = () => {
     setImage(null);
     setSelectedFile(null);
+    setFileVariant(true);
     setShowImage(false);
   };
 

@@ -7,19 +7,19 @@ import { GetQuestion } from "../http/questionApi";
 import "../css/navquestions.css";
 import { GetQuestions } from "../http/quizApi";
 
-function Tabs({quizId }) {
+function Tabs({ quizId }) {
   const [active, setActive] = useState(1);
-  const [qlist, setqlist] = useState(
-  []);
+  const [qlist, setqlist] = useState([]);
 
-  useEffect(() => {  GetQuestions(quizId)
-    .then((res) => {
-      setqlist(res.data.questions);
-    })
-    .catch((error) => {
-      console.error("Error fetching quiz data:", error);
-    })
-}, [])
+  useEffect(() => {
+    GetQuestions(quizId)
+      .then((res) => {
+        setqlist(res.data.questions);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
+  }, []);
   const [tabs, setTabs] = useState([]);
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -73,7 +73,7 @@ function Tabs({quizId }) {
       .then((res) => {
         const newTabs = [...tabs, res.data].map((tab, index) => ({
           ...tab,
-          label: `Вопрос ${index +1}`,
+          label: `Вопрос ${index + 1}`,
         }));
         setTabs(newTabs);
         setActive(newTabs.length);
@@ -105,15 +105,14 @@ function Tabs({quizId }) {
       .catch((error) => {
         console.error("Error fetching quiz data:", error);
       });
-  }; 
+  };
 
   const handleChangedQuestion = (data) => {
-    for(var i =0; i< tabs.length; i++)
-    {
+    for (var i = 0; i < tabs.length; i++) {
       if (tabs[i].id == data.id) {
         tabs[i].description = data.description;
         tabs[i].image = data.image;
-        return;   
+        return;
       }
     }
   };

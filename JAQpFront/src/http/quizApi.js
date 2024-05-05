@@ -49,7 +49,9 @@ export const EditQuiz = async (_token, _id, _tags, _description, _name, _image, 
   formdata.append("tags", _tags);
   formdata.append("description", _description);
   formdata.append("name", _name);
-  formdata.append("thumbnail", _image, _imageName)
+  if (_image) {
+    formdata.append("thumbnail", _image, _imageName)  
+  }
   return apiHost.put(quizBase+"change/"+_id, formdata, {
     headers: {Authorization: 'Bearer '+ _token}
   })

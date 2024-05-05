@@ -30,3 +30,22 @@ export const EditQuestionWOImage = async (_token, _id, _desc) => {
     }
   );
 };
+
+export const EditQuestion = async (_token, _id, _desc, _image, _imageName) =>
+{
+  var formdata = new FormData();
+  if (_image) 
+  {
+    formdata.append("image", _image, _imageName)
+  }
+  formdata.append("content", _desc)
+  return apiHost.put(
+    questionBase + "change/" + _id,
+    formdata,
+    {
+      headers: { Authorization: "Bearer " + _token },
+    }
+  );
+  
+
+}

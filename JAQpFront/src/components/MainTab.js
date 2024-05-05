@@ -89,7 +89,7 @@ function MainTab({
           sanitizedDescription,
           sanitizedTitle,
           file,
-          file.name
+          file? file.name: null
         )
           .then((res) => {
             onChangeTest(res.data);
@@ -218,8 +218,9 @@ function MainTab({
               />
             </div>
           </div>
+          
           <div style={{ paddingTop: "14px", height: "100%" }}>
-            <FileInput callback={callback} imageUrl={`${address}${image}`} />
+            <FileInput callback={callback} imageUrl={image} />
           </div>
           <div
             className="main_tab_column_distributed_field"

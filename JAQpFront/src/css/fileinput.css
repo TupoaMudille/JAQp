@@ -1,8 +1,8 @@
 .file-btn {
   font-family: Futura PT;
-  min-width: 250px;
+  
   width: 100%;
-  min-height: 280px;
+  position: relative;
   font-size: 13px;
   font-weight: 500;
   display: flex;
@@ -17,7 +17,6 @@
   cursor: pointer;
   object-fit: cover;
   transition: all 0.3s ease;
-  width: 100%;
   object-fit: cover;
   height: 100%;
 }
@@ -53,6 +52,7 @@
   font-size: 14px;
   font-weight: 500;
   margin-left: 15px;
+  word-break: break-all;
 }
 
 .selected-file button {
