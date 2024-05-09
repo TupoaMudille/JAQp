@@ -7,11 +7,13 @@ import { EditQuestion } from "../http/questionApi";
 import { AddAnswer } from "../http/answerApi";
 import { GetAnswer } from "../http/answerApi";
 import { DeleteAnswer } from "../http/answerApi";
+import { ChangeAnswerWOImage } from "../http/answerApi";
+import { ChangeAnswer } from "../http/answerApi";
 
 import FileInput from "./FileInput";
 import "../css/tabcontent.css";
 import trashIcon from "../icons/trashCan.svg";
-import { toBeChecked } from "@testing-library/jest-dom/matchers";
+import questionIcon from "../icons/question.svg";
 
 function TabContent({
   answers,
@@ -29,9 +31,6 @@ function TabContent({
   const [initimage, setImage] = useState(image);
   const [initId, setInitId] = useState(id);
 
-  const [isChangedImage, setIsChangedImage] = useState(false);
-  const [file, setFile] = useState();
-
   useEffect(() => {
     setTitle(label);
 
@@ -46,7 +45,13 @@ function TabContent({
 
   const { handleSubmit } = useForm();
   const onSubmit = () => {
-    !isChangedImage
+    const divElement = document.getElementById(`${id}/questionInput`);
+    const fileInput = divElement.querySelector('input[type="file"]');
+    const selectedFile = fileInput.files[0];
+    const buttonElement = divElement.querySelector(".file-btn");
+    const backgroundImageUrl = buttonElement.style.backgroundImage;
+
+    !backgroundImageUrl.includes("blob") || backgroundImageUrl == null
       ? EditQuestionWOImage(
           localStorage.getItem("token"),
           initId,
@@ -62,8 +67,8 @@ function TabContent({
           localStorage.getItem("token"),
           initId,
           initdescription != null ? initdescription : "",
-          file,
-          file ? file.name : null
+          selectedFile,
+          selectedFile ? selectedFile.name : null
         )
           .then((res) => {
             onChangedQuestion(res.data);
@@ -73,11 +78,7 @@ function TabContent({
           });
   };
 
-  const callback = (image, file, fileVariant) => {
-    setImage(image);
-    setFile(file);
-    setIsChangedImage(fileVariant);
-  };
+  const callback = (image, file, fileVariant) => {};
 
   const handleDeleteQuestion = () => {
     onDeleteQuestion(id);
@@ -88,34 +89,64 @@ function TabContent({
   };
   /*--------------------------------------------------- */
 
-  // const handleImageChange = (event, answerId) => {
-  //   const updatedAnswers = initAnswers.map((answer) =>
-  //     answer.id === answerId ? { ...answer, image: event.target.value } : answer
-  //   );
-  //   setAnswers(updatedAnswers);
-  // };
+  const handleSaveAnswer = (answerId) => {
+    const divElement = document.getElementById(`${id}/answerInput/${answerId}`);
+    const fileInput = divElement.querySelector('input[type="file"]');
+    const selectedFile = fileInput.files[0];
+    const buttonElement = divElement.querySelector(".file-btn");
+    const backgroundImageUrl = buttonElement.style.backgroundImage;
+    const textarea = document.getElementById(
+      `${id}/answerDescription/${answerId}`
+    ).value;
+    const checkbox = document.getElementById(
+      `${id}/answerCheck/${answerId}`
+    ).checked;
+    console.log(checkbox);
+    !backgroundImageUrl.includes("blob") || backgroundImageUrl == null
+      ? ChangeAnswerWOImage(
+          localStorage.getItem("token"),
+          answerId,
+          textarea != null ? textarea : "",
+          checkbox
+        )
+          .then((res) => {
+            onChangedQuestion(res.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching quiz data:", error);
+          })
+      : ChangeAnswer(
+          localStorage.getItem("token"),
+          answerId,
+          textarea != null ? textarea : "",
+          checkbox,
+          selectedFile,
+          selectedFile ? selectedFile.name : null
+        )
+          .then((res) => {
+            onChangedQuestion(res.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching quiz data:", error);
+          });
+  };
 
-  // const handleDescriptionChange = (event, answerId) => {
-  //   const updatedAnswers = initAnswers.map((answer) =>
-  //     answer.id === answerId
-  //       ? { ...answer, description: event.target.value }
-  //       : answer
-  //   );
-  //   setAnswers(updatedAnswers);
-  // };
+  const handleDescriptionAnswerChange = (event, answerId) => {
+    const textarea = document.getElementById(
+      `${id}/answerDescription/${answerId}`
+    );
+
+    if (textarea) {
+      textarea.value = event.target.value;
+    }
+  };
 
   const handleCheckboxChange = (event, answerId) => {
-    console.log(`${id}/answerLabel/${answerId}`);
     document.getElementById(`${id}/answerLabel/${answerId}`).textContent = event
       .target.checked
       ? "Да"
       : "Нет";
   };
-
-  // const handleDeleteAnswer = (answerId) => {
-  //   const updatedAnswers = initAnswers.filter((answer) => answer.id !== answerId);
-  //   setAnswers(updatedAnswers);
-  // };
 
   const [answersData, setAnswersData] = useState([]);
 
@@ -194,6 +225,7 @@ function TabContent({
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="content_tab_whitecardwithspace">
           <div
+            id={`${id}/questionInput`}
             style={{ paddingTop: "14px", height: "100%", minHeight: "340px" }}
           >
             <FileInput key={initId} callback={callback} imageUrl={initimage} />
@@ -235,9 +267,9 @@ function TabContent({
       <div className="content_tab_whitecardwithspace">
         <div className="content_answer_block">
           {answersData.map((answerData, index) => (
-            <div key={index}>
+            <div key={answerData.id}>
               <button
-                onClick={() => handleDeleteAnswer(answerData.id)}
+                onClick={() => handleSaveAnswer(answerData.id)}
                 type="button"
                 className="content_tab_button"
                 style={{ marginBottom: "24px" }}
@@ -245,28 +277,29 @@ function TabContent({
                 OK
               </button>
               <div
+                id={`${id}/answerInput/${answerData.id}`}
                 style={{
                   paddingTop: "14px",
                   height: "100%",
                   width: "100%",
                 }}
               >
-                <FileInput
-                  //key={initId}
-                  callback={callback}
-                  //imageUrl={initimage}
-                />
+                <FileInput callback={callback} imageUrl={answerData.image} />
               </div>
-              <div class="omrs-input-group" style={{ marginTop: "24px" }}>
+              <div
+                class="omrs-input-group"
+                style={{ marginTop: "24px" }}
+                key={answerData.id}
+              >
                 <label class="omrs-input-filled">
                   <textarea
+                    id={`${id}/answerDescription/${answerData.id}`}
                     required
-                    value={initdescription ? initdescription : ""}
                     defaultValue={
-                      initdescription != null ? initdescription : ""
+                      answerData.content != null ? answerData.content : ""
                     }
                     onChange={(e) =>
-                      handleDescriptionQuestionChange(e.target.value)
+                      handleDescriptionAnswerChange(e, answerData.id)
                     }
                     style={{
                       maxHeight: "128px",
@@ -277,40 +310,43 @@ function TabContent({
                   <span class="omrs-input-label">Содержимое ответа</span>
                 </label>
               </div>
-              {/* <label>
-                  <input
-                    type="checkbox"
-                    checked={answerData.isCorr}
-                    //onChange={(e) => handleCheckboxChange(e, answer.id)}
-                  />
-                  
-                </label> */}
-                
-              <fieldset key={answerData.id}>
-                <legend>
-                  Ответ верный?<span>aaaa</span>
+              <fieldset>
+                <legend class="tooltip">
+                  Ответ верный?
+                  <svg
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      marginLeft: "14px",
+                    }}
+                  >
+                    <use xlinkHref={questionIcon + "#questionIcon"} />
+                  </svg>
+                  <span class="tooltip-text">
+                    Для создания опроса пометьте все ответы как верные
+                  </span>
                 </legend>
-                <div >
+                <div>
                   <input
                     type="checkbox"
                     id={`${id}/answerCheck/${answerData.id}`}
-                    
                     onChange={(e) => handleCheckboxChange(e, answerData.id)}
+                    defaultChecked={answerData.right}
                   ></input>
                   <label
                     for={`${id}/answerCheck/${answerData.id}`}
                     id={`${id}/answerLabel/${answerData.id}`}
                   >
-                    {answerData.isCorr ? "Да" : "Нет"}
+                    {answerData.right ? "Да" : "Нет"}
                   </label>
                 </div>
               </fieldset>
-              {console.log(document.getElementById(`${id}/answerLabel/${answerData.id}`))}
               <button
                 onClick={() => handleDeleteAnswer(answerData.id)}
                 type="button"
                 className="main_buttondelstate"
-                style={{ height: "38px", width: "38px", marginTop: "-180px" }}
+                style={{ height: "38px", width: "38px", marginTop: "-150px" }}
               >
                 <svg
                   xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -320,54 +356,6 @@ function TabContent({
                   <use xlinkHref={trashIcon + "#trashCan"} />
                 </svg>
               </button>
-              {/* <div>
-                  <div>
-                    <div>
-                      <p
-                        className="bold_text"
-                        style={{ float: "left", paddingLeft: "14px" }}
-                      >
-                        Содержимое ответа
-                      </p>
-                    </div>
-                    <div class="omrs-input-group" style={{}}>
-                      <label class="omrs-input-filled">
-                        <textarea
-                          required
-                          value={initdescription ? initdescription : ""}
-                          defaultValue={
-                            initdescription != null ? initdescription : ""
-                          }
-                          onChange={(e) =>
-                            handleDescriptionQuestionChange(e.target.value)
-                          }
-                          style={{ maxHeight: "260px" }}
-                        />
-                        <span class="omrs-input-label">Содержимое вопроса</span>
-                      </label>
-                    </div>
-                  </div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={answerData.isCorr}
-                      //onChange={(e) => handleCheckboxChange(e, answer.id)}
-                    />
-                    Correct answer
-                  </label>
-                  <button
-                    onClick={() => handleDeleteAnswer(answerData.id)}
-                    type="button"
-                  >
-                    <svg
-                      xmlnsXlink="http://www.w3.org/1999/xlink"
-                      style={{ width: "24px", height: "24px" }}
-                      className="trashIcon"
-                    >
-                      <use xlinkHref={trashIcon + "#trashCan"} />
-                    </svg>
-                  </button>
-                </div> */}
             </div>
           ))}
         </div>

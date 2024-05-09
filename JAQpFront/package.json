@@ -26,7 +26,9 @@
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
+    "react-slick": "^0.30.2",
     "react-token-auth": "^2.3.8",
+    "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },

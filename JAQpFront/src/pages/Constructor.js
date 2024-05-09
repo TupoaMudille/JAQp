@@ -19,8 +19,6 @@ import "../css/font.css";
 import "../css/constructor.css";
 
 function Constructor() {
-
-
   /* setterts */
   const [prefQuizList, setprefQuizList] = useState([]);
   const [prefoptions, setPrefOptions] = useState([]);
@@ -74,15 +72,15 @@ function Constructor() {
     GetOwnedByMe(localStorage.getItem("token"))
       .then((res) => {
         setprefQuizList(res.data.quizDataList);
+        setMainTab(true);
+        setQuizTab(false);
+        setTabs(false);
+        setQuizData(newQuiz);
+        setIdQuiz(newQuiz.id);
       })
       .catch((error) => {
         console.error("Error fetching quiz data:", error);
       });
-    setMainTab(true);
-    setQuizTab(false);
-    setTabs(false);
-    setQuizData(newQuiz);
-    setIdQuiz(newQuiz.id);
   };
 
   const handleChangeTest = (newQuiz) => {
@@ -106,16 +104,16 @@ function Constructor() {
           GetOwnedByMe(localStorage.getItem("token"))
             .then((res) => {
               setprefQuizList(res.data.quizDataList);
+              setIdQuiz(null);
+              setQuizData(null);
+              setprefQuizList([]);
+              setMainTab(false);
+              setQuizTab(true);
+              setTabs(false);
             })
             .catch((error) => {
               console.error("Error fetching quiz data:", error);
             });
-          setIdQuiz(null);
-          setQuizData(null);
-          setprefQuizList([]);
-          setMainTab(false);
-          setQuizTab(true);
-          setTabs(false);
         } else console.log(res);
       })
       .catch((error) => {
@@ -305,7 +303,7 @@ function Constructor() {
                   quizData={quizData}
                   options={prefoptions}
                   onChangeTest={handleChangeTest}
-                  countQuestions={quizData.questions ? quizData.length : 0}
+                  countQuestions={initialAnswers ? initialAnswers.length : 0}
                   onChangeStatus={handleChangeStatus}
                   onDeleteQuiz={handleDeleteQuiz}
                 />

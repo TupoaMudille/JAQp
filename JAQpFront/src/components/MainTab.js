@@ -227,10 +227,7 @@ function MainTab({
             style={{ width: "192px" }}
           >
             <div style={{ float: "right" }}>
-              <div className="main_tab_flex_width_distributed_field">
-                <div className="bold_text">Вопросов: </div>
-                <div className="bold_text">{countQuestions}</div>
-              </div>
+              
               <div>
                 <div
                   style={{

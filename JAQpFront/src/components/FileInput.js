@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/fileinput.css";
 import { address } from "../http/apiIndex";
+import imageIcon from "../icons/image.svg";
 
 const FileInput = ({ callback, imageUrl }) => {
   const inputRef = useRef();
@@ -14,15 +15,15 @@ const FileInput = ({ callback, imageUrl }) => {
       : null
   );
 
-  const [showImage, setShowImage] = useState(false);
+  const [showImage, setShowImage] = useState(image
+    ? image.split("/").pop() === "null"
+      ? false
+      : true
+    : false);
   const [fileVariant, setFileVariant] = useState(false);
   useEffect(() => {
     handleCallback();
-
   }, [image, selectedFile, fileVariant]);
-
-
-  
 
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -54,6 +55,12 @@ const FileInput = ({ callback, imageUrl }) => {
     setSelectedFile(null);
     setFileVariant(true);
     setShowImage(false);
+
+    inputRef.current.value = '';
+
+    if (image) {
+        URL.revokeObjectURL(image);
+    }
   };
 
   return (
@@ -69,21 +76,31 @@ const FileInput = ({ callback, imageUrl }) => {
         className="file-btn"
         type="button"
         style={{
-          backgroundImage: selectedFile != null ? `url(${image})` : selectedFile,
+          backgroundImage:
+            selectedFile != null ? `url(${image})` : selectedFile,
           backgroundSize: "cover",
           backgroundOrigin: "revert",
         }}
         onClick={onChooseFile}
       >
         {!showImage ? (
-          <div>
+          <div className="inputBlock">
             <span
               className="material-symbols-rounded"
               style={{ marginLeft: "auto", marginRight: "auto" }}
             >
               Загрузить изображение
             </span>
-            JPG, PNG или GIF (MAX. 25Мб)
+            <p>JPG, PNG или GIF (MAX. 25Мб)</p>
+            <svg
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              style={{
+                width: "68px",
+                height: "68px",
+              }}
+            >
+              <use xlinkHref={imageIcon + "#imageIcon"} />
+            </svg>
           </div>
         ) : null}
       </button>

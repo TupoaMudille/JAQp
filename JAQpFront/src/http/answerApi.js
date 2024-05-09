@@ -26,3 +26,29 @@ export const DeleteAnswer = async (_token, _id) =>
       headers: {Authorization: 'Bearer '+ _token}
     })
   }
+
+  
+export const ChangeAnswerWOImage = async (_token, _id, _description, _isRight) =>
+  {
+    var formdata = new FormData()
+    formdata.append("is_right", _isRight);
+    formdata.append("content", _description);
+    return apiHost.put(answerBase+"change_wo_image/"+_id, formdata, {
+      headers: {Authorization: 'Bearer '+ _token}
+    })
+
+  }
+
+export const ChangeAnswer = async (_token, _id, _description, _isRight, _image, _imageName) =>
+    {
+      var formdata = new FormData()
+      formdata.append("is_right", _isRight);
+      formdata.append("content", _description);
+      if (_image) {
+        formdata.append("image", _image, _imageName)  
+      }
+      return apiHost.put(answerBase+"change/"+_id, formdata, {
+        headers: {Authorization: 'Bearer '+ _token}
+      })
+  
+    }
