@@ -9,8 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ChangeAnswerRequest
+public class SearchRequest
 {
-    private String content;
-    private Boolean is_right;
+    private String text;
+    private String tags;
+    private Integer page;
 }

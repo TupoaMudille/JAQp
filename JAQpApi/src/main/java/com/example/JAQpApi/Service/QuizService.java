@@ -12,6 +12,11 @@ import com.example.JAQpApi.Exceptions.NotFoundException;
 import com.example.JAQpApi.Repository.ImageMetadataRepo;
 import com.example.JAQpApi.Repository.QuizRepo;
 import com.example.JAQpApi.Repository.TagRepo;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -32,10 +37,11 @@ public class QuizService
 
     private final TagRepo tagRepo;
 
+
     private QuizResponse QuizResponseFactory(Quiz _quiz)
     {
 
-        List<String> tags = null;
+        List<String> tags = new ArrayList<String>();
         if(_quiz.getTags() != null)
         {
             for (Tag tag : _quiz.getTags())
@@ -53,6 +59,13 @@ public class QuizService
                 .build();
     }
 
+
+    @CacheEvict(value = "QuizService::GetOwnedById", key = "#_id")
+    private void CacheEvicted(Integer _id)
+    {
+        return;
+    }
+
     public QuizService(QuizRepo quizRepo, ImageMetadataRepo imageMetadataRepo, AuthService authService, ImageService imageService, @Lazy QuestionService questionService, TagRepo tagRepo, UserService userService)
     {
         this.quizRepo = quizRepo;
@@ -64,6 +77,7 @@ public class QuizService
         this.userService = userService;
     }
 
+    @CacheEvict(value = "QuizService::GetQuestions", key = "#_id")
     public Optional<Quiz> ValidateAccessAndGetQuiz(String _token, Integer _id) throws AccessDeniedException, NotFoundException
     {
         Quiz result = quizRepo.findById(_id).orElseThrow(() -> new NotFoundException("Quiz", "id", _id.toString()));
@@ -74,6 +88,7 @@ public class QuizService
         throw new AccessDeniedException("Access denied");
     }
 
+    @CacheEvict(value = "QuizService::GetOwnedByToken", key = "#_token")
     public QuizResponse CreateQuiz(String _token, QuizCreateRequest _request) throws NotFoundException, ImageException
     {
         ImageMetadata thumnail = null;
@@ -92,9 +107,11 @@ public class QuizService
                 .isPublic(false)
                 .build();
         quiz = quizRepo.save(quiz);
+        CacheEvicted(owner.getId());
         return QuizResponseFactory(quiz);
     }
 
+    @Cacheable(value = "QuizService::GetOwnedByToken", key = "#_token")
     public OwnedQuizListResponse GetOwnedQuiz(String _token) throws NotFoundException
     {
         User owner = authService.GetUserByToken(_token);
@@ -112,6 +129,7 @@ public class QuizService
     }
 
 
+    @Cacheable(value = "QuizService::GetOwnedById", key = "#_id")
     public OwnedQuizListResponse GetOwnedQuiz(Integer _id) throws NotFoundException
     {
         User owner = userService.GetUserById(_id);
@@ -131,11 +149,15 @@ public class QuizService
         }
         return new OwnedQuizListResponse(list);
     }
+
+
+    @Cacheable(value = "QuizService::GetQuestions", key = "#_id")
     public QuestionsOfQuizResponse GetQuestionsOfQuiz(Integer _id) throws NotFoundException
     {
         return QuestionsOfQuizResponse.toDto(quizRepo.findById(_id).orElseThrow(() -> new NotFoundException("")).getQuestions());
     }
 
+    @Cacheable(value = "QuizService::GetById", key = "#_id")
     public QuizResponse GetQuiz(Integer _id) throws NotFoundException
     {
         Quiz quiz = quizRepo.findById(_id).orElseThrow(() -> new NotFoundException(""));
@@ -143,9 +165,14 @@ public class QuizService
     }
 
 
+    @Caching(evict = {
+            @CacheEvict(value = "QuizService::GetById", key = "#_id"),
+            @CacheEvict(value = "QuizService::GetOwnedByToken", key = "#_token")
+    })
     public void DeleteQuiz(String _token, Integer _id) throws AccessDeniedException, NotFoundException, ImageException
     {
         Quiz quiz = ValidateAccessAndGetQuiz(_token, _id).orElseThrow(() -> new NotFoundException("Quiz", "id", _id.toString()));
+        CacheEvicted(quiz.getOwner().getId());
         List<Question> questions = quiz.getQuestions();
         ImageMetadata imageMetadata = quiz.getThumbnail();
         for (Question question : questions)
@@ -161,11 +188,14 @@ public class QuizService
         Quiz quiz = ValidateAccessAndGetQuiz(_token, _id).orElseThrow(() -> new NotFoundException("Quiz", "id", _id.toString()));
         quiz.setDescription(_description);
         quiz.setName(_name);
-        quiz.setTags((List<Tag>) tagRepo.findAllById(_tags));
+        quiz.setTags((List<Tag>) tagRepo.findAllById((_tags == null) ? new ArrayList<>() : _tags));
         return quiz;
     }
 
-    public QuizResponse ChangeQuiz(String _token, QuizCreateRequest _request, Integer _id) throws AccessDeniedException, NotFoundException, ImageException
+    @Caching(evict = {
+            @CacheEvict(value = "QuizService::GetById", key = "#_id"),
+            @CacheEvict(value = "QuizService::GetOwnedByToken", key = "#_token")
+    })public QuizResponse ChangeQuiz(String _token, QuizCreateRequest _request, Integer _id) throws AccessDeniedException, NotFoundException, ImageException
     {
         Quiz quiz = ChangeQuiz(_token, _id, _request.getName(), _request.getDescription(), _request.getTags());
         ImageMetadata imageMetadata = quiz.getThumbnail();
@@ -174,21 +204,31 @@ public class QuizService
         imageMetadata = imageService.ChangeImage(imageMetadata, _token, _request.getThumbnail());
         quiz.setThumbnail(imageMetadata);
         quizRepo.save(quiz);
+        CacheEvicted(quiz.getOwner().getId());
         return QuizResponseFactory(quiz);
     }
 
-    public QuizResponse ChangeQuiz(String _token, QuizChangeRequest _request, Integer _id) throws AccessDeniedException, NotFoundException
+    @Caching(evict = {
+            @CacheEvict(value = "QuizService::GetById", key = "#_id"),
+            @CacheEvict(value = "QuizService::GetOwnedByToken", key = "#_token")
+    })public QuizResponse ChangeQuiz(String _token, QuizChangeRequest _request, Integer _id) throws AccessDeniedException, NotFoundException
     {
         Quiz quiz = ChangeQuiz(_token, _id, _request.getName(), _request.getDescription(), _request.getTags());
         quizRepo.save(quiz);
+        CacheEvicted(quiz.getOwner().getId());
         return QuizResponseFactory(quiz);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "QuizService::GetById", key = "#_id"),
+            @CacheEvict(value = "QuizService::GetOwnedByToken", key = "#_token")
+    })
     public QuizResponse TogglePublic(String _token, Integer _id) throws AccessDeniedException, NotFoundException
     {
         Quiz quiz = ValidateAccessAndGetQuiz(_token, _id).orElseThrow(() -> new NotFoundException("Quiz", "id", _id.toString()));
         quiz.setIsPublic(!quiz.getIsPublic());
         quizRepo.save(quiz);
+        CacheEvicted(quiz.getOwner().getId());
         return QuizResponseFactory(quiz);
     }
 }
