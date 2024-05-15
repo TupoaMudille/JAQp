@@ -17,6 +17,8 @@ public class TagService
 {
     private TagRepo tagRepo;
 
+    private final SearchService searchService;
+
     public void InitTags()
     {
         String[] tags = { "medicine", "music", "history", "science", "psychology", "travel", "art", "technology", "education", "literature", "sports", "cinema", "food", "languages", "animals", "politics", "religion", "games", "fashion", "architecture", "gardening", "business", "cars", "writing", "creativity", "dance", "photography", "environment"};

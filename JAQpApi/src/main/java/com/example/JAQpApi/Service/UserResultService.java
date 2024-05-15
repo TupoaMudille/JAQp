@@ -1,5 +1,7 @@
 package com.example.JAQpApi.Service;
 
+
+import com.example.JAQpApi.DTO.QuizData;
 import com.example.JAQpApi.DTO.UserResultsData;
 import com.example.JAQpApi.DTO.UserResultsResponse;
 import com.example.JAQpApi.Entity.Quiz.Answer;
@@ -29,8 +31,12 @@ public class UserResultService
     private final AuthService authService;
 
 
+
+
+
     public void MakeAnswer(Integer _id, String _token) throws NotFoundException
     {
+
         User user = null;
         if(_token != null)
         {
@@ -62,7 +68,16 @@ public class UserResultService
             {
                 continue;
             }
-            result.add(new UserResultsData(userResult.getQuiz().getId(), userResult.getResult(), userResult.getCreatedAt()));
+            result.add(UserResultsData.builder()
+                    .result(userResult.getResult())
+                    .createdAt(userResult.getCreatedAt())
+                    .quizData(QuizData.builder()
+                            .name(userResult.getQuiz().getName())
+                            .description(userResult.getQuiz().getDescription())
+                            .id(userResult.getQuiz().getId())
+                            .image((userResult.getQuiz().getThumbnail() == null) ? "" : userResult.getQuiz().getThumbnail().getName())
+                            .build())
+                    .build());
         }
         return new UserResultsResponse(result);
     }
