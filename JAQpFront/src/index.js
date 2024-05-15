@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Constructor from "./pages/Constructor";
 import reportWebVitals from "./reportWebVitals";
 import "./fonts/FuturaPT-Medium.ttf";
+import QuizResult from "./pages/QuizResult";
 export const history = createBrowserHistory();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -23,6 +24,7 @@ root.render(
       <Route exact path="/main" element={<Main />} />
       <Route exact path="/constructor" element={<Constructor />} />
       <Route exact path="/settingsId=?" element={<Settings />} />
+      <Route exact path="/quiz/:id/result" element={<QuizResult />} />
       <Route exact path="/quiz/:id/question/:idquestion" element={<QuizAnswers />} />
       <Route exact path="/quiz/:id" element={<QuizMain />} />
     </Routes>

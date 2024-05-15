@@ -11,19 +11,19 @@ import "../css/font.css";
 import emptyQuizIcon from "../icons/emptyQuiz.svg";
 
 function Quiz() {
-  const { id } = useParams();
-  const [quizData, setQuizData] = useState(null);
-  const [questions, setQuestions] = useState(null);
-  const navigate = useNavigate();
-  
-
+  /* navigate */
   const goToQuiz = () => {
     const questionIds =
       JSON.parse(sessionStorage.getItem(`questions_${id}`)) || [];
 
     navigate(`/quiz/${id}/question/${questionIds.questions[0]}`);
   };
-
+  /* setters */
+  const { id } = useParams();
+  const [quizData, setQuizData] = useState(null);
+  const [questions, setQuestions] = useState(null);
+  const navigate = useNavigate();
+  
   useEffect(() => {
     async function fetchQuizData() {
       try {

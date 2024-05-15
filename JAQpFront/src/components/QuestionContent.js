@@ -11,9 +11,12 @@ import { ChangeAnswerWOImage } from "../http/answerApi";
 import { ChangeAnswer } from "../http/answerApi";
 
 import FileInput from "./FileInput";
-import "../css/tabcontent.css";
+import MessageAlert from "../components/alerts/MessageAlert";
+
 import trashIcon from "../icons/trashCan.svg";
 import questionIcon from "../icons/question.svg";
+
+import "../css/tabcontent.css";
 
 function TabContent({
   answers,
@@ -24,11 +27,22 @@ function TabContent({
   onDeleteQuestion,
   onChangedQuestion,
 }) {
-  const [initAnswers, setAnswers] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  /* visual */
+  const handleShowAlert = () => {
+    setShowAlert(true);
+  };
 
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+  
+  /*------------------------question--------------------------- */
+  /* setters */
+  const [initAnswers, setAnswers] = useState([]);
   const [inittitle, setTitle] = useState(label);
   const [initdescription, setDescription] = useState(description);
-  const [initimage, setImage] = useState(image);
+  const [initimage, setImage] = useState(image?image:null);
   const [initId, setInitId] = useState(id);
 
   useEffect(() => {
@@ -36,14 +50,25 @@ function TabContent({
 
     if (id !== undefined)
       GetQuestion(id).then((res) => {
-        setAnswers(res.data.answers != undefined ? res.data.answers : []);
+        setAnswers(res.data.answers !== undefined ? res.data.answers : []);
         setDescription(res.data.description);
         setImage(res.data.image);
         setInitId(id);
       });
   }, [answers, description, label, image, id]);
-
   const { handleSubmit } = useForm();
+
+  /* func */
+  const handleDescriptionQuestionChange = (event) => {
+    setDescription(event);
+  };
+  const handleIsDelete = (isDelete) => {
+    handleShowAlert();
+    if (isDelete === true) {
+      onDeleteQuestion(id);
+      handleCloseAlert();
+    }
+  };
   const onSubmit = () => {
     const divElement = document.getElementById(`${id}/questionInput`);
     const fileInput = divElement.querySelector('input[type="file"]');
@@ -78,17 +103,29 @@ function TabContent({
           });
   };
 
+  /*♿*/
   const callback = (image, file, fileVariant) => {};
+  /*-------------------------answers-------------------------- */
+  /* setters */
+  const [answersData, setAnswersData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const updatedAnswersData = [];
+      for (const answer of initAnswers) {
+        try {
+          var res = await GetAnswer(answer);
+          updatedAnswersData.push(res.data);
+        } catch (error) {
+          console.error("Error fetching answer data:", error);
+        }
+      }
+      setAnswersData(updatedAnswersData);
+    };
 
-  const handleDeleteQuestion = () => {
-    onDeleteQuestion(id);
-  };
+    fetchData();
+  }, [initAnswers]);
 
-  const handleDescriptionQuestionChange = (event) => {
-    setDescription(event);
-  };
-  /*--------------------------------------------------- */
-
+  /* func */
   const handleSaveAnswer = (answerId) => {
     const divElement = document.getElementById(`${id}/answerInput/${answerId}`);
     const fileInput = divElement.querySelector('input[type="file"]');
@@ -101,7 +138,6 @@ function TabContent({
     const checkbox = document.getElementById(
       `${id}/answerCheck/${answerId}`
     ).checked;
-    console.log(checkbox);
     !backgroundImageUrl.includes("blob") || backgroundImageUrl == null
       ? ChangeAnswerWOImage(
           localStorage.getItem("token"),
@@ -148,25 +184,6 @@ function TabContent({
       : "Нет";
   };
 
-  const [answersData, setAnswersData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const updatedAnswersData = [];
-      for (const answer of initAnswers) {
-        try {
-          var res = await GetAnswer(answer);
-          updatedAnswersData.push(res.data);
-        } catch (error) {
-          console.error("Error fetching answer data:", error);
-        }
-      }
-      setAnswersData(updatedAnswersData);
-    };
-
-    fetchData();
-  }, [initAnswers]);
-
   const handleAddAnswer = () => {
     AddAnswer(localStorage.getItem("token"), initId)
       .then((res) => {
@@ -181,7 +198,7 @@ function TabContent({
   const handleDeleteAnswer = (id) => {
     DeleteAnswer(localStorage.getItem("token"), id)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           const newAnswers = initAnswers.filter((answerId) => answerId !== id);
           setAnswers(newAnswers);
         }
@@ -193,6 +210,15 @@ function TabContent({
 
   return (
     <div className="content_tab_statebar">
+      {showAlert && (
+        <MessageAlert
+          variant="danger"
+          message="Вы действительно хотите удалить аккаунт? Действие нельзя отменить"
+          title="Вы уверены?"
+          onCancel={handleCloseAlert}
+          onDelete={handleIsDelete}
+        />
+      )}
       <div
         style={{
           marginBottom: "36px",
@@ -210,7 +236,7 @@ function TabContent({
           type="button"
           className="main_buttondelstate"
           style={{ marginLeft: "60%" }}
-          onClick={handleDeleteQuestion}
+          onClick={handleIsDelete}
         >
           <svg
             xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -238,6 +264,7 @@ function TabContent({
               <label class="omrs-input-filled">
                 <textarea
                   required
+                  maxLength={255}
                   value={initdescription ? initdescription : ""}
                   defaultValue={initdescription != null ? initdescription : ""}
                   onChange={(e) =>
@@ -295,6 +322,7 @@ function TabContent({
                   <textarea
                     id={`${id}/answerDescription/${answerData.id}`}
                     required
+                    maxLength={255}
                     defaultValue={
                       answerData.content != null ? answerData.content : ""
                     }

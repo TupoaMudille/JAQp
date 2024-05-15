@@ -1,7 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../css/fileinput.css";
+
 import { address } from "../http/apiIndex";
+
 import imageIcon from "../icons/image.svg";
+
+import "../css/fileinput.css";
+
 
 const FileInput = ({ callback, imageUrl }) => {
   const inputRef = useRef();
@@ -15,16 +19,15 @@ const FileInput = ({ callback, imageUrl }) => {
       : null
   );
 
-  const [showImage, setShowImage] = useState(image
-    ? image.split("/").pop() === "null"
-      ? false
-      : true
-    : false);
+  const [showImage, setShowImage] = useState(
+    image ? (image.split("/").pop() === "null" ? false : true) : false
+  );
   const [fileVariant, setFileVariant] = useState(false);
   useEffect(() => {
     handleCallback();
-  }, [image, selectedFile, fileVariant]);
+  });
 
+  /* func */
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -56,10 +59,10 @@ const FileInput = ({ callback, imageUrl }) => {
     setFileVariant(true);
     setShowImage(false);
 
-    inputRef.current.value = '';
+    inputRef.current.value = "";
 
     if (image) {
-        URL.revokeObjectURL(image);
+      URL.revokeObjectURL(image);
     }
   };
 
@@ -69,7 +72,7 @@ const FileInput = ({ callback, imageUrl }) => {
         type="file"
         ref={inputRef}
         onChange={handleOnChange}
-        accept=".jpg, .gif, .png"
+        accept=".jpeg, .gif, .png"
         style={{ display: "none" }}
       />
       <button
@@ -91,7 +94,7 @@ const FileInput = ({ callback, imageUrl }) => {
             >
               Загрузить изображение
             </span>
-            <p>JPG, PNG или GIF (MAX. 25Мб)</p>
+            <p>JPEG, PNG или GIF (MAX. 25Мб)</p>
             <svg
               xmlnsXlink="http://www.w3.org/1999/xlink"
               style={{

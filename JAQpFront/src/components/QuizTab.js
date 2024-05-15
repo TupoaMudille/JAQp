@@ -17,39 +17,16 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
 
   useEffect(() => {}, [selectId]);
 
-  // const handleDelete = (id) => {
-  //   setDeleteItemId(id);
-  // };
-
+  /* func */
   const handleSelectId = (id) => {
     setSelectId(id);
-    GetQuizById(id).then((res) => {
-      onSelectId(res.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching quiz data:", error);
-    });
-  };
-
-  // const handleConfirmDelete = () => {
-  //   onDeleteItem(deleteItemId);
-  //   setDeleteItemId(null);
-  //   setShowModal(false);
-  //   document.body.style.overflow = "";
-  //   const overlay = document.querySelector(".overlay");
-  //   if (overlay) {
-  //     overlay.parentNode.removeChild(overlay);
-  //   }
-  // };
-
-  const handleCancelDelete = () => {
-    setDeleteItemId(null);
-    setShowModal(false);
-    document.body.style.overflow = "";
-    const overlay = document.querySelector(".overlay");
-    if (overlay) {
-      overlay.parentNode.removeChild(overlay);
-    }
+    GetQuizById(id)
+      .then((res) => {
+        onSelectId(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching quiz data:", error);
+      });
   };
 
   const handleAddTest = () => {
@@ -62,9 +39,13 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
       });
   };
 
-  const listItems = arrtest.map((testname,index) => (
+  const listItems = arrtest.map((testname, index) => (
     <div className="card" key={index}>
-      <img src={testname.image == null ? emptyQuizIcon:address+testname.image} alt="" className="card__img" />
+      <img
+        src={testname.image == null ? emptyQuizIcon : address + testname.image}
+        alt=""
+        className="card__img"
+      />
       <span className="card__footer">
         <div class="background"></div>
         <div className="quizname">{testname.name}</div>

@@ -18,59 +18,14 @@
   background: none;
 }
 
-/* .toolsmenu {
-  align-items: safe center;
-  height: 68px;
-  background: #0c4f82;
-  display: flex;
-  width: 100%;
-  z-index: 10;
-  top: 0;
-  align-self: flex-start;
-  text-align: center;
-  position: sticky;
-} */
-
-/* .menubutton {
-  background: #0c4f82;
-  padding: 21px;
-  font-family: Futura PT;
-  font-size: large;
-  color: #fff;
-  border: none;
-  height: 100%;
-  white-space: nowrap;
-  min-width: 148px;
-  border: 1px outset #3d77a3;
-  cursor: pointer;
-} */
-
-/* .menubutton:hover {
-  background: #1e659b;
-} */
-
-/* .const_text {
-  color: #ffffff;
-  margin: auto;
-  font-family: Futura PT;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 450;
-  line-height: normal;
-} */
 
 .space {
   position: relative;
   text-align: center;
-  height: calc(100vh - 56px); /* пересчитать потом для вкладок*/
+  height: calc(100vh - 56px);
   overflow-y: scroll;
   overflow-x: scroll;
 }
-
-/* .nav ul {
-  margin: 0;
-  padding: 0;
-} */
 
 .selected .constructorIcon {
   stroke: hsl(var(--quite-gray));
@@ -125,10 +80,6 @@ ol {
   margin-right: auto;
 }
 
-/* ========
-  Navbar
- ======== */
-
 #navbar {
   top: 56;
   padding: 0;
@@ -177,7 +128,7 @@ ol {
   height: 2em;
   fill: hsl(var(--white));
 }
-/* Navbar Items */
+
 .navbar-item {
   padding: 0 0.5em;
   width: 100%;

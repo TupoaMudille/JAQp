@@ -1,6 +1,7 @@
+import Media from "react-media";
 import LongMenu from "./LongMenu";
 import BurgerMenu from "./BurgerMenu";
-import Media from "react-media";
+
 
 function Menu() {
   return (

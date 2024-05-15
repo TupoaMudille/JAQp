@@ -5,7 +5,7 @@ export const GetOwnedByMe = async (_token) =>
 {
     return apiHost.get(quizBase+"get_owned", {
         headers: {
-          Authorization: 'Bearer ' + _token //the token is a variable which holds the token
+          Authorization: 'Bearer ' + _token
         }
        })
 }
@@ -15,7 +15,7 @@ export const CreateNewQuiz = async (_token) =>
   var formdata = new FormData();
   return apiHost.post(quizBase+"create", formdata, {
     headers: {
-      Authorization: 'Bearer ' + _token //the token is a variable which holds the token
+      Authorization: 'Bearer ' + _token
     }
    })
 }

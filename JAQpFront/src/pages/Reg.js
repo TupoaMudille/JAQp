@@ -67,6 +67,7 @@ function Reg() {
               <input
                 placeholder="Логин"
                 className="reg_input"
+                maxLength={255}
                 {...register("email", {
                   required: "* Обязательное поле",
                 })}
@@ -83,6 +84,7 @@ function Reg() {
                 placeholder="Пароль"
                 className="reg_input"
                 type="password"
+                
                 {...register("password", {
                   required: "* Обязательное поле",
                   pattern: {

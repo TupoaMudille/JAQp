@@ -126,6 +126,7 @@
   cursor: pointer;
 }
 
+
 .auth_textbutton:hover {
   color: #5d5d5d;
   text-decoration: underline;

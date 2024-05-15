@@ -44,7 +44,7 @@
   font-size: large;
   border: none;
   width: 250px;
-  
+
   color: #fff;
   background: blue;
   margin-top: 24px;
@@ -62,12 +62,13 @@
   font-weight: 500;
   color: #031757;
   position: relative;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.089); /* тень, создающая эффект погруженности */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.089);
   transform: translateY(2px);
   background: rgba(255, 255, 255, 0.445);
-  text-indent: 20px; /* устанавливаем отступ для красной строки */
+  text-indent: 20px;
   text-align: left;
-  overflow: hidden; /* скрываем текст, выходящий за пределы блока */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .quizname {
@@ -80,7 +81,8 @@
   position: relative;
   font-weight: 700;
   text-align: left;
-  overflow: hidden; /* скрываем текст, выходящий за пределы блока */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card {
@@ -103,7 +105,7 @@
   height: 100%;
   background: hsl(0 0% 100% / 0.5);
   backdrop-filter: blur(var(--blur));
-  transform: rotate(14deg); /* Поворот наискосок */
+  transform: rotate(14deg);
 }
 
 .card__img {

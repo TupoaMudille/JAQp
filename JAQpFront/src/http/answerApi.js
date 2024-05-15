@@ -9,7 +9,7 @@ export const AddAnswer = async (_token, _id) =>
 
     return apiHost.post(answerBase + "add", formdata, {
         headers: {
-          Authorization: "Bearer " + _token, //the token is a variable which holds the token
+          Authorization: "Bearer " + _token,
         },
       });
 

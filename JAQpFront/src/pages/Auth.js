@@ -50,7 +50,7 @@ function Auth() {
   const handleSubmit = (e) => {
     e.preventDefault();
     LoginUser(login, password).then((result) => {
-      if (result != isNull) {
+      if (result !== isNull) {
         localStorage.setItem("token", result.data.jwtToken);
         localStorage.setItem("idUser", result.data.id);
         localStorage.setItem("userName", result.data.username);

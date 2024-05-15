@@ -1,8 +1,8 @@
-.tabs-container{
+.tabs-container {
   margin-left: -15%;
   display: grid;
   padding-right: 28px;
-  grid-template-columns: repeat(auto-fill,minmax(1024px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(1024px, 1fr));
 }
 
 .navquestions {
@@ -38,8 +38,6 @@
   height: 28px;
   white-space: nowrap;
 }
-
-
 
 .prev-btn {
   position: absolute;
@@ -81,20 +79,16 @@
   color: #fff;
   font-family: Futura PT;
 }
-/*----------------------------*/
 
- .card {
-  
+.card {
   background-color: white;
- 
-  
 }
 .tabs {
   text-align: left;
   position: relative;
   height: 43px;
 }
-.tabs button{
+.tabs button {
   border: none;
   background: none;
   margin: none;
@@ -132,7 +126,7 @@
 
 .tabs input + label {
   margin: 12px -8px;
-  
+
   transition: all 0.3s;
   text-align: center;
   border: none;
@@ -154,7 +148,6 @@
   letter-spacing: 0.1666666667em !important;
   background: hsl(232deg 6% 17%);
   cursor: pointer;
-  
 }
 
 .content {
@@ -169,7 +162,6 @@
   border-top: 1px solid #3b3d3f;
   background: hsl(232deg 16% 15%);
   position: relative;
-  
 }
 
 .container .card {
@@ -177,10 +169,10 @@
   position: fixed;
   border: none;
   left: 50px;
-  top:32px;
+  top: 32px;
   width: calc(100%);
   min-width: calc(100%);
-  max-width: calc(100% );
+  max-width: calc(100%);
   z-index: 4;
   padding-left: 56px;
   background: linear-gradient(#141e30, #243b55);
@@ -208,6 +200,3 @@
   margin: auto !important;
   padding: 0;
 }
-
-
-

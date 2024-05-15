@@ -7,7 +7,7 @@ import { GetUserGeneral } from "../http/userApi";
 import { SetUserGeneral } from "../http/userApi";
 
 import Menu from "../components/Menu";
-import DeleteAlert from "../components/alerts/DeleteAlert";
+import MessageAlert from "../components/alerts/MessageAlert";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
@@ -32,9 +32,6 @@ function UserSettings() {
     setprefLastName(res.data.lastName);
     setprefStartDate(res.data.birthDate);
   });
-  const [firstName, setFirstName] = useState("");
-  const [secondName, setSecondName] = useState("");
-  const [lastName, setLastName] = useState("");
 
   registerLocale("ru", ru);
   setDefaultLocale("ru");
@@ -42,6 +39,10 @@ function UserSettings() {
   /* visual */
   const handleShowAlert = () => {
     setShowAlert(true);
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   };
 
   /* form */
@@ -68,9 +69,11 @@ function UserSettings() {
       <div className="settings_workspace">
         <div>
           {showAlert && (
-            <DeleteAlert
+            <MessageAlert
               variant="danger"
               message="Вы действительно хотите удалить аккаунт? Действие нельзя отменить"
+              title="Вы уверены?"
+              onCancel={handleCloseAlert}
             />
           )}
           <div
@@ -91,7 +94,7 @@ function UserSettings() {
                       required
                       id="firstName"
                       defaultValue={preffirstName}
-                      onChange={(e) => setFirstName(e.target.value)}
+                      maxLength={255}
                     />
                     <span class="omrs-input-label">Имя</span>
                     <svg
@@ -115,7 +118,7 @@ function UserSettings() {
                       required
                       id="secondName"
                       defaultValue={prefsecondName}
-                      onChange={(e) => setSecondName(e.target.value)}
+                      maxLength={255}
                     />
                     <span class="omrs-input-label">Фамилия</span>
                     <svg
@@ -139,7 +142,7 @@ function UserSettings() {
                       required
                       id="lastName"
                       defaultValue={preflastName}
-                      onChange={(e) => setLastName(e.target.value)}
+                      maxLength={255}
                     />
                     <span class="omrs-input-label">Отчество</span>
                     <svg
@@ -156,7 +159,10 @@ function UserSettings() {
                   </label>
                 </div>
               </div>
-              <div className="settings_evenly_distributed_field">
+              <div
+                className="settings_evenly_distributed_field"
+                style={{ marginLeft: "-56px" }}
+              >
                 <p
                   className="settings_help_text"
                   style={{
@@ -171,6 +177,7 @@ function UserSettings() {
                   <label class="omrs-input-filled">
                     <DatePicker
                       /*date null fix*/
+
                       defaultValue={prefstartDate}
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
@@ -188,7 +195,15 @@ function UserSettings() {
                   </label>
                 </div>
               </div>
-              <button className="settings_button" style={{marginTop:"48px", marginLeft:"14px", marginRight:"14px"}} type="submit">
+              <button
+                className="settings_button"
+                style={{
+                  marginTop: "48px",
+                  marginLeft: "14px",
+                  marginRight: "14px",
+                }}
+                type="submit"
+              >
                 Сохранить
               </button>
             </div>

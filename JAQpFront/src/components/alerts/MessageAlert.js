@@ -3,10 +3,20 @@ import { Alert } from "react-bootstrap";
 
 import "../../css/messagealert.css";
 
-const MessageAlert = ({ variant, message }) => {
+const MessageAlert = ({ variant, message, title, onCancel, onDelete }) => {
   const [show, setShow] = useState(true);
 
   const handleClose = () => setShow(false);
+
+  const handleDelete = () => {
+    onDelete(true);
+    handleClose();
+  };
+
+  const handleCancel = () => {
+    handleClose();
+    onCancel();
+  };
 
   return (
     <>
@@ -17,12 +27,12 @@ const MessageAlert = ({ variant, message }) => {
               <div className="message_alert_modal_dialog message_alert_modal_confirm">
                 <div className="message_alert_modal_content">
                   <div className="message_alert_modal_header flex-column">
-                    {/*здесь должен быть котик, запутавшийся в нитках*/}
+                    {/*здесь должен быть серьезный котик*/}
                     <h4 className="message_alert__modal_title w-100">
-                      Упс :{"("}
+                      {title}
                     </h4>
                     <button
-                      onClick={handleClose}
+                      onClick={handleCancel}
                       type="button"
                       className="close"
                       data-dismiss="modal"
@@ -36,12 +46,19 @@ const MessageAlert = ({ variant, message }) => {
                   </div>
                   <div className="message_alert_modal_footer justify-content-center">
                     <button
-                      onClick={handleClose}
+                      onClick={handleCancel}
                       type="button"
                       className="message_alert_btn message_alert_btn_secondary"
                       data-dismiss="modal"
                     >
-                      Хорошо
+                      Отмена
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDelete}
+                      className="message_alert_modal_confirm message_alert_btn_danger"
+                    >
+                      Удалить
                     </button>
                   </div>
                 </div>

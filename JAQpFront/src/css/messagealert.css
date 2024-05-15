@@ -15,10 +15,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
+  white-space: wrap;
 }
 
 .message_alert_modal_confirm {
-  color: #636363;
+  color: #000000;
   width: 400px;
 }
 .message_alert_modal_confirm .message_alert_modal_content {
@@ -43,9 +44,10 @@
   right: -2px;
   border: none;
   background: none;
+  cursor: pointer;
 }
 .message_alert_modal-confirm .message_alert_modal_body {
-  color: #999;
+  color: #000000;
 }
 .message_alert_modal_confirm .message_alert_modal_footer {
   border: none;
@@ -53,10 +55,10 @@
   border-radius: 5px;
   font-size: 13px;
   padding: 10px 15px 25px;
-  display: flex
+  display: flex;
 }
 .message_alert_modal_confirm .message_alert_modal_footer a {
-  color: #999;
+  color: #000000;
 }
 .message_alert_modal_confirm .message_alert_icon_box {
   width: 80px;
@@ -73,7 +75,8 @@
   display: inline-block;
   margin-top: 13px;
 }
-.message_alert_btn_secondary, .message_alert_btn_danger {
+.message_alert_btn_secondary,
+.message_alert_btn_danger {
   background: #c1c1c1;
   color: #fff;
   border-radius: 4px;
@@ -85,13 +88,16 @@
   min-height: 40px;
   border-radius: 3px;
   margin: 0 5px;
+  cursor: pointer;
 }
 
 .message_alert_modal_confirm .message_alert_btn_danger {
-	background: #f15e5e;
+  background: #f15e5e;
+  cursor: pointer;
 }
-.message_alert_modal_confirm .message_alert_btn_danger:hover, .message_alert_modal_confirm .message_alert_btn_danger:focus {
-	background: #ee3535;
+.message_alert_modal_confirm .message_alert_btn_danger:hover,
+.message_alert_modal_confirm .message_alert_btn_danger:focus {
+  background: #ee3535;
 }
 .message_alert_modal_confirm .message_alert_btn_secondary:hover,
 .message_alert_modal-confirm .message_alert_btn_secondary:focus {

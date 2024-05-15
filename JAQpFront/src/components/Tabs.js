@@ -1,41 +1,50 @@
 import React, { useState, useEffect } from "react";
-import QuestionContent from "./QuestionContent";
 
 import { AddQuestion } from "../http/questionApi";
 import { DeleteQuestion } from "../http/questionApi";
 import { GetQuestion } from "../http/questionApi";
-import "../css/navquestions.css";
 import { GetQuestions } from "../http/quizApi";
 
+import QuestionContent from "./QuestionContent";
+
+import "../css/navquestions.css";
+
 function Tabs({ quizId }) {
-  const [active, setActive] = useState(1);
+  /* setters */
   const [qlist, setqlist] = useState([]);
+  const [active, setActive] = useState();
+  const [visibleTabs, setVisibleTabs] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const navWidth = document.querySelector("body").clientWidth - 300;
+  const tabWidth = 130;
+  const maxVisibleTabs = Math.floor(navWidth / tabWidth);
 
   useEffect(() => {
     GetQuestions(quizId)
       .then((res) => {
         setqlist(res.data.questions);
+        setActive(res.data.questions.length === 0 ? null : 1);
       })
       .catch((error) => {
         console.error("Error fetching quiz data:", error);
       });
-  }, []);
+  }, [quizId]);
   const [tabs, setTabs] = useState([]);
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const updatedTabs = await Promise.all(
           qlist.map(async (question, index) => {
-            const res = await GetQuestion(question); // Передача id вопроса в функцию GetQuestion
+            const res = await GetQuestion(question);
             return {
               ...question,
-              ...res.data, // Добавление данных из запроса в объект вопроса
+              ...res.data,
               label: `Вопрос ${index + 1}`,
             };
           })
         );
 
-        setTabs(updatedTabs); // Установка обновленного состояния
+        setTabs(updatedTabs);
       } catch (error) {
         console.error("Error fetching quiz data:", error);
       }
@@ -43,12 +52,15 @@ function Tabs({ quizId }) {
 
     fetchQuestions();
   }, [qlist]);
+  
 
-  const [visibleTabs, setVisibleTabs] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
-  const navWidth = document.querySelector("body").clientWidth - 300;
-  const tabWidth = 130;
-  const maxVisibleTabs = Math.floor(navWidth / tabWidth);
+  useEffect(() => {
+    calculateVisibleTabs();
+    window.addEventListener("resize", calculateVisibleTabs);
+    return () => window.removeEventListener("resize", calculateVisibleTabs);
+  }, [tabs, startIndex]);
+
+  /* func */
 
   const calculateVisibleTabs = () => {
     const navWidth = document.querySelector(".card.tabs").clientWidth - 300;
@@ -56,12 +68,6 @@ function Tabs({ quizId }) {
     const maxVisibleTabs = Math.floor(navWidth / tabWidth);
     setVisibleTabs(tabs.slice(startIndex, startIndex + maxVisibleTabs));
   };
-
-  useEffect(() => {
-    calculateVisibleTabs();
-    window.addEventListener("resize", calculateVisibleTabs);
-    return () => window.removeEventListener("resize", calculateVisibleTabs);
-  }, [tabs, startIndex]);
 
   const openTab = (e) => {
     const dataIndex = +e.target.dataset.index;
@@ -109,7 +115,7 @@ function Tabs({ quizId }) {
 
   const handleChangedQuestion = (data) => {
     for (var i = 0; i < tabs.length; i++) {
-      if (tabs[i].id == data.id) {
+      if (tabs[i].id === data.id) {
         tabs[i].description = data.description;
         tabs[i].image = data.image;
         return;
@@ -130,7 +136,6 @@ function Tabs({ quizId }) {
     const newStartIndex = Math.max(0, startIndex - maxVisibleTabs);
     setStartIndex(newStartIndex);
   };
-
   return (
     <div className="tabs-container">
       <div class="container" style={{ border: "none", width: "100%" }}>
@@ -187,13 +192,16 @@ function Tabs({ quizId }) {
           )}
         </div>
       </div>
-      {active !== null && active !== -1 && (
-        <QuestionContent
-          {...tabs[active - 1]}
-          onDeleteQuestion={handleDeleteQuestion}
-          onChangedQuestion={handleChangedQuestion}
-        />
-      )}
+      {active !== null &&
+        active !== 0 &&
+        active !== -1 &&
+        active !== undefined && (
+          <QuestionContent
+            {...tabs[active - 1]}
+            onDeleteQuestion={handleDeleteQuestion}
+            onChangedQuestion={handleChangedQuestion}
+          />
+        )}
     </div>
   );
 }

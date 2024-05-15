@@ -22,7 +22,7 @@ function Constructor() {
   /* setterts */
   const [prefQuizList, setprefQuizList] = useState([]);
   const [prefoptions, setPrefOptions] = useState([]);
-  const [prefoquestions, setPrefQuestions] = useState([]);
+  const prefoquestions = [];
 
   const [idQuiz, setIdQuiz] = useState();
 
@@ -36,8 +36,6 @@ function Constructor() {
         .catch((error) => {
           console.error("Error fetching quiz data:", error);
         });
-    } else {
-      console.log("Token does not exist. Redirecting to login page...");
     }
   }, []);
   useEffect(() => {
@@ -51,7 +49,7 @@ function Constructor() {
   }, []);
 
   useEffect(() => {
-    if (true) {
+    if (!prefQuizList) {
       GetQuestions(idQuiz)
         .then((res) => {
           setQuestionList(res.data.questions);
@@ -100,13 +98,12 @@ function Constructor() {
   const handleDeleteQuiz = (idQuiz) => {
     DeleteQuiz(localStorage.getItem("token"), idQuiz)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           GetOwnedByMe(localStorage.getItem("token"))
             .then((res) => {
               setprefQuizList(res.data.quizDataList);
               setIdQuiz(null);
               setQuizData(null);
-              setprefQuizList([]);
               setMainTab(false);
               setQuizTab(true);
               setTabs(false);
@@ -114,7 +111,7 @@ function Constructor() {
             .catch((error) => {
               console.error("Error fetching quiz data:", error);
             });
-        } else console.log(res);
+        }
       })
       .catch((error) => {
         console.error("Error fetching quiz data:", error);
@@ -303,7 +300,6 @@ function Constructor() {
                   quizData={quizData}
                   options={prefoptions}
                   onChangeTest={handleChangeTest}
-                  countQuestions={initialAnswers ? initialAnswers.length : 0}
                   onChangeStatus={handleChangeStatus}
                   onDeleteQuiz={handleDeleteQuiz}
                 />

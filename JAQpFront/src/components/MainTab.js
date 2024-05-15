@@ -4,37 +4,37 @@ import { useForm } from "react-hook-form";
 import { EditQuizWOImage } from "../http/quizApi";
 import { EditQuiz } from "../http/quizApi";
 import { ToggleVisabylity } from "../http/quizApi";
-import { address } from "../http/apiIndex";
 
 import FileInput from "./FileInput";
 import Select from "react-select";
-import "../css/maintab.css";
+import MessageAlert from "../components/alerts/MessageAlert";
+
 import trashIcon from "../icons/trashCan.svg";
 
+import "../css/maintab.css";
+
 function MainTab({
-  countQuestions,
   quizData,
   options,
   onChangeTest,
   onChangeStatus,
   onDeleteQuiz,
 }) {
+  /* setters */
   const [state, setState] = useState(quizData.isPublic);
-  const [idQuiz, setIdQuiz] = useState(quizData.id);
+  const idQuiz = quizData.id;
   const [title, setTitle] = useState(quizData.name);
   const [description, setDescription] = useState(quizData.description);
   const [image, setImage] = useState(quizData.image_name);
   const [file, setFile] = useState();
-
   const [isChangedImage, setIsChangedImage] = useState(false);
-
+  const [showAlert, setShowAlert] = useState(false);
   const selectedTagsFromOptions = quizData.tags
     ? quizData.tags.map((tag) => {
         const option = options.find((option) => option.value === tag);
         return option ? option : { value: tag, label: tag };
       })
     : null;
-
   const customStyles = {
     dropdownIndicator: (base) => ({
       ...base,
@@ -54,12 +54,25 @@ function MainTab({
       cursor: "pointer",
     }),
   };
+  const [selectedTags, setSelectedTags] = useState(selectedTagsFromOptions);
+  const callback = (image, file, fileVariant) => {
+    setImage(image);
+    setFile(file);
+    setIsChangedImage(fileVariant);
+  };
+  /* visual */
+  const handleShowAlert = () => {
+    setShowAlert(true);
+  };
 
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+  };
+
+  /* func */
   const filterOption = (option, inputValue) => {
     return option.label.toLowerCase().startsWith(inputValue.toLowerCase());
   };
-
-  const [selectedTags, setSelectedTags] = useState(selectedTagsFromOptions);
 
   const { handleSubmit } = useForm();
   const onSubmit = () => {
@@ -89,7 +102,7 @@ function MainTab({
           sanitizedDescription,
           sanitizedTitle,
           file,
-          file? file.name: null
+          file ? file.name : null
         )
           .then((res) => {
             onChangeTest(res.data);
@@ -110,14 +123,9 @@ function MainTab({
       });
   };
 
-  const callback = (image, file, fileVariant) => {
-    setImage(image);
-    setFile(file);
-    setIsChangedImage(fileVariant);
-  };
-
-  const handleDelete = () => {
-    onDeleteQuiz(idQuiz);
+  const handleIsDelete = (isDelete) => {
+    handleShowAlert();
+    if (isDelete === true) onDeleteQuiz(idQuiz);
   };
 
   const handleTagChange = (selectedOptions) => {
@@ -126,6 +134,15 @@ function MainTab({
 
   return (
     <div className="main_tab_statebar">
+      {showAlert && (
+        <MessageAlert
+          variant="danger"
+          message="Вы действительно хотите удалить квиз? Действие нельзя отменить"
+          title="Вы уверены?"
+          onCancel={handleCloseAlert}
+          onDelete={handleIsDelete}
+        />
+      )}
       <div
         style={{
           marginBottom: "36px",
@@ -140,7 +157,7 @@ function MainTab({
           О квизе
         </p>
         <button
-          onClick={handleDelete}
+          onClick={handleIsDelete}
           type="button"
           className="main_buttondelstate"
           style={{ marginLeft: "60%" }}
@@ -165,6 +182,7 @@ function MainTab({
                     required
                     defaultValue={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    maxLength={255}
                   />
                   <span class="omrs-input-label">Название</span>
                 </label>
@@ -181,6 +199,7 @@ function MainTab({
                     required
                     defaultValue={description}
                     onChange={(e) => setDescription(e.target.value)}
+                    maxLength={255}
                   />
                   <span class="omrs-input-label">Описание</span>
                 </label>
@@ -218,7 +237,7 @@ function MainTab({
               />
             </div>
           </div>
-          
+
           <div style={{ paddingTop: "14px", height: "100%" }}>
             <FileInput callback={callback} imageUrl={image} />
           </div>
@@ -227,7 +246,6 @@ function MainTab({
             style={{ width: "192px" }}
           >
             <div style={{ float: "right" }}>
-              
               <div>
                 <div
                   style={{

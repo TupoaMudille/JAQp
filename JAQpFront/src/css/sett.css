@@ -262,8 +262,6 @@ div.omrs-input-group {
   color: var(--omrs-color-interaction);
 }
 
-/* Input*/
-
 .omrs-input-filled > input, .omrs-input-filled > textarea {
   border: none;
   border-bottom: 0.125rem solid var(--omrs-color-ink-medium-contrast);
@@ -358,11 +356,6 @@ div.omrs-input-group {
   font-weight: bold;
 }
 
-.omrs-input-filled > textarea:focus + .omrs-input-label,
-.omrs-input-filled > textarea:valid + .omrs-input-label{
- 
-}
-
 .omrs-input-filled:not(.omrs-input-danger) > input:focus + .omrs-input-label,
 .omrs-input-filled:not(.omrs-input-danger) > textarea:focus + .omrs-input-label,
 .omrs-input-filled:not(.omrs-input-danger)
@@ -374,11 +367,6 @@ div.omrs-input-group {
 
 }
 
-
-.omrs-input-filled:not(.omrs-input-danger) > textarea:hover + .omrs-input-label{
- 
-
-}
 
 .omrs-input-filled:not(.omrs-input-danger) > input:focus,
 .omrs-input-filled:not(.omrs-input-danger) >textarea:focus,
