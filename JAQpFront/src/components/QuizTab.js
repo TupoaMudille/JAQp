@@ -11,9 +11,7 @@ import emptyQuizIcon from "../icons/emptyQuiz.svg";
 
 function QuizTab({ arrtest, onSelectId, onAddTest }) {
   /* setterts */
-  const [deleteItemId, setDeleteItemId] = useState(null);
   const [selectId, setSelectId] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {}, [selectId]);
 

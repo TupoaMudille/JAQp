@@ -123,9 +123,16 @@ function MainTab({
       });
   };
 
+  /*♿*/
   const handleIsDelete = (isDelete) => {
     handleShowAlert();
-    if (isDelete === true) onDeleteQuiz(idQuiz);
+    if (isDelete === true) {
+      onDeleteQuiz(idQuiz).then((status) => {
+        if (status === "ok") {
+          handleCloseAlert();
+        }
+      });
+    }
   };
 
   const handleTagChange = (selectedOptions) => {

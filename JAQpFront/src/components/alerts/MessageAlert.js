@@ -10,7 +10,6 @@ const MessageAlert = ({ variant, message, title, onCancel, onDelete }) => {
 
   const handleDelete = () => {
     onDelete(true);
-    handleClose();
   };
 
   const handleCancel = () => {

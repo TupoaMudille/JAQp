@@ -95,7 +95,7 @@ function Constructor() {
     setQuizData(updatedStatusQuiz);
   };
 
-  const handleDeleteQuiz = (idQuiz) => {
+  const handleDeleteQuiz = async (idQuiz) => {
     DeleteQuiz(localStorage.getItem("token"), idQuiz)
       .then((res) => {
         if (res.status === 200) {
@@ -107,6 +107,7 @@ function Constructor() {
               setMainTab(false);
               setQuizTab(true);
               setTabs(false);
+              return 'ok';
             })
             .catch((error) => {
               console.error("Error fetching quiz data:", error);

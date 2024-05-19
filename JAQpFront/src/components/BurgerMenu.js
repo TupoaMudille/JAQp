@@ -10,9 +10,10 @@ import "../css/burgermenu.css";
 function BurgerMenu() {
   /* navigate */
   const navigate = useNavigate();
-  const gotoUserSettingsPage = () => navigate("/settingsId=?");
+  const gotoUserPage = () => navigate(`/user/${localStorage.getItem('idUser')}`);
   const gotoConstructorPage = () => navigate("/constructor");
   const gotoLoginPage = () => navigate("/login");
+  const gotoMainPage = () => navigate("/");
 
   /* setterts */
   const [show, setShow] = useState(false);
@@ -47,7 +48,7 @@ function BurgerMenu() {
               <li>Случайный</li>
             </div>
           </li>
-          <li>
+          <li onClick={gotoMainPage}>
             <div>
               <li>Квизы</li>
             </div>
@@ -75,7 +76,7 @@ function BurgerMenu() {
                 localStorage.getItem("token") === null ||
                 localStorage.getItem("token") === undefined
                   ? gotoLoginPage
-                  : gotoUserSettingsPage
+                  : gotoUserPage
               }
             >
               <li>Профиль</li>

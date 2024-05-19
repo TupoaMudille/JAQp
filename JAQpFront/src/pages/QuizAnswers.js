@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GetAnswer } from "../http/answerApi";
 import { GetQuestion } from "../http/questionApi";
 import { address } from "../http/apiIndex";
+import { MakeAnswer } from "../http/resultApi";
+import { MakeResult } from "../http/resultApi";
 
 import Menu from "../components/Menu";
 
@@ -88,18 +90,48 @@ const QuizAnswers = () => {
 
   const handleNextQuestion = () => {
     const nextId = questionSequence[currentQuestionId];
-
+    console.log(selectedValue);
     if (nextId) {
-      setnextQuestionId(nextId);
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setisAnswerSelected(false);
-      setSelectedValue(-1);
+      selectedValue
+        ? MakeAnswer(localStorage.getItem("token"), selectedValue).then(
+            (res) => {
+              if (res.status === 200) {
+                setnextQuestionId(nextId);
+                setCurrentQuestionIndex(currentQuestionIndex + 1);
+                setisAnswerSelected(false);
+                setSelectedValue(-1);
+              }
+            }
+          )
+        : console.log();
     } else {
-      setSelectedValue(null);
-      setnextQuestionId(null);
-      setisAnswerSelected(true);
-      calculateResults();
-      sessionStorage.removeItem(`questions_${id}`);
+      selectedValue
+        ? MakeAnswer(localStorage.getItem("token"), selectedValue).then(
+            (res) => {
+              if (res.status === 200) {
+                setSelectedValue(null);
+                setnextQuestionId(null);
+                setisAnswerSelected(true);
+                const correctAnswers = Object.values(selectedAnswers).filter(
+                  (answer) => answer.isCorrect
+                );
+                score = correctAnswers.length;
+                const totalQuestions = questionsLength;
+                console.log(id, score / totalQuestions)
+                MakeResult(
+                  localStorage.getItem("token"),
+                  id,
+                  score / totalQuestions
+                ).then((res) => {
+                  if (res.status === 200) {
+                    calculateResults(score, totalQuestions);
+                    sessionStorage.removeItem(`questions_${id}`);
+                  }
+                });
+              }
+            }
+          )
+        : console.log();
     }
   };
 
@@ -112,15 +144,9 @@ const QuizAnswers = () => {
     }));
   };
 
-  const calculateResults = () => {
-    const correctAnswers = Object.values(selectedAnswers).filter(
-      (answer) => answer.isCorrect
-    );
-    score = correctAnswers.length;
-    const totalQuestions = questionsLength;
+  const calculateResults = (score, totalQuestions) => {
     navigate(`/quiz/${id}/result`, { state: { score, totalQuestions } });
   };
-
 
   return (
     <div

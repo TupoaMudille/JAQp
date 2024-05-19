@@ -1,5 +1,4 @@
 import Menu from "../components/Menu";
-
 import "../css/font.css";
 
 function Main() {

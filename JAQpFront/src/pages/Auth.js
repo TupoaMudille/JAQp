@@ -26,7 +26,7 @@ function Auth() {
   /* navigate */
   const navigate = useNavigate();
   const gotoRegPage = () => navigate("/registration");
-  const gotoMainPage = () => navigate("/main");
+  const gotoMainPage = () => navigate("/");
 
   /* setters */
   const [login, setLogin] = useState("");

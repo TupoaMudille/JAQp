@@ -1,7 +1,7 @@
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { GetUserGeneral } from "../http/userApi";
 import { SetUserGeneral } from "../http/userApi";
@@ -23,15 +23,19 @@ function UserSettings() {
   const [preffirstName, setprefFirstName] = useState("");
   const [prefsecondName, setprefSecondName] = useState("");
   const [preflastName, setprefLastName] = useState("");
-  const [prefstartDate, setprefStartDate] = useState(new Date());
+  const [prefstartDate, setprefStartDate] = useState();
   const [showAlert, setShowAlert] = useState(false);
 
-  preFetch.then((res) => {
-    setprefFirstName(res.data.firstName);
-    setprefSecondName(res.data.secondName);
-    setprefLastName(res.data.lastName);
-    setprefStartDate(res.data.birthDate);
-  });
+  useEffect(() => {
+    preFetch.then((res) => {
+      if (res.status === 200) {
+        setprefFirstName(res.data.firstName);
+        setprefSecondName(res.data.secondName);
+        setprefLastName(res.data.lastName);
+        setStartDate(new Date(res.data.birthDate));
+      }
+    });
+  }, []);
 
   registerLocale("ru", ru);
   setDefaultLocale("ru");
@@ -54,14 +58,14 @@ function UserSettings() {
       document.getElementById("firstName").value,
       document.getElementById("secondName").value,
       document.getElementById("lastName").value,
-      null
+      startDate.toISOString()
     );
   };
 
   return (
     <div
       className="settings_window"
-      style={{ backgroundImage: "url(img/background.svg)" }}
+      style={{ backgroundImage: "url(../img/background.svg)" }}
     >
       <div>
         <Menu />
@@ -176,8 +180,7 @@ function UserSettings() {
                 <div class="omrs-input-group">
                   <label class="omrs-input-filled">
                     <DatePicker
-                      /*date null fix*/
-
+                      id="date"
                       defaultValue={prefstartDate}
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}

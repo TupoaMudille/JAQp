@@ -1,5 +1,6 @@
 import { apiHost } from "./apiIndex";
-const userBase = "/api/auth/";
+const authBase = "/api/auth/";
+const userBase = "/api/users/";
 
 export const LoginUser = async (_user, _pass) => {
   const raw = {
@@ -7,7 +8,7 @@ export const LoginUser = async (_user, _pass) => {
     password: _pass,
   };
   try {
-    return await apiHost.post(userBase + "authenticate", raw);
+    return await apiHost.post(authBase + "authenticate", raw);
   } catch (error) {
     return null;
   }
@@ -16,7 +17,7 @@ export const LoginUser = async (_user, _pass) => {
 export const RegisterUser = async (_username, _password) => {
   let result = true;
   var data = { username: _username, password: _password };
-  result = await apiHost.post(userBase + "register", data);
+  result = await apiHost.post(authBase + "register", data);
   if (result.status === 200) {
     return true;
   } else {
@@ -24,8 +25,17 @@ export const RegisterUser = async (_username, _password) => {
   }
 };
 
+export const Logout = async (_token) =>
+{
+  return apiHost.post(authBase+"logout", null, {
+    headers: {
+      Authorization: "Bearer " + _token,
+    },
+  })
+}
+
 export const GetUserGeneral = async (_id) => {
-  var re = await apiHost.get("/api/users/" + _id);
+  var re = await apiHost.get(userBase + _id);
   return re;
 };
 
@@ -41,7 +51,7 @@ export const SetUserGeneral = async (
     firstName: _firstName,
     lastName: _lastName,
     secondName: _secondName,
-    birthdate: _birdthDate,
+    birthDate: _birdthDate,
   };
 
   let config = {
@@ -50,9 +60,7 @@ export const SetUserGeneral = async (
     },
   };
 
-  console.log(raw);
-
-  return await apiHost.post("/api/users/" + _id + "/setting/general", raw, {
+  return await apiHost.post(userBase + _id + "/setting/general", raw, {
     headers: {
       Authorization: "Bearer " + _token,
     },

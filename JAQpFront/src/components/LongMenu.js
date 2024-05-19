@@ -12,9 +12,10 @@ import "../css/longmenu.css";
 function LongMenu() {
   /* navigate */
   const navigate = useNavigate();
-  const gotoUserSettingsPage = () => navigate("/settingsId=?");
+  const gotoUserPage = () => navigate(`/user/${localStorage.getItem('idUser')}`);
   const gotoConstructorPage = () => navigate("/constructor");
   const gotoLoginPage = () => navigate("/login");
+  const gotoMainPage = () => navigate("/");
 
   return (
     <div className="long_menu_header_container">
@@ -30,7 +31,7 @@ function LongMenu() {
             src={diceIcon}
             style={{ cursor: "pointer", paddingRight: "4px" }}
           ></img>
-          <p className="text" style={{ cursor: "pointer" }}>
+          <p className="text" style={{ cursor: "pointer" }} onClick={gotoMainPage}>
             Квизы
           </p>
           <p className="text" style={{ cursor: "pointer" }}>
@@ -82,7 +83,7 @@ function LongMenu() {
             localStorage.getItem("token") === null ||
             localStorage.getItem("token") === undefined
               ? gotoLoginPage
-              : gotoUserSettingsPage
+              : gotoUserPage
           }
         >
           <img src={userEmptyIcon} className="icon" alt=""></img>

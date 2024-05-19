@@ -36,13 +36,13 @@ function TabContent({
   const handleCloseAlert = () => {
     setShowAlert(false);
   };
-  
+
   /*------------------------question--------------------------- */
   /* setters */
   const [initAnswers, setAnswers] = useState([]);
   const [inittitle, setTitle] = useState(label);
   const [initdescription, setDescription] = useState(description);
-  const [initimage, setImage] = useState(image?image:null);
+  const [initimage, setImage] = useState(image ? image : null);
   const [initId, setInitId] = useState(id);
 
   useEffect(() => {
@@ -219,173 +219,182 @@ function TabContent({
           onDelete={handleIsDelete}
         />
       )}
-      <div
-        style={{
-          marginBottom: "36px",
-          background: "white",
-          padding: "14px",
-          marginTop: "14px",
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr",
-        }}
-      >
-        <p className="h2" style={{ float: "right" }}>
-          {inittitle}
-        </p>
-        <button
-          type="button"
-          className="main_buttondelstate"
-          style={{ marginLeft: "60%" }}
-          onClick={handleIsDelete}
+      <div style={{}}>
+        <div className="content_tab_whitecardwithspace"
+          style={{
+            marginBottom: "36px",
+            background: "white",
+            padding: "14px",
+            marginTop: "14px",
+            display: "grid",
+            gridTemplateColumns: "2fr 1fr",
+            minWidth:"1154px"
+          }}
         >
-          <svg
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            style={{ width: "24px", height: "24px" }}
-            className="trashIcon"
-          >
-            <use xlinkHref={trashIcon + "#trashCan"} />
-          </svg>
-          Удалить вопрос
-        </button>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="content_tab_whitecardwithspace">
-          <div
-            id={`${id}/questionInput`}
-            style={{ paddingTop: "14px", height: "100%", minHeight: "340px" }}
-          >
-            <FileInput key={initId} callback={callback} imageUrl={initimage} />
-          </div>
-          <div
-            className="main_tab_evenly_distributed_field"
-            style={{ marginTop: "54px", width: "100%" }}
-          >
-            <div class="omrs-input-group" style={{ marginTop: "-28px" }}>
-              <label class="omrs-input-filled">
-                <textarea
-                  required
-                  maxLength={255}
-                  value={initdescription ? initdescription : ""}
-                  defaultValue={initdescription != null ? initdescription : ""}
-                  onChange={(e) =>
-                    handleDescriptionQuestionChange(e.target.value)
-                  }
-                  style={{ maxHeight: "260px" }}
-                />
-                <span class="omrs-input-label">Содержимое вопроса</span>
-              </label>
-            </div>
-          </div>
-          <button className="content_tab_button" type="submit">
-            Сохранить вопрос
-          </button>
-        </div>
-        <div className="content_tab_whitecardwithspace">
+          <p className="h2" style={{ float: "right" }}>
+            {inittitle}
+          </p>
           <button
-            onClick={handleAddAnswer}
             type="button"
-            className="content_tab_button_add"
+            className="main_buttondelstate"
+            style={{ marginLeft: "60%" }}
+            onClick={handleIsDelete}
           >
-            <span className="plus">+</span>
-            Добавить ответ
+            <svg
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              style={{ width: "24px", height: "24px" }}
+              className="trashIcon"
+            >
+              <use xlinkHref={trashIcon + "#trashCan"} />
+            </svg>
+            Удалить вопрос
           </button>
         </div>
-      </form>
-      <div className="content_tab_whitecardwithspace">
-        <div className="content_answer_block">
-          {answersData.map((answerData, index) => (
-            <div key={answerData.id}>
-              <button
-                onClick={() => handleSaveAnswer(answerData.id)}
-                type="button"
-                className="content_tab_button"
-                style={{ marginBottom: "24px" }}
-              >
-                OK
-              </button>
-              <div
-                id={`${id}/answerInput/${answerData.id}`}
-                style={{
-                  paddingTop: "14px",
-                  height: "100%",
-                  width: "100%",
-                }}
-              >
-                <FileInput callback={callback} imageUrl={answerData.image} />
-              </div>
-              <div
-                class="omrs-input-group"
-                style={{ marginTop: "24px" }}
-                key={answerData.id}
-              >
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <div className="content_tab_whitecardwithspace">
+            <div
+              id={`${id}/questionInput`}
+              style={{ paddingTop: "14px", height: "100%", minHeight: "340px" }}
+            >
+              <FileInput
+                key={initId}
+                callback={callback}
+                imageUrl={initimage}
+              />
+            </div>
+            <div
+              className="main_tab_evenly_distributed_field"
+              style={{ marginTop: "54px", width: "100%" }}
+            >
+              <div class="omrs-input-group" style={{ marginTop: "-28px" }}>
                 <label class="omrs-input-filled">
                   <textarea
-                    id={`${id}/answerDescription/${answerData.id}`}
                     required
                     maxLength={255}
+                    value={initdescription ? initdescription : ""}
                     defaultValue={
-                      answerData.content != null ? answerData.content : ""
+                      initdescription != null ? initdescription : ""
                     }
                     onChange={(e) =>
-                      handleDescriptionAnswerChange(e, answerData.id)
+                      handleDescriptionQuestionChange(e.target.value)
                     }
-                    style={{
-                      maxHeight: "128px",
-                      width: "20px",
-                      maxWidth: "20px",
-                    }}
+                    style={{ maxHeight: "260px" }}
                   />
-                  <span class="omrs-input-label">Содержимое ответа</span>
+                  <span class="omrs-input-label">Содержимое вопроса</span>
                 </label>
               </div>
-              <fieldset>
-                <legend class="tooltip">
-                  Ответ верный?
-                  <svg
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    style={{
-                      width: "18px",
-                      height: "18px",
-                      marginLeft: "14px",
-                    }}
-                  >
-                    <use xlinkHref={questionIcon + "#questionIcon"} />
-                  </svg>
-                  <span class="tooltip-text">
-                    Для создания опроса пометьте все ответы как верные
-                  </span>
-                </legend>
-                <div>
-                  <input
-                    type="checkbox"
-                    id={`${id}/answerCheck/${answerData.id}`}
-                    onChange={(e) => handleCheckboxChange(e, answerData.id)}
-                    defaultChecked={answerData.right}
-                  ></input>
-                  <label
-                    for={`${id}/answerCheck/${answerData.id}`}
-                    id={`${id}/answerLabel/${answerData.id}`}
-                  >
-                    {answerData.right ? "Да" : "Нет"}
+            </div>
+            <button className="content_tab_button" type="submit">
+              Сохранить вопрос
+            </button>
+          </div>
+          <div className="content_tab_whitecardwithspace">
+            <button
+              onClick={handleAddAnswer}
+              type="button"
+              className="content_tab_button_add"
+            >
+              <span className="plus">+</span>
+              Добавить ответ
+            </button>
+          </div>
+        </form>
+        <div className="content_tab_whitecardwithspace">
+          <div className="content_answer_block">
+            {answersData.map((answerData, index) => (
+              <div key={answerData.id}>
+                <button
+                  onClick={() => handleSaveAnswer(answerData.id)}
+                  type="button"
+                  className="content_tab_button"
+                  style={{ marginBottom: "24px" }}
+                >
+                  OK
+                </button>
+                <div
+                  id={`${id}/answerInput/${answerData.id}`}
+                  style={{
+                    paddingTop: "14px",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                >
+                  <FileInput callback={callback} imageUrl={answerData.image} />
+                </div>
+                <div
+                  class="omrs-input-group"
+                  style={{ marginTop: "24px" }}
+                  key={answerData.id}
+                >
+                  <label class="omrs-input-filled">
+                    <textarea
+                      id={`${id}/answerDescription/${answerData.id}`}
+                      required
+                      maxLength={255}
+                      defaultValue={
+                        answerData.content != null ? answerData.content : ""
+                      }
+                      onChange={(e) =>
+                        handleDescriptionAnswerChange(e, answerData.id)
+                      }
+                      style={{
+                        maxHeight: "128px",
+                        width: "20px",
+                        maxWidth: "20px",
+                      }}
+                    />
+                    <span class="omrs-input-label">Содержимое ответа</span>
                   </label>
                 </div>
-              </fieldset>
-              <button
-                onClick={() => handleDeleteAnswer(answerData.id)}
-                type="button"
-                className="main_buttondelstate"
-                style={{ height: "38px", width: "38px", marginTop: "-150px" }}
-              >
-                <svg
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  style={{ width: "24px", height: "24px" }}
-                  className="trashIcon"
+                <fieldset>
+                  <legend class="tooltip">
+                    Ответ верный?
+                    <svg
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      style={{
+                        width: "18px",
+                        height: "18px",
+                        marginLeft: "14px",
+                      }}
+                    >
+                      <use xlinkHref={questionIcon + "#questionIcon"} />
+                    </svg>
+                    <span class="tooltip-text">
+                      Для создания опроса пометьте все ответы как верные
+                    </span>
+                  </legend>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id={`${id}/answerCheck/${answerData.id}`}
+                      onChange={(e) => handleCheckboxChange(e, answerData.id)}
+                      defaultChecked={answerData.right}
+                    ></input>
+                    <label
+                      for={`${id}/answerCheck/${answerData.id}`}
+                      id={`${id}/answerLabel/${answerData.id}`}
+                    >
+                      {answerData.right ? "Да" : "Нет"}
+                    </label>
+                  </div>
+                </fieldset>
+                <button
+                  onClick={() => handleDeleteAnswer(answerData.id)}
+                  type="button"
+                  className="main_buttondelstate"
+                  style={{ height: "38px", width: "38px", marginTop: "-150px" }}
                 >
-                  <use xlinkHref={trashIcon + "#trashCan"} />
-                </svg>
-              </button>
-            </div>
-          ))}
+                  <svg
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    style={{ width: "24px", height: "24px" }}
+                    className="trashIcon"
+                  >
+                    <use xlinkHref={trashIcon + "#trashCan"} />
+                  </svg>
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
