@@ -11,6 +11,7 @@ import { GetOwned } from "../http/quizApi";
 import { GetUserResults } from "../http/resultApi";
 import { address } from "../http/apiIndex";
 import emptyQuizIcon from "../icons/emptyQuiz.svg";
+import { useAlert } from "react-alert";
 
 import "../css/user.css";
 import "../css/font.css";
@@ -18,6 +19,7 @@ import "../css/font.css";
 function User() {
   /* setterts */
   const [startDate, setStartDate] = useState();
+  const alert = useAlert();
 
   const [preffirstName, setprefFirstName] = useState("");
   const [prefsecondName, setprefSecondName] = useState("");
@@ -34,7 +36,7 @@ function User() {
         setprefQuizList(res.data.quizDataList);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show("Ошибка полученния данных пользователя", { type: "error" });
       });
   }, [id]);
   useEffect(() => {
@@ -43,7 +45,7 @@ function User() {
         setprefQuizListCompleted(res.data.results);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show("Ошибка полученния данных пользователя", { type: "error" });
       });
   }, [id]);
 
@@ -64,12 +66,17 @@ function User() {
               })
             : null
         );
-      }
+      } else
+        alert.show("Ошибка полученния данных пользователя", { type: "error" });
     });
   }, [id]);
 
   const listItems = prefQuizList.map((testname, index) => (
-    <div className="card" key={index}>
+    <div
+      className="card"
+      key={index}
+      onClick={() => navigate(`/quiz/${testname.id}`)}
+    >
       <img
         src={testname.image == null ? emptyQuizIcon : address + testname.image}
         alt=""
@@ -85,7 +92,11 @@ function User() {
   const listItemsCompleted =
     prefQuizListCompleted &&
     prefQuizListCompleted.map((testname, index) => (
-      <div className="card" key={index}>
+      <div
+        className="card"
+        key={index}
+        onClick={() => navigate(`/quiz/${testname.id}`)}
+      >
         <img
           src={
             testname.quizData.image === null || testname.quizData.image === ""
@@ -236,6 +247,7 @@ function User() {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
+                        marginTop: "14px",
                       }}
                       className="results_textbutton"
                       onClick={() => {
@@ -265,7 +277,7 @@ function User() {
                   <button
                     style={{
                       display: "flex",
-                      color:"red",
+                      color: "red",
                       alignItems: "center",
                     }}
                     className="results_textbutton"
@@ -279,12 +291,16 @@ function User() {
                     }}
                   >
                     <svg
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        style={{ width: "16px", height: "16px", marginRight:"14px", fill:"red" }}
-                       
-                      >
-                        <use xlinkHref={logoutIcon + "#logoutIcon"} />
-                      </svg>
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      style={{
+                        width: "16px",
+                        height: "16px",
+                        marginRight: "14px",
+                        fill: "red",
+                      }}
+                    >
+                      <use xlinkHref={logoutIcon + "#logoutIcon"} />
+                    </svg>
                     Выйти
                   </button>
                   <button

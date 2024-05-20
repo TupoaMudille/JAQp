@@ -6,7 +6,6 @@ import Menu from "../components/Menu";
 import "../css/quizres.css";
 import "../css/font.css";
 
-
 function QuizResult() {
   /* setters */
   const location = useLocation();
@@ -73,7 +72,7 @@ function QuizResult() {
             <button
               className="results_button"
               onClick={() => {
-                /* Навигация к другой странице или действие */
+                navigate("/");
               }}
             >
               К квизам

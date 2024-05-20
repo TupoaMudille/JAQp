@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useAlert } from "react-alert";
 
 import { address } from "../http/apiIndex";
 
@@ -9,6 +10,7 @@ import "../css/fileinput.css";
 
 const FileInput = ({ callback, imageUrl }) => {
   const inputRef = useRef();
+  const alert = useAlert();
   const handleCallback = () => callback(image, selectedFile, fileVariant);
   const [image, setImage] = useState(`${address}${imageUrl}`);
   const [selectedFile, setSelectedFile] = useState(
@@ -31,15 +33,15 @@ const FileInput = ({ callback, imageUrl }) => {
   const handleOnChange = (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      const allowedTypes = ["image/png", "image/jpeg", "image/gif"];
+      const allowedTypes = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
 
       if (!allowedTypes.includes(file.type)) {
-        alert("Разрешены только файлы PNG, JPEG и GIF");
+        alert.show("Разрешены только файлы PNG, JPEG, JPG и GIF",{type:"error"});
         return;
       }
 
       if (file.size > 25000000) {
-        alert("Файл слишком большой");
+        alert.show("Файл слишком большой",{type:"error"});
         return;
       }
       setFileVariant(true);
@@ -72,7 +74,7 @@ const FileInput = ({ callback, imageUrl }) => {
         type="file"
         ref={inputRef}
         onChange={handleOnChange}
-        accept=".jpeg, .gif, .png"
+        accept=".jpeg, .gif, .png, .jpg"
         style={{ display: "none" }}
       />
       <button
@@ -94,7 +96,7 @@ const FileInput = ({ callback, imageUrl }) => {
             >
               Загрузить изображение
             </span>
-            <p>JPEG, PNG или GIF (MAX. 25Мб)</p>
+            <p>JPEG, JPG, PNG или GIF (MAX. 25Мб)</p>
             <svg
               xmlnsXlink="http://www.w3.org/1999/xlink"
               style={{

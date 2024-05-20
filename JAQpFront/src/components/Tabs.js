@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAlert } from "react-alert";
 
 import { AddQuestion } from "../http/questionApi";
 import { DeleteQuestion } from "../http/questionApi";
@@ -11,6 +12,7 @@ import "../css/navquestions.css";
 
 function Tabs({ quizId }) {
   /* setters */
+  const alert = useAlert();
   const [qlist, setqlist] = useState([]);
   const [active, setActive] = useState();
   const [visibleTabs, setVisibleTabs] = useState([]);
@@ -26,7 +28,7 @@ function Tabs({ quizId }) {
         setActive(res.data.questions.length === 0 ? null : 1);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка получения вопросов`, { type: "error" });
       });
   }, [quizId]);
   const [tabs, setTabs] = useState([]);
@@ -46,13 +48,12 @@ function Tabs({ quizId }) {
 
         setTabs(updatedTabs);
       } catch (error) {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка вкладок`, { type: "error" });
       }
     };
 
     fetchQuestions();
   }, [qlist]);
-  
 
   useEffect(() => {
     calculateVisibleTabs();
@@ -75,17 +76,21 @@ function Tabs({ quizId }) {
   };
 
   const addTab = () => {
+    alert.show(`Добавляю вопрос...`);
     AddQuestion(localStorage.getItem("token"), quizId)
       .then((res) => {
-        const newTabs = [...tabs, res.data].map((tab, index) => ({
-          ...tab,
-          label: `Вопрос ${index + 1}`,
-        }));
-        setTabs(newTabs);
-        setActive(newTabs.length);
+        if (res.status === 200) {
+          alert.show(`Вопрос успешно добавлен`, { type: "success" });
+          const newTabs = [...tabs, res.data].map((tab, index) => ({
+            ...tab,
+            label: `Вопрос ${index + 1}`,
+          }));
+          setTabs(newTabs);
+          setActive(newTabs.length);
+        } else alert.show(`Ошибка добавления`, { type: "error" });
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка добавления вопроса`, { type: "error" });
       });
   };
 
@@ -94,6 +99,7 @@ function Tabs({ quizId }) {
     DeleteQuestion(localStorage.getItem("token"), idQuestion)
       .then((res) => {
         if (res.status === 200) {
+          alert.show(`Вопрос успешно удален`, { type: "success" });
           const updatedTabs = tabs.filter((tab) => tab.id !== idQuestion);
           const newTabs = updatedTabs.map((tab, index) => ({
             ...tab,
@@ -109,7 +115,7 @@ function Tabs({ quizId }) {
         }
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка удаления вопроса`, { type: "error" });
       });
   };
 

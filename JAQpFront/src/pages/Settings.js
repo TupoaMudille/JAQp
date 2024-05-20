@@ -2,6 +2,7 @@ import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 import { useForm } from "react-hook-form";
 import React, { useState, useEffect } from "react";
+import { useAlert } from 'react-alert'
 
 import { GetUserGeneral } from "../http/userApi";
 import { SetUserGeneral } from "../http/userApi";
@@ -18,13 +19,13 @@ import trashIcon from "../icons/trashCan.svg";
 
 function UserSettings() {
   /* setterts */
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState('');
   const preFetch = GetUserGeneral(localStorage.getItem("idUser"));
   const [preffirstName, setprefFirstName] = useState("");
   const [prefsecondName, setprefSecondName] = useState("");
   const [preflastName, setprefLastName] = useState("");
-  const [prefstartDate, setprefStartDate] = useState();
   const [showAlert, setShowAlert] = useState(false);
+  const alert = useAlert();
 
   useEffect(() => {
     preFetch.then((res) => {
@@ -32,8 +33,8 @@ function UserSettings() {
         setprefFirstName(res.data.firstName);
         setprefSecondName(res.data.secondName);
         setprefLastName(res.data.lastName);
-        setStartDate(new Date(res.data.birthDate));
-      }
+        setStartDate(res.data.birthDate?new Date(res.data.birthDate):null);
+      } else alert.show("Ошибка полученния данных пользователя",{type:'error'});
     });
   }, []);
 
@@ -52,14 +53,19 @@ function UserSettings() {
   /* form */
   const { handleSubmit } = useForm();
   const onSubmit = () => {
+    alert.show("Сохраняю...", {type:"info"});
     SetUserGeneral(
       localStorage.getItem("token"),
       localStorage.getItem("idUser"),
       document.getElementById("firstName").value,
       document.getElementById("secondName").value,
       document.getElementById("lastName").value,
-      startDate.toISOString()
-    );
+      startDate?startDate.toISOString():null
+    ).then((res) => {
+      if (res.status === 200) {
+        alert.show("Сохранено успешно", {type:"success"});
+      } else alert.show(`Ошибка сохранения данных пользователя`, {type:"error"});
+    });
   };
 
   return (
@@ -181,7 +187,6 @@ function UserSettings() {
                   <label class="omrs-input-filled">
                     <DatePicker
                       id="date"
-                      defaultValue={prefstartDate}
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
                       dateFormat="dd.MM.yyyy"

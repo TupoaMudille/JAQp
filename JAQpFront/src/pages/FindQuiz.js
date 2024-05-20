@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Menu from "../components/Menu";
-import { FindAll } from "../http/searchApi";
+import { Find } from "../http/searchApi";
 import "../css/font.css";
 import { address } from "../http/apiIndex";
 import "../css/main.css";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 import emptyQuizIcon from "../icons/emptyQuiz.svg";
 
-function Main() {
+function FindQuiz() {
   const alert = useAlert();
+  const { page } = useParams();
+  const { text } = useParams();
   const navigate = useNavigate();
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, text, page]);
 
   const fetchData = async () => {
     try {
-      const res = await FindAll(currentPage);
+      const res = await Find(parseInt(page), text);
       setResults(res.data.quizDataList);
     } catch (error) {
       alert.show(`Ошибка получения данных квизов`, { type: "error" });
@@ -29,11 +32,15 @@ function Main() {
   };
 
   const handleNextPage = () => {
-    setCurrentPage(currentPage + 1);
+    const nextPage = parseInt(page) + 1;
+    setCurrentPage(nextPage);
+    navigate(`/${nextPage}/${text}`);
   };
 
   const handlePrevPage = () => {
-    setCurrentPage(Math.max(currentPage - 1, 0));
+    const prevPage = Math.max(parseInt(page) - 1, 0);
+    setCurrentPage(prevPage);
+    navigate(`/${prevPage}/${text}`);
   };
 
   const listItems = results.map((testname, index) => (
@@ -49,7 +56,9 @@ function Main() {
         <div className="quizname">{testname.name}</div>
         <p class="information">{testname.description}</p>
         <div class="control">
-          <button class="btn" onClick={() => navigate(`/quiz/${testname.id}`)}>Пройти</button>
+          <button class="btn" onClick={() => navigate(`/quiz/${testname.id}`)}>
+            Пройти
+          </button>
         </div>
       </span>
     </div>
@@ -58,7 +67,7 @@ function Main() {
   return (
     <div
       className="main_window"
-      style={{ backgroundImage: "url(img/background.svg)" }}
+      style={{ backgroundImage: "url(/img/background.svg)" }}
     >
       <div>
         <Menu />
@@ -66,11 +75,12 @@ function Main() {
       <div className="main_workspace">
         <div className="main_cardlist">
           <p className="h2" style={{ justifySelf: "center" }}>
-            Все квизы
+            Найденные квизы{" "}
           </p>
+          <h4 style={{ justifySelf: "center" }}>{`По запросу: ` + text} </h4>
           <h4 style={{ marginLeft: "54px" }}>
             {listItems.length !== 0
-              ? `Страница ` + (currentPage + 1)
+              ? `Страница ` + (parseInt(page) + 1)
               : `Здесь ничего нет`}
           </h4>
           {listItems}
@@ -78,7 +88,7 @@ function Main() {
             <button style={{ marginRight: "14px" }} onClick={handlePrevPage}>
               {"<"}
             </button>
-            <div>{currentPage + 1}</div>
+            <div>{parseInt(page) + 1}</div>
             <button
               style={{ marginLeft: "14px" }}
               onClick={handleNextPage}
@@ -90,4 +100,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default FindQuiz;

@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { isNull } from "joi-browser";
+import { useAlert } from "react-alert";
 
 import { LoginUser } from "../http/userApi";
 
 import Menu from "../components/Menu";
-import MessageAlert from "../components/alerts/MessageAlert";
 
 import maleIcon from "../icons/male.svg";
 import passwordIcon from "../icons/password.svg";
@@ -23,6 +22,7 @@ export const setAuthToken = (token) => {
 };
 
 function Auth() {
+  const alert = useAlert();
   /* navigate */
   const navigate = useNavigate();
   const gotoRegPage = () => navigate("/registration");
@@ -32,7 +32,6 @@ function Auth() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
 
   /* visual */
   const pass = useRef();
@@ -42,21 +41,18 @@ function Auth() {
     pass.current.type = show ? "password" : "text";
   };
 
-  const handleShowAlert = () => {
-    setShowAlert(true);
-  };
-
   /* form */
   const handleSubmit = (e) => {
     e.preventDefault();
     LoginUser(login, password).then((result) => {
-      if (result !== isNull) {
+      if (result) {
+        alert.show(`Успешный вход`, { type: "success" });
         localStorage.setItem("token", result.data.jwtToken);
         localStorage.setItem("idUser", result.data.id);
         localStorage.setItem("userName", result.data.username);
         setAuthToken(result.data.jwtToken);
         gotoMainPage();
-      } else handleShowAlert();
+      } else alert.show(`Ошибка авторизации`, { type: "error" });
     });
   };
 
@@ -70,12 +66,6 @@ function Auth() {
       </div>
       <div className="auth_workspace">
         <div className="auth_whitecard">
-          {showAlert && (
-            <MessageAlert
-              variant="danger"
-              message="Что-то пошло не так. Попробуйте позднее"
-            />
-          )}
           <div>
             <p className="h1">JAQp</p>
             <p className="h2">Авторизация</p>

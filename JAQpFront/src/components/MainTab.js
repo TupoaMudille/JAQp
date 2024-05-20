@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAlert } from "react-alert";
 
 import { EditQuizWOImage } from "../http/quizApi";
 import { EditQuiz } from "../http/quizApi";
@@ -29,6 +30,7 @@ function MainTab({
   const [file, setFile] = useState();
   const [isChangedImage, setIsChangedImage] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const alert = useAlert();
   const selectedTagsFromOptions = quizData.tags
     ? quizData.tags.map((tag) => {
         const option = options.find((option) => option.value === tag);
@@ -76,6 +78,7 @@ function MainTab({
 
   const { handleSubmit } = useForm();
   const onSubmit = () => {
+    alert.show(`Сохраняю данные...`);
     const tags = selectedTags
       ? `${selectedTags.map((item) => item.value).join(", ")}`
       : "";
@@ -90,10 +93,13 @@ function MainTab({
           sanitizedTitle
         )
           .then((res) => {
-            onChangeTest(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные успешно сохранены`, { type: "success" });
+              onChangeTest(res.data);
+            }
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения данных`, { type: "error" });
           })
       : EditQuiz(
           localStorage.getItem("token"),
@@ -105,21 +111,31 @@ function MainTab({
           file ? file.name : null
         )
           .then((res) => {
-            onChangeTest(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные успешно сохранены`, { type: "success" });
+              onChangeTest(res.data);
+            }
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения данных`, { type: "error" });
           });
   };
 
   const handleStateChange = () => {
+    alert.show(state ? `Скрываю квиз...` : `Публикую квиз`);
     ToggleVisabylity(localStorage.getItem("token"), idQuiz)
       .then((res) => {
-        onChangeStatus(res.data);
-        setState(res.data.isPublic);
+        if (res.status === 200) {
+          res.data.isPublic
+            ? alert.show(`Квиз успешно опубликован`, { type: "success" })
+            : alert.show(`Квиз успешно скрыт`, { type: "success" });
+
+          onChangeStatus(res.data);
+          setState(res.data.isPublic);
+        } else alert.show(`Ошибка изменения статуса`, { type: "error" });
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка изменения статуса`, { type: "error" });
       });
   };
 

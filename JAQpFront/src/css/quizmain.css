@@ -24,7 +24,7 @@
   text-align: center;
   height: 100%;
   display: flex;
-
+  overflow-y: scroll;
   justify-content: center;
   align-items: center;
 }
@@ -39,6 +39,7 @@
   margin: 24px 24px;
   height: 600px;
   width: 1144px;
+  
   background: white;
   border-left: 60px solid rgb(255, 255, 255);
   border-right: 60px solid rgb(255, 255, 255);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { address } from "../http/apiIndex";
+import { useAlert } from 'react-alert'
 
 import { GetQuizById } from "../http/quizApi";
 import { GetQuestions } from "../http/quizApi";
@@ -11,6 +12,7 @@ import "../css/font.css";
 import emptyQuizIcon from "../icons/emptyQuiz.svg";
 
 function Quiz() {
+  const alert = useAlert();
   /* navigate */
   const goToQuiz = () => {
     const questionIds =
@@ -29,6 +31,7 @@ function Quiz() {
       try {
         const response = await GetQuizById(id);
         setQuizData(response.data);
+        sessionStorage.clear();
         const cachedQuestions = sessionStorage.getItem(`questions_${id}`);
         if (cachedQuestions) {
           setQuestions(JSON.parse(cachedQuestions));
@@ -41,7 +44,7 @@ function Quiz() {
           );
         }
       } catch (error) {
-        console.error("Ошибка при получении данных викторины:", error);
+        alert.show("Ошибка полученния данных квиза",{type:'error'});
       }
     }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAlert } from "react-alert";
 
 import { GetOwnedByMe } from "../http/quizApi";
 import { DeleteQuiz } from "../http/quizApi";
@@ -23,6 +24,7 @@ function Constructor() {
   const [prefQuizList, setprefQuizList] = useState([]);
   const [prefoptions, setPrefOptions] = useState([]);
   const prefoquestions = [];
+  const alert = useAlert();
 
   const [idQuiz, setIdQuiz] = useState();
 
@@ -34,7 +36,7 @@ function Constructor() {
           setprefQuizList(res.data.quizDataList);
         })
         .catch((error) => {
-          console.error("Error fetching quiz data:", error);
+          alert.show(`Ошибка получения данных квизов`, { type: "error" });
         });
     }
   }, []);
@@ -44,7 +46,7 @@ function Constructor() {
         setPrefOptions(res.data.tagList);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка получения данных квизов`, { type: "error" });
       });
   }, []);
 
@@ -55,7 +57,7 @@ function Constructor() {
           setQuestionList(res.data.questions);
         })
         .catch((error) => {
-          console.error("Error fetching quiz data:", error);
+          alert.show(`Ошибка получения данных квизов`, { type: "error" });
         });
     }
   }, [idQuiz]);
@@ -77,7 +79,7 @@ function Constructor() {
         setIdQuiz(newQuiz.id);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка получения данных квизов`, { type: "error" });
       });
   };
 
@@ -87,7 +89,7 @@ function Constructor() {
         setprefQuizList(res.data.quizDataList);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка получения данных квизов`, { type: "error" });
       });
   };
 
@@ -96,9 +98,11 @@ function Constructor() {
   };
 
   const handleDeleteQuiz = async (idQuiz) => {
+    alert.show(`Удаляю квиз...`);
     DeleteQuiz(localStorage.getItem("token"), idQuiz)
       .then((res) => {
         if (res.status === 200) {
+          alert.show(`Квиз успешно удален`, { type: "success" });
           GetOwnedByMe(localStorage.getItem("token"))
             .then((res) => {
               setprefQuizList(res.data.quizDataList);
@@ -107,15 +111,15 @@ function Constructor() {
               setMainTab(false);
               setQuizTab(true);
               setTabs(false);
-              return 'ok';
+              return "ok";
             })
             .catch((error) => {
-              console.error("Error fetching quiz data:", error);
+              alert.show(`Ошибка получения данных квизов`, { type: "error" });
             });
         }
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка удаления квиза`, { type: "error" });
       });
   };
 
@@ -186,7 +190,7 @@ function Constructor() {
       </div>
       <div className="constructor_workspace">
         <div>
-          <div className="space">
+          <div id="content" className="space">
             <nav id="navbar">
               <ul class="navbar-items flexbox-col">
                 <li

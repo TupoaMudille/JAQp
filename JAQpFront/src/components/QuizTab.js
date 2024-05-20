@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAlert } from "react-alert";
 
 import { CreateNewQuiz } from "../http/quizApi";
 import { GetQuizById } from "../http/quizApi";
@@ -12,6 +13,7 @@ import emptyQuizIcon from "../icons/emptyQuiz.svg";
 function QuizTab({ arrtest, onSelectId, onAddTest }) {
   /* setterts */
   const [selectId, setSelectId] = useState(null);
+  const alert = useAlert();
 
   useEffect(() => {}, [selectId]);
 
@@ -23,17 +25,21 @@ function QuizTab({ arrtest, onSelectId, onAddTest }) {
         onSelectId(res.data);
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка получения данных квиза`, { type: "error" });
       });
   };
 
   const handleAddTest = () => {
+    alert.show(`Создаю квиз...`);
     CreateNewQuiz(localStorage.getItem("token"))
       .then((res) => {
-        onAddTest(res.data);
+        if (res.status === 200) {
+          alert.show(`Квиз успешно создан`, { type: "success" });
+          onAddTest(res.data);
+        } else alert.show(`Ошибка создания квиза`, { type: "error" });
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка создания квиза`, { type: "error" });
       });
   };
 

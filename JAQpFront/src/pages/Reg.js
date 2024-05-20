@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
+import { useAlert } from "react-alert";
 import { RegisterUser } from "../http/userApi";
 
 import Menu from "../components/Menu";
-import MessageAlert from "../components/alerts/MessageAlert";
 
 import maleIcon from "../icons/male.svg";
 import passwordIcon from "../icons/password.svg";
@@ -14,17 +13,10 @@ import "../css/reg.css";
 import "../css/font.css";
 
 function Reg() {
+  const alert = useAlert();
   /* navigate */
   const navigate = useNavigate();
   const gotoLoginPage = () => navigate("/login");
-
-  /* setters */
-  const [showAlert, setShowAlert] = useState(false);
-
-  /* visual */
-  const handleShowAlert = () => {
-    setShowAlert(true);
-  };
 
   /* form */
   const {
@@ -35,9 +27,10 @@ function Reg() {
   } = useForm();
 
   const onSubmit = (values) => {
+    alert.show(`Регистрация пользователя...`);
     RegisterUser(values.email, values.password).then((res) => {
-      if (res) gotoLoginPage();
-      else handleShowAlert();
+      if (res) {alert.show(`Успешная регистрация`, { type: "success" });gotoLoginPage();}
+      else alert.show(`Ошибка регистрации пользователя`, { type: "error" });
     });
   };
 
@@ -51,12 +44,6 @@ function Reg() {
       </div>
       <div className="reg_workspace">
         <form onSubmit={handleSubmit(onSubmit)} className="reg_whitecard">
-          {showAlert && (
-            <MessageAlert
-              variant="danger"
-              message="Что-то пошло не так. Попробуйте позднее"
-            />
-          )}
           <div>
             <p className="h1">JAQp</p>
             <p className="h2">Регистрация</p>
@@ -84,7 +71,6 @@ function Reg() {
                 placeholder="Пароль"
                 className="reg_input"
                 type="password"
-                
                 {...register("password", {
                   required: "* Обязательное поле",
                   pattern: {

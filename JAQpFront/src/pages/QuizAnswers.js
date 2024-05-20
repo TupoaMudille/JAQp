@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 import { GetAnswer } from "../http/answerApi";
 import { GetQuestion } from "../http/questionApi";
@@ -30,6 +31,7 @@ const QuizAnswers = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   const navigate = useNavigate();
   const [selectedValue, setSelectedValue] = useState(-1);
+  const alert = useAlert();
 
   const [selectedAnswers, setSelectedAnswers] = useState({});
   let score = 0;
@@ -44,22 +46,40 @@ const QuizAnswers = () => {
 
   useEffect(() => {
     const fetchQuestionData = async () => {
-      try {
-        const res = await GetQuestion(idquestion);
-        setQuestionTitle(res.data.description);
-        setAnswers(res.data.answers !== undefined ? res.data.answers : []);
-        setisAnswerSelected(res.data.answers.length === 0 ? true : false);
-        setImage(res.data.image);
+      if (idquestion !== "undefined")
+        try {
+          const res = await GetQuestion(idquestion);
+          setQuestionTitle(res.data.description);
+          setAnswers(res.data.answers !== undefined ? res.data.answers : []);
+          setisAnswerSelected(res.data.answers.length === 0 ? true : false);
+          setImage(res.data.image);
 
-        if (res.data.answers) {
-          const answerPromises = res.data.answers.map((answerId) =>
-            GetAnswer(answerId)
-          );
-          const answerResults = await Promise.all(answerPromises);
-          setAnswerData(answerResults.map((answer) => answer.data));
+          if (res.data.answers) {
+            if (res.data.answers.length === 0) {
+              {
+                alert.show(
+                  `Вопрос без ответов. Дальнейшее прохождение невозможно`,
+                  {
+                    type: "error",
+                  }
+                );
+                navigate("/");
+              }
+            }
+            const answerPromises = res.data.answers.map((answerId) =>
+              GetAnswer(answerId)
+            );
+            const answerResults = await Promise.all(answerPromises);
+            setAnswerData(answerResults.map((answer) => answer.data));
+          }
+        } catch (error) {
+          alert.show(`Ошибка получения данных вопроса`, { type: "error" });
         }
-      } catch (error) {
-        console.error("Ошибка при получении данных вопроса:", error);
+      else {
+        alert.show(`Ошибка вопроса. Дальнейшее прохождение невозможно`, {
+          type: "error",
+        });
+        navigate("/");
       }
     };
 
@@ -90,8 +110,8 @@ const QuizAnswers = () => {
 
   const handleNextQuestion = () => {
     const nextId = questionSequence[currentQuestionId];
-    console.log(selectedValue);
     if (nextId) {
+      alert.show(`Сохраняю ответ...`);
       selectedValue
         ? MakeAnswer(localStorage.getItem("token"), selectedValue).then(
             (res) => {
@@ -100,15 +120,18 @@ const QuizAnswers = () => {
                 setCurrentQuestionIndex(currentQuestionIndex + 1);
                 setisAnswerSelected(false);
                 setSelectedValue(-1);
-              }
+                alert.show(`Ответ успешно сохранен`, { type: "success" });
+              } else alert.show(`Ошибка сохранения ответа`, { type: "error" });
             }
           )
         : console.log();
     } else {
+      alert.show(`Сохраняю ответ...`);
       selectedValue
         ? MakeAnswer(localStorage.getItem("token"), selectedValue).then(
             (res) => {
               if (res.status === 200) {
+                alert.show(`Ответ успешно сохранен`, { type: "success" });
                 setSelectedValue(null);
                 setnextQuestionId(null);
                 setisAnswerSelected(true);
@@ -117,18 +140,25 @@ const QuizAnswers = () => {
                 );
                 score = correctAnswers.length;
                 const totalQuestions = questionsLength;
-                console.log(id, score / totalQuestions)
+                console.log(id, score / totalQuestions);
+                alert.show(`Сохраняю результат...`);
                 MakeResult(
                   localStorage.getItem("token"),
                   id,
                   score / totalQuestions
                 ).then((res) => {
                   if (res.status === 200) {
+                    alert.show(`Результат успешно сохранен`, {
+                      type: "success",
+                    });
                     calculateResults(score, totalQuestions);
                     sessionStorage.removeItem(`questions_${id}`);
-                  }
+                  } else
+                    alert.show(`Ошибка сохранения результата`, {
+                      type: "error",
+                    });
                 });
-              }
+              } else alert.show(`Ошибка сохранения ответа`, { type: "error" });
             }
           )
         : console.log();

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useAlert } from "react-alert";
 
 import { EditQuestionWOImage, GetQuestion } from "../http/questionApi";
 import { EditQuestion } from "../http/questionApi";
@@ -28,6 +29,7 @@ function TabContent({
   onChangedQuestion,
 }) {
   const [showAlert, setShowAlert] = useState(false);
+  const alert = useAlert();
   /* visual */
   const handleShowAlert = () => {
     setShowAlert(true);
@@ -50,10 +52,12 @@ function TabContent({
 
     if (id !== undefined)
       GetQuestion(id).then((res) => {
-        setAnswers(res.data.answers !== undefined ? res.data.answers : []);
-        setDescription(res.data.description);
-        setImage(res.data.image);
-        setInitId(id);
+        if (res.status === 200) {
+          setAnswers(res.data.answers !== undefined ? res.data.answers : []);
+          setDescription(res.data.description);
+          setImage(res.data.image);
+          setInitId(id);
+        } else alert.show(`Ошибка получения данных вопроса`, { type: "error" });
       });
   }, [answers, description, label, image, id]);
   const { handleSubmit } = useForm();
@@ -65,11 +69,13 @@ function TabContent({
   const handleIsDelete = (isDelete) => {
     handleShowAlert();
     if (isDelete === true) {
+      alert.show(`Удаляю вопрос...`);
       onDeleteQuestion(id);
       handleCloseAlert();
     }
   };
   const onSubmit = () => {
+    alert.show(`Сохраняю данные...`);
     const divElement = document.getElementById(`${id}/questionInput`);
     const fileInput = divElement.querySelector('input[type="file"]');
     const selectedFile = fileInput.files[0];
@@ -83,10 +89,15 @@ function TabContent({
           initdescription != null ? initdescription : ""
         )
           .then((res) => {
-            onChangedQuestion(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные вопроса успешно сохранены`, {
+                type: "success",
+              });
+              onChangedQuestion(res.data);
+            } else alert.show(`Ошибка сохранения`, { type: "error" });
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения`, { type: "error" });
           })
       : EditQuestion(
           localStorage.getItem("token"),
@@ -96,10 +107,15 @@ function TabContent({
           selectedFile ? selectedFile.name : null
         )
           .then((res) => {
-            onChangedQuestion(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные вопроса успешно сохранены`, {
+                type: "success",
+              });
+              onChangedQuestion(res.data);
+            } else alert.show(`Ошибка сохранения`, { type: "error" });
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения`, { type: "error" });
           });
   };
 
@@ -116,7 +132,7 @@ function TabContent({
           var res = await GetAnswer(answer);
           updatedAnswersData.push(res.data);
         } catch (error) {
-          console.error("Error fetching answer data:", error);
+          alert.show(`Ошибка получения данных вопроса`, { type: "error" });
         }
       }
       setAnswersData(updatedAnswersData);
@@ -127,6 +143,7 @@ function TabContent({
 
   /* func */
   const handleSaveAnswer = (answerId) => {
+    alert.show(`Сохраняю данные...`);
     const divElement = document.getElementById(`${id}/answerInput/${answerId}`);
     const fileInput = divElement.querySelector('input[type="file"]');
     const selectedFile = fileInput.files[0];
@@ -138,6 +155,7 @@ function TabContent({
     const checkbox = document.getElementById(
       `${id}/answerCheck/${answerId}`
     ).checked;
+
     !backgroundImageUrl.includes("blob") || backgroundImageUrl == null
       ? ChangeAnswerWOImage(
           localStorage.getItem("token"),
@@ -146,10 +164,15 @@ function TabContent({
           checkbox
         )
           .then((res) => {
-            onChangedQuestion(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные ответа успешно сохранены`, {
+                type: "success",
+              });
+              onChangedQuestion(res.data);
+            } else alert.show(`Ошибка сохранения`, { type: "error" });
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения`, { type: "error" });
           })
       : ChangeAnswer(
           localStorage.getItem("token"),
@@ -160,10 +183,15 @@ function TabContent({
           selectedFile ? selectedFile.name : null
         )
           .then((res) => {
-            onChangedQuestion(res.data);
+            if (res.status === 200) {
+              alert.show(`Данные ответа успешно сохранены`, {
+                type: "success",
+              });
+              onChangedQuestion(res.data);
+            } else alert.show(`Ошибка сохранения`, { type: "error" });
           })
           .catch((error) => {
-            console.error("Error fetching quiz data:", error);
+            alert.show(`Ошибка сохранения`, { type: "error" });
           });
   };
 
@@ -185,26 +213,46 @@ function TabContent({
   };
 
   const handleAddAnswer = () => {
+    alert.show(`Добавляю ответ...`);
     AddAnswer(localStorage.getItem("token"), initId)
       .then((res) => {
-        const newAnswers = [...initAnswers, res.data.id];
-        setAnswers(newAnswers);
+        if (res.status === 200) {
+          alert.show(`Ответ успешно добавлен`, {
+            type: "success",
+          });
+
+          setAnswers([...initAnswers, res.data.id]);
+        } else {
+          alert.show(`Ошибка добавления ответа`, { type: "error" });
+        }
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка добавления ответа`, { type: "error" });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          document.getElementById("content").scrollTo({
+            top: document.getElementById("content").scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
       });
   };
 
   const handleDeleteAnswer = (id) => {
+    alert.show(`Удаляю ответ...`);
     DeleteAnswer(localStorage.getItem("token"), id)
       .then((res) => {
         if (res.status === 200) {
+          alert.show(`Ответ успешно удален`, {
+            type: "success",
+          });
           const newAnswers = initAnswers.filter((answerId) => answerId !== id);
           setAnswers(newAnswers);
-        }
+        } else alert.show(`Ошибка удаления ответа`, { type: "error" });
       })
       .catch((error) => {
-        console.error("Error fetching quiz data:", error);
+        alert.show(`Ошибка удаления ответа`, { type: "error" });
       });
   };
 
@@ -213,14 +261,15 @@ function TabContent({
       {showAlert && (
         <MessageAlert
           variant="danger"
-          message="Вы действительно хотите удалить аккаунт? Действие нельзя отменить"
+          message="Вы действительно хотите удалить Вопрос? Действие нельзя отменить"
           title="Вы уверены?"
           onCancel={handleCloseAlert}
           onDelete={handleIsDelete}
         />
       )}
       <div style={{}}>
-        <div className="content_tab_whitecardwithspace"
+        <div
+          className="content_tab_whitecardwithspace"
           style={{
             marginBottom: "36px",
             background: "white",
@@ -228,7 +277,7 @@ function TabContent({
             marginTop: "14px",
             display: "grid",
             gridTemplateColumns: "2fr 1fr",
-            minWidth:"1154px"
+            minWidth: "1154px",
           }}
         >
           <p className="h2" style={{ float: "right" }}>
