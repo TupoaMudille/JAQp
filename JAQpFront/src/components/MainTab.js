@@ -216,7 +216,7 @@ function MainTab({
               className="main_tab_evenly_distributed_field"
               style={{ marginTop: "44px" }}
             >
-              <div class="omrs-input-group">
+              <div class="omrs-input-group" style={{height:"auto"}}>
                 <label class="omrs-input-filled">
                   <textarea
                     required
@@ -228,7 +228,7 @@ function MainTab({
                 </label>
               </div>
             </div>
-            <div>
+            <div style={{display:"flex", flexDirection:"column",textAlign:"left" }}>
               <p
                 className="bold_text"
                 style={{ float: "left", paddingLeft: "14px" }}
